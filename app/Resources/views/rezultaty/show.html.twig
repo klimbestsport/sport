@@ -1,0 +1,60 @@
+    {% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rezultaty</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Rezultats1</th>
+                <td>{{ rezultaty.rezultatS1 }}</td>
+            </tr>
+            <tr>
+                <th>Xs1</th>
+                <td>{{ rezultaty.xS1 }}</td>
+            </tr>
+            <tr>
+                <th>Rezultats2</th>
+                <td>{{ rezultaty.rezultatS2 }}</td>
+            </tr>
+            <tr>
+                <th>Xs2</th>
+                <td>{{ rezultaty.xS2 }}</td>
+            </tr>
+            <tr>
+                <th>Factor1</th>
+                <td>{{ rezultaty.factor1 }}</td>
+            </tr>
+              <tr>
+                <th>Factor2</th>
+                <td>{{ rezultaty.factor2 }}</td>
+            </tr>
+            <tr>
+                <th>Uwagis1</th>
+                <td>{{ rezultaty.uwagiS1 }}</td>
+            </tr>
+            <tr>
+                <th>Uwagis2</th>
+                <td>{{ rezultaty.uwagiS2 }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ rezultaty.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('rezultaty_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('rezultaty_edit', { 'id': rezultaty.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

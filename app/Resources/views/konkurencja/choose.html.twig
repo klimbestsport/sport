@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        {% if (konkId is defined) %}  {{konkId}}{% endif %}
+        <div class="col-md-4" style="float:left"></div>
+
+        <div class="col-md-4" style="float:left; margin-top:40px">
+            <i class="fa fa-crosshairs fa-5x" style="border-bottom: 2px solid red; margin-bottom: 25px" aria-hidden="true"></i><h2>Wybierz konkurencję:</h2>
+
+            <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">
+
+                {% if (konkurencje is defined and konkurencje) %}  
+                    <select id="wybierzKonkurencje" >  
+                        <option value="0" selected></option>
+                        {% for konk in konkurencje %}
+
+                            <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
+
+                        {% endfor %} 
+                    </select>  
+                    <div id="visibleButton" style="visibility: hidden; float:right; margin-top:10px;">
+
+
+                        <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                        </button></div>
+
+                {% endif %} 
+
+                <input type="hidden" id="konkId" name="konkId"/>
+                {% if (konkId is defined and konkId) %}  
+                    <a id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"> Excel </a><br>
+
+                {% endif %} 
+
+            </form>  
+
+
+        </div>
+        <div class="col-md-4" style="float:left"></div>
+    </div>
+    <style>
+        input, textarea, select{
+            margin-top:10px;
+        }
+
+    </style>
+   
+{% endblock %}

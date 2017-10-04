@@ -1,0 +1,30 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    
+crud_users:
+    resource: '@AppBundle/Resources/config/routing/users.yml'
+    prefix: crud/users
+    
+crud_zawodnik:
+    resource: '@AppBundle/Resources/config/routing/zawodnik.yml'
+    prefix: crud/zawodnik
+
+rezultaty:
+    resource: '@AppBundle/Resources/config/routing/rezultaty.yml'
+    prefix: crud/rezultaty
+
+kluby:
+    resource: '@AppBundle/Resources/config/routing/kluby.yml'
+    prefix: crud/kluby
+
+konkurencja:
+    resource: '@AppBundle/Resources/config/routing/konkurencja.yml'
+    prefix: crud/konkurencja
+    
+start:
+    resource: '@AppBundle/Resources/config/routing/konkurencja.yml'
+    prefix: crud/konkurencja
+    
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

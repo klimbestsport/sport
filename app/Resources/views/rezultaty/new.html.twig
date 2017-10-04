@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div onclick="sendNrLic()" id="container">
+        <div class="col-md-2" style="float:left"></div>
+        <div class="col-md-8" style="float:left">
+
+        
+            
+            {#
+            {% if (konkurencja is defined and konkurencja) %} 
+                <input type="hidden" id="konkurencjaNazwaP" name="konkurencjaNazwaP" value="{{konkurencja.nazwaP}}"/> 
+                <input type="hidden" id="konkurencjaNazwaS" name="konkurencjaNazwaS" value="{{konkurencja.nazwaS}}"/> 
+                <input type="hidden" id="konkurencjaId" name="konkurencjaId" value="{{konkurencja.id}}"/> 
+            {% endif %} #}
+            
+
+            <div name="resByIdDiv" id="resByIdDiv">
+
+                <br/>                         
+  
+                <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
+
+                    <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj osobę">
+                    <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form> 
+           <a href="{{ path('rezultaty_index') }}">Wyświetl listę</a>
+                {% if (resById is defined and resById) %}<br>
+
+                    <p style="font-size: 25px;">{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}</p>
+                    <p style="font-size: 16px;"> <strong>Klub: </strong>{{resById.klub}}</p>
+ 
+                    <input type="hidden" id="imieD" name="imieD" value="{{resById.imie}}"/>
+                    <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{resById.nazwisko}}"/>
+                    <input type="hidden" id="nrLicD" name="nrLicD" value="{{resById.nrLic}}"/>
+                    <input type="hidden" id="rokUD" name="rokUD" value="{{resById.rokU}}"/>
+                    <input type="hidden" id="klubD" name="klubD" value="{{resById.klub}}"/>
+
+                {% endif%}
+
+            </div>
+<div name="myPopup" id="myPopup"style="float:left">
+                <div>   {% if (konkurencja is defined and konkurencja) %} 
+       <h1> {{konkurencja.nazwaP}}</h1>{% endif %} 
+ 
+                    {% if (res is defined and res) %}
+                        <table class="table"> <th>Imie</th> <th>Nazwisko</th> <th>Nr licencji</th> <th>Rok urodzenia</th> <th>Klub</th>
+                                {% for result in res %}
+                                <tr>
+                                    <td>{{ result['imie'] }}</td> 
+                                    <td>{{ result['nazwisko'] }}</td> 
+                                    <td>{{ result['nrLic'] }}</td> 
+                                    <td>{{ result['rokU'] }}</td> 
+                                    <td>{{ result['klub'] }}</td>  
+                                    <td>
+                                        <form enctype="multipart/form-data" action="{{path('findUserById')}}" method="post">
+                                            <input type="hidden" id="findById" name="findById" value="{{ result['id'] }}"/>
+                                             <input type="hidden" id="findById" name="findById" value="{{ result['id'] }}"/>
+                                            <button type="submit"><i class="fa fa-plus" aria-hidden="true"></i></button></form>
+                                    </td>
+                                </tr><br/>
+                            {% endfor %}</table>
+
+                    </div>
+             
+            {% else%}
+              Dodaj zawodnika do konkurencji <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+           
+             {% endif%}
+               {% if (konkurencja is defined and konkurencja) %} 
+                   <a href="{{ path('rez_konkurencja_excel', {'id':konkurencja.id }) }}"> Export listy do Excela </a><br>{% endif %} 
+             
+            </div>  
+
+     {#       {% if (isRes is defined and isRes) %} 
+                <input type="hidden" id="factor1" name="factor1" value="{{isRes.factor1}}"/> 
+                <input type="hidden" id="factor2" name="factor2" value="{{isRes.factor2}}"/> 
+                <input type="hidden" id="sumaX" name="sumaX" value="{{isRes.sumaX}}"/> 
+                <input type="hidden" id="sumaRez" name="sumaRez" value="{{isRes.sumaRez}}"/> 
+                <input type="hidden" id="xS1" name="xS1" value="{{isRes.xS1}}"/> 
+                <input type="hidden" id="xS2" name="xS2" value="{{isRes.xS2}}"/> 
+                <input type="hidden" id="uwagiS1" name="uwagiS1" value="{{isRes.uwagiS1}}"/> 
+                <input type="hidden" id="uwagiS2" name="uwagiS2" value="{{isRes.uwagiS2}}"/> 
+                <input type="hidden" id="rezultatS1" name="rezultatS1" value="{{isRes.rezultatS1}}"/> 
+                <input type="hidden" id="rezultatS2" name="rezultatS2" value="{{isRes.rezultatS2}}"/> 
+           
+            {% endif %} #}    {% if (id is defined and id) %}{{id}} {% endif %}
+
+            {% if (form is defined and form) %}
+
+                <div id="other" style="visibility: hidden">
+
+                    {% form_theme form 'form_table_layout.html.twig' %}
+
+                    {{ form_start(form) }}
+
+                    <table  style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Czas</th> <th>Uwagi</th> 
+                        <tr>
+                            <td>SERIA I<br>karabin</td>
+                            <td onchange="sumaRez()"> {{ form_widget(form.rezultatS1) }}</td>
+                            <td onchange="sumaX()">{{ form_widget(form.xS1) }}</td> 
+                            <td>{{ form_widget(form.czas) }}</td>
+                            <td>{{ form_widget(form.uwagiS1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>SERIA II<br>pistolet</td>
+                            <td onchange="sumaRez()"> {{ form_widget(form.rezultatS2) }}</td>
+                            <td onchange="sumaX()">{{ form_widget(form.xS2) }}</td> 
+                            <td>{{ form_widget(form.factor2) }}</td>
+                            <td>{{ form_widget(form.uwagiS2) }}</td>  
+                        </tr>
+
+                        <tr>
+                            <th style="background-color:#e9e4d64d"></th><th style="background-color: silver">Suma</th> <th style="background-color: silver">Suma</th> <th style="background-color:#e9e4d64d"></th> <th style="background-color:#e9e4d64d"></th> 
+                        <tr>
+                            <td></td> 
+                            <td onchange="sumaChangeRez()">{{ form_widget(form.sumaRez) }}</td>
+                            <td onchange="sumaChangeX()"> {{ form_widget(form.sumaX) }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                           
+                    <input type="submit" value="Dodaj" />
+                    {{ form_end(form) }}
+
+                </div>   
+
+            </div></div>
+        <div class="col-md-2" style="float:left"></div>
+    {% endif%}
+
+    <script>
+       
+
+    </script>
+
+    <style>
+
+        table, th, td, tr{ 
+            text-align:center;}
+        th{
+            background-color: silver;
+        }
+
+    </style>
+
+{% endblock %}

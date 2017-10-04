@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Kluby</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Nazwak</th>
+                <td>{{ kluby.nazwaK }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ kluby.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('kluby_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('kluby_edit', { 'id': kluby.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

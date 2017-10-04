@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div onclick="sendNrLic()" id="container">
+        <div class="col-md-2" style="float:left"></div>
+        <div class="col-md-8" style="float:left">
+            {% if (konkurencja is defined and konkurencja) %} 
+                <h1> {{konkurencja.nazwaP}} </h1>{% endif %}
+                <div name="myPopup" id="myPopup">
+                    <div>
+                        {% if (rezultaty is defined and rezultaty) %}<br>
+
+                            <p style="font-size: 25px;">{{rezultaty.imie}} {{rezultaty.nazwisko}} {{rezultaty.rokU}} nrLic:{{rezultaty.nrLic}}<br></p>
+                            <p style="font-size: 16px;"> <strong>Klub: </strong>{{rezultaty.klub}}</p>
+
+                            <input type="hidden" id="imieD" name="imieD" value="{{rezultaty.imie}}"/>
+                            <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{rezultaty.nazwisko}}"/>
+                            <input type="hidden" id="nrLicD" name="nrLicD" value="{{rezultaty.nrLic}}"/>
+                            <input type="hidden" id="rokUD" name="rokUD" value="{{rezultaty.rokU}}"/>
+                            <input type="hidden" id="klubD" name="klubD" value="{{rezultaty.klub}}"/>
+
+                        {% endif%}
+                        {% if (res is defined and res) %}
+                            <table class="table"> <th>Imie</th> <th>Nazwisko</th> <th>Nr licencji</th> <th>Rok urodzenia</th> <th>Klub</th>
+                                    {% for result in res %}
+                                    <tr>
+                                        <td>{{ result['imie'] }}</td> 
+                                        <td>{{ result['nazwisko'] }}</td> 
+                                        <td>{{ result['nrLic'] }}</td> 
+                                        <td>{{ result['rokU'] }}</td> 
+                                        <td>{{ result['klub'] }}</td>  
+                                        <td>
+                                            <form enctype="multipart/form-data" action="{{path('findUserById')}}" method="post">
+                                                <input type="hidden" id="findById" name="findById" value="{{ result['id'] }}"/>
+                                                <button type="submit"><i class="fa fa-plus" aria-hidden="true"></i></button></form>
+                                        </td>
+                                    </tr><br/>
+                                {% endfor %}</table>
+
+                        </div>
+                    {% endif%}</div>
+
+                <div name="resByIdDiv" id="resByIdDiv" style="margin-top: -15px; border-bottom: 0.4px solid red;">
+
+                    <br/>                         
+
+                    {#   <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
+       
+                           <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj osobę">
+                           <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                           </button>
+                       </form> #}
+                    {% if (resById is defined and resById) %}<br>
+
+                        <p style="font-size: 25px;">{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}<br></p>
+                        <p style="font-size: 16px;"> <strong>Klub: </strong>{{resById.klub}}</p>
+
+                        <input type="hidden" id="imieD" name="imieD" value="{{resById.imie}}"/>
+                        <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{resById.nazwisko}}"/>
+                        <input type="hidden" id="nrLicD" name="nrLicD" value="{{resById.nrLic}}"/>
+                        <input type="hidden" id="rokUD" name="rokUD" value="{{resById.rokU}}"/>
+                        <input type="hidden" id="klubD" name="klubD" value="{{resById.klub}}"/>
+
+                    {% endif%}
+
+                </div>
+
+
+
+                {% form_theme edit_form 'form_table_layout.html.twig' %}
+
+                {{ form_start(edit_form) }}
+
+                 <table  style="text-align:center;" class="table">
+                        <tr>
+                            <th></th><th>Rezultat</th> <th>Czas</th> <th>Uwagi</th> </tr>
+                        <tr>
+                            <td>SERIA I</td>
+                            <td onchange="sumaRez()"> {{ form_widget(edit_form.rezultatS1) }}</td> 
+                            <td onchange="factor2()">{{ form_widget(edit_form.factor1) }}</td>
+                            <td>{{ form_widget(edit_form.uwagiS1) }}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th style="background-color:#e9e4d64d"></th><th style="background-color:#e9e4d64d"></th> <th style="background-color: silver;">Factor</th> <th style="background-color:#e9e4d64d"></th> <th style="background-color:#e9e4d64d"></th> 
+                        </tr>
+                        <tr>
+                            <td></td> 
+                            <td></td>
+                            <td onchange="factor2()">{{ form_widget(edit_form.factor2) }}  </td>
+                            <td></td>
+                        </tr>  
+
+                    </table>
+
+                   <input class="submitRed" type="submit" style="float:right" value="Zapisz" /> 
+                   <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
+
+                    <div style="visibility:hidden">
+                        {{ form_widget(edit_form.xS1) }} 
+                        {{ form_widget(edit_form.rezultatS2) }} 
+                        {{ form_widget(edit_form.xS2) }} 
+                        {{ form_widget(edit_form.uwagiS2) }} 
+                        {{ form_widget(edit_form.sumaRez) }} 
+                        {{ form_widget(edit_form.sumaX) }} 
+                    </div>
+                    {{ form_end(edit_form) }}
+                 
+
+            </div>       <div class="col-md-2" style="float:left"></div>
+
+         
+            <style>
+
+                table, th, td, tr{ 
+                    text-align:center;}
+                th{
+                    background-color: silver;
+                }
+
+            </style>
+
+
+            {% endblock %}

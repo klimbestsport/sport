@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container" >
+        {% if (konkId is defined) %}  {{konkId}}{% endif %}
+        <div class="col-md-4" style="float:left"></div>
+
+        <div class="col-md-4" style="float:left; margin-top:40px">
+            <i class="fa fa-crosshairs fa-5x" style="border-bottom: 2px solid red; margin-bottom: 25px" aria-hidden="true"></i><h2>Wybierz konkurencję:</h2>
+
+
+
+            <form enctype="multipart/form-data" action="{{path('rezultaty_takeOneKonk')}}" method="post">
+                <select id="wybierzKonkurencje" onchange="wybierzKonk()">  {% if (konkurencje is defined and konkurencje) %}  
+                    {% for konk in konkurencje %}
+
+                        <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
+
+
+
+
+                    {% endfor %} {% endif %}  <input type="hidden" id="konkId" name="konkId"/>
+                    </select>
+
+                    <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                    </button>
+                </form>  
+
+
+            </div>
+            <div class="col-md-4" style="float:left"></div>
+        </div>
+        <style>
+            input, textarea, select{
+                margin-top:10px;
+            }
+
+        </style>
+        <script>
+            function wybierzKonk() {
+
+                var t = $("#wybierzKonkurencje :selected").text();
+
+                document.getElementById('konkId').value = t;
+            }
+
+        </script>   
+
+        {% endblock %}

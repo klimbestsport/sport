@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div onclick="sendNrLic()" id="container">
+        <div class="col-md-2" style="float:left"></div>
+        <div class="col-md-8" style="float:left">
+
+            {% if (konkurencja is defined and konkurencja) %} 
+                <h1> {{konkurencja.nazwaP}} </h1>{% endif %} 
+                {% if (konkurencja is defined and konkurencja) %} 
+                    <input type="hidden" id="konkurencjaNazwaP" name="konkurencjaNazwaP" value="{{konkurencja.nazwaP}}"/> 
+                    <input type="hidden" id="konkurencjaNazwaS" name="konkurencjaNazwaS" value="{{konkurencja.nazwaS}}"/> 
+                    <input type="hidden" id="konkurencjaId" name="konkurencjaId" value="{{konkurencja.id}}"/> 
+                {% endif %} 
+
+                <div name="resByIdDiv" id="resByIdDiv" style="margin-top: -15px; border-bottom: 0.4px solid red;">
+
+                    {# <input type="text" id="konkId" name="konkId" value="{{konkurencja.id}}"/>#}
+                    <br/>                         
+
+                    {# <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
+ 
+                         <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj osobę">
+                         <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                         </button>
+                     </form> <a href="{{ path('rezultaty_index') }}">Wyświetl listę rezultatów</a>#}
+                    {% if (luckyImie is defined and luckyImie) %}<br>
+
+                        <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}}  <br></p>
+                        <p style="font-size: 16px;"> <strong>Klub: </strong>{{luckyKlub}}</p>
+
+                        <input type="hidden" id="imieD" name="imieD" value="{{luckyImie}}"/>
+                        <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{luckyNazwisko}}"/>
+                        <input type="hidden" id="nrLicD" name="nrLicD" value="{{luckyNrLic}}"/>
+                        <input type="hidden" id="rokUD" name="rokUD" value="{{luckyRokU}}"/>
+                        <input type="hidden" id="klubD" name="klubD" value="{{luckyKlub}}"/>
+
+                    {% endif%}
+
+                </div>
+
+                {% if (form is defined and form) %}
+
+
+
+                    {% form_theme form 'form_table_layout.html.twig' %}
+
+                    {{ form_start(form) }}
+
+                    <table  style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Czas</th> <th>Uwagi</th> 
+                        <tr>
+                            <td>SERIA I<br>karabin</td>
+                            <td onchange="sumaRez()"> {{ form_widget(form.rezultatS1) }}</td>
+                            <td onchange="sumaX()">{{ form_widget(form.xS1) }}</td> 
+                            <td onchange="factor()">{{ form_widget(form.factor1) }}</td>
+                            <td>{{ form_widget(form.uwagiS1) }}</td>
+                        </tr>
+                        <tr>
+                            <td>SERIA II<br>pistolet</td>   
+                            <td onchange="sumaRez()"> {{ form_widget(form.rezultatS2) }}</td>
+                            <td onchange="sumaX()">{{ form_widget(form.xS2) }}</td> 
+                            <td></td>
+                            <td>{{ form_widget(form.uwagiS2) }}</td>  
+                        </tr>
+
+                        <tr>
+                            <th style="background-color:#e9e4d64d"></th><th style="background-color: silver">Suma punktów</th> <th style="background-color: silver">Suma</th> <th style="background-color:silver">Factor</th> <th style="background-color:#e9e4d64d"></th> 
+                        <tr>
+                            <td></td> 
+                            <td onchange="factor()" onchange="sumaChangeRez()">{{ form_widget(form.sumaRez) }}</td>
+                            <td onchange="sumaChangeX()"> {{ form_widget(form.sumaX) }}</td>
+                            <td onchange="factor()">{{ form_widget(form.factor2) }}  </td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+
+                    <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
+                    <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
+                        {{ form_end(form) }}
+
+                </div>   
+
+            </div>
+            <div class="col-md-2" style="float:left"></div>
+        {% endif%}
+
+        <script>
+            function sendNrLic() {
+                var imie = document.getElementById('imieD').value;
+                document.getElementById('appbundle_rezultaty_imie').value = imie;
+                var nazwisko = document.getElementById('nazwiskoD').value;
+                document.getElementById('appbundle_rezultaty_nazwisko').value = nazwisko;
+                var nrLic = document.getElementById('nrLicD').value;
+                document.getElementById('appbundle_rezultaty_nrLic').value = nrLic;
+                var rokU = document.getElementById('rokUD').value;
+                document.getElementById('appbundle_rezultaty_rokU').value = rokU;
+                var klub = document.getElementById('klubD').value;
+                document.getElementById('appbundle_rezultaty_klub').value = klub;
+                var konkurencjaNazwaP = document.getElementById('konkurencjaNazwaP').value;
+                document.getElementById('appbundle_rezultaty_nazwa_p').value = konkurencjaNazwaP;
+                var konkurencjaNazwaS = document.getElementById('konkurencjaNazwaS').value;
+                document.getElementById('appbundle_rezultaty_nazwa_s').value = konkurencjaNazwaS;
+                var konkurencjaId = document.getElementById('konkurencjaId').value;
+                document.getElementById('appbundle_rezultaty_konkurencja').value = konkurencjaId;
+                var czas = document.getElementById('appbundle_rezultaty_factor1').value;
+                czas = Math.round(czas * 1e2) / 1e2;
+                document.getElementById('appbundle_rezultaty_factor1').value = czas;
+                var factor = sumaR / czas;
+                factor = Math.round(factor * 1e4) / 1e4;
+                document.getElementById('appbundle_rezultaty_factor2').value = factor;
+
+            }
+
+            function sumaRez() {
+
+                var rez1 = document.getElementById('appbundle_rezultaty_rezultatS1').value;
+                var rez2 = document.getElementById('appbundle_rezultaty_rezultatS2').value;
+                var rez11 = parseInt(rez1);
+
+                if (!rez2) {
+                    document.getElementById('appbundle_rezultaty_sumaRez').value = rez11;
+                } else {
+
+
+                    var rez22 = parseInt(rez2);
+                    document.getElementById('appbundle_rezultaty_sumaRez').value = rez11 + rez22;
+                }
+
+            }
+
+            function sumaX() {
+
+                var x1 = document.getElementById('appbundle_rezultaty_xS1').value;
+                var x2 = document.getElementById('appbundle_rezultaty_xS2').value;
+                var x11 = parseInt(x1);
+
+                if (!x2) {
+
+                    document.getElementById('appbundle_rezultaty_sumaX').value = x11;
+                } else {
+                    var x22 = parseInt(x2);
+                    document.getElementById('appbundle_rezultaty_sumaX').value = x11 + x22;
+                }
+            }
+
+
+            function factor() {
+
+                var sumaR = document.getElementById('appbundle_rezultaty_sumaRez').value;
+                var czas = document.getElementById('appbundle_rezultaty_factor1').value;
+                czas = Math.round(czas * 1e2) / 1e2;
+                document.getElementById('appbundle_rezultaty_factor1').value = czas;
+                var factor = sumaR / czas;
+                factor = Math.round(factor * 1e4) / 1e4;
+                document.getElementById('appbundle_rezultaty_factor2').value = factor;
+            }
+
+            function isRes() {
+
+                var f1 = document.getElementById('factor1').value;
+                document.getElementById('appbundle_rezultaty_factor1').value = f1;
+                var f2 = document.getElementById('factor2').value;
+                document.getElementById('appbundle_rezultaty_factor2').value = f2;
+                var sumaX = document.getElementById('sumaX').value;
+                document.getElementById('appbundle_rezultaty_sumaX').value = sumaX;
+                var sumaRez = document.getElementById('sumaRez').value;
+                document.getElementById('appbundle_rezultaty_sumaRez').value = sumaRez;
+                var xS1 = document.getElementById('xS1').value;
+                document.getElementById('appbundle_rezultaty_xS1').value = xS1;
+                var xS2 = document.getElementById('xS2').value;
+                document.getElementById('appbundle_rezultaty_xS2').value = xS2;
+                var uwagiS1 = document.getElementById('uwagiS1').value;
+                document.getElementById('appbundle_rezultaty_uwagiS1').value = uwagiS1;
+                var uwagiS2 = document.getElementById('uwagiS2').value;
+                document.getElementById('appbundle_rezultaty_uwagiS2').value = uwagiS2;
+                var rezultatS1 = document.getElementById('rezultatS1').value;
+                document.getElementById('appbundle_rezultaty_rezultatS1').value = rezultatS1;
+                var rezultatS2 = document.getElementById('rezultatS2').value;
+                document.getElementById('appbundle_rezultaty_rezultatS2').value = rezultatS2;
+
+            }
+
+
+            function sumaChangeRez() {
+
+                document.getElementById('appbundle_rezultaty_rezultatS1').value = null;
+                document.getElementById('appbundle_rezultaty_rezultatS2').value = null;
+            }
+
+            function sumaChangeX() {
+
+                document.getElementById('appbundle_rezultaty_xS1').value = null;
+                document.getElementById('appbundle_rezultaty_xS2').value = null;
+            }
+
+            function myFunction() {
+
+                $('#other')
+                        .show('slow');
+                $("#other").css("visibility", "visible")
+
+            }
+
+            function myFunctionShowForm() {
+
+                $("#other").css("visibility", "visible")
+
+            }
+
+        </script>
+
+        <style>
+
+            table, th, td, tr{ 
+                text-align:center;}
+            th{
+                background-color: silver;
+            }
+
+        </style>
+
+        {% endblock %}

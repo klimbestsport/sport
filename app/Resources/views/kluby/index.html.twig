@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div><h1>Kluby</h1><form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('kluby_findResult')}}" method="post">
+
+            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj klub"/>
+
+            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </form></div><div style="float:right"> <a href="{{ path('kluby_new') }}">Dodaj nowy klub</a></div>
+    <div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nazwa pełna</th>
+                    <th>Nazwa krótka</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for klub in kluby %}
+                    <tr>
+                        <td><a href="{{ path('kluby_show', { 'id': klub.id }) }}">{{ klub.nazwaDluga }}</a></td>
+                        <td>{{ klub.nazwaKrotka }}</td>
+                        <td>
+
+                            <a href="{{ path('kluby_edit', { 'id': klub.id }) }}">Edytuj</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <style>
+
+        h1{
+            font-size: 2.5rem;
+            padding-bottom: 30px;
+        }
+        a{
+            color: #622925e6;
+
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        thead{
+            background:silver;
+        }
+        tbody{
+
+            background:#f0eded;
+        }
+        td{
+            border-bottom: 0.7px solid white;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <div onclick="sendNrLic()"id="container">
+         {% if (konkurencje is defined and konkurencje) %}  
+                    <form enctype="multipart/form-data" action="{{path('index')}}" method="post">
+             <select id="wybierzKonkurencje" onchange="wybierzKonk()">  
+        {% for konk in konkurencje %}
+                         
+                <option value="{{konk.id}}">{{konk.nazwaP}}</option>
+   
+              
+              
+        
+        {% endfor %}   </select><input type="text" id="konkId" name="konkId" value="c"/>
+
+                                        <button type="submit"></button>
+        </form>  {% endif %}  
+ 
+        <div name="myPopup" id="myPopup" style="float:left">
+            <div>
+                  
+ 
+        
+        
+                {% if (res is defined and res) %}
+                    <table class="table"> <th>Imie</th> <th>Nazwisko</th> <th>Nr licencji</th> <th>Rok urodzenia</th> <th>Klub</th>
+                            {% for result in res %}
+                            <tr>
+                                <td>{{ result['imie'] }}</td> 
+                                <td>{{ result['nazwisko'] }}</td> 
+                                <td>{{ result['nrLic'] }}</td> 
+                                <td>{{ result['rokU'] }}</td> 
+                                <td>{{ result['klub'] }}</td>  
+                                <td>
+                                    <form enctype="multipart/form-data" action="{{path('findUserById')}}" method="post">
+                                        <input type="hidden" id="findById" name="findById" value="{{ result['id'] }}"/>
+                                        <button type="submit"><i class="fa fa-plus" aria-hidden="true"></i></button></form>
+                                </td>
+                            </tr><br/>
+                        {% endfor %}</table>
+                        {#<select class="form-control"  form="testform" id="testowe" name="testowe" data-width="100%">
+                         {% for result in res %}
+                             <option name="selectName{{ result['id'] }}" id="selectId{{ result['id'] }}" value="{{ result['id'] }}">{{ result['imie'] }}</option>
+                         {% endfor %}
+                        </select>#}
+                </div>
+            {% endif%}</div>
+    </div>
+    <div class="col-md-3"  name="resByIdDiv" id="resByIdDiv" style="float:left;  margin-top:40px; width:50%;">
+
+       {# {% if (resK is defined and resK) %}
+            <select>
+
+                {% for resultK in resK %}
+                    <option> {{ resultK['id']}} </option>
+
+                {% endfor %}
+            </select>
+        {% endif%}
+
+         {% if (formK is defined and formK) %}
+            {% form_theme form 'form_table_layout.html.twig' %}
+
+            {{ form_start(formK) }}
+
+            <div>
+                {{ form_widget(formK) }}
+            </div>
+
+            <input type="submit" value="Dodaj" />
+            {{ form_end(formK) }}
+
+        {% endif%}
+
+      {% if (resK is defined and resK) %}
+            <select style="width:50%; text-align: center" type="text" id="findK" name="findK" placeholder="Wybierz konkurencjędfh" />
+            <option>  {% for resultK in resK %}
+                {{ resultK['nazwa'] }}
+
+                {% endfor %} </option>
+            </select> {% endif%}
+
+
+           <select id="appbundle_rezultaty_konkurencja" name="appbundle_rezultaty[konkurencja]"><option value="1">Konkurencja1</option><option value="2">Konkurencja2</option><option value="3">Konkurencja3</option><option value="4">Konkurencja4</option><option value="5">Pistolet sportowy 20 cz. dokładna</option><option value="6">Pistolet zapłon centralny 20 cz. dokładna</option><option value="7">Pistolet bojowy 10</option><option value="8">Karabin dowolny 20 - p. leżąca</option><option value="9">Pistolet bojowy 20</option><option value="10">Karabin wojskowy 100m</option><option value="11">Karabin wojskowy 100/75m</option><option value="12">Karabin wyborowy OPEN</option><option value="13">Karabin + Pistolet Standard</option><option value="14">Karabin + Pistolet OPEN</option><option value="15">Strzelba OPEN</option><option value="16">Strzelba Standard</option><option value="17">Karabin czarnoprochowy</option><option value="18">Pistolet czarnoprochowy</option></select>
+         #}
+
+            <br/>                         
+    
+            
+            
+ <input type="text" id="test" value=""/>
+            <form style="border-bottom: 0.4px solid red; padding-bottom:40px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
+                <input style="width:50%; text-align: center" type="text" id="find" name="find" placeholder="Wyszukaj osobę" />
+                
+     
+   
+                <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+            </form>  {#<form>
+                <input type="integer" id="zawodnikNr" onchange="nowe_okno()"placeholder="POPUP"/>
+                <input type="button" value="POPUP" onchange="nowe_okno()">
+            </form>#}
+            {% if (resById is defined and resById) %}<br> <style> #other{ visibility: visible!important;}</style>
+                <p><strong>Imię: </strong>{{resById.imie}}<br></p>
+                <p><strong> Nazwisko: </strong> {{resById.nazwisko}}</p>
+                <p> <strong>Nr Licencji: </strong>{{resById.nrLic}}</p>
+                <p><strong> Rok urodzenia: </strong>{{resById.rokU}}</p>
+                <p> <strong>Klub: </strong>{{resById.klub}}</p>
+
+                <input type="hidden" id="imieD" name="imieD" value="{{resById.imie}}"/>
+                <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{resById.nazwisko}}"/>
+                <input type="hidden" id="nrLicD" name="nrLicD" value="{{resById.nrLic}}"/>
+                <input type="hidden" id="rokUD" name="rokUD" value="{{resById.rokU}}"/>
+                <input type="hidden" id="klubD" name="klubD" value="{{resById.klub}}"/>
+           
+                
+            {% endif%}
+            
+        </div>
+
+
+
+{% if (form is defined and form) %}
+
+        <div id="other" class="col-md-5" style="float:left; visibility: hidden">
+
+           
+            {% form_theme form 'form_table_layout.html.twig' %}
+
+            {{ form_start(form) }}
+
+            <div>
+                {{ form_widget(form) }}
+            </div>
+
+            <input type="submit" value="Dodaj" />
+            {{ form_end(form) }}
+
+        </div>
+
+
+
+       
+            {% endif%}
+
+        <div class="col-md-4" style="float:left"></div>
+        <script>
+            function sendNrLic() {
+                var imie = document.getElementById('imieD').value;
+                document.getElementById('appbundle_rezultaty_imie').value = imie;
+                var nazwisko = document.getElementById('nazwiskoD').value;
+                document.getElementById('appbundle_rezultaty_nazwisko').value = nazwisko;
+                var nrLic = document.getElementById('nrLicD').value;
+                document.getElementById('appbundle_rezultaty_nrLic').value = nrLic;
+                var rokU = document.getElementById('rokUD').value;
+                document.getElementById('appbundle_rezultaty_rokU').value = rokU;
+                var klub = document.getElementById('klubD').value;
+                document.getElementById('appbundle_rezultaty_klub').value = klub;
+                var t = document.getElementById('test').value;
+                document.getElementById('appbundle_rezultaty_nazwa_p').value = t;
+                      var t2 = $("#wybierzKonkurencje :selected").value();
+                      var id= parseInt(t2.selectedIndex) ;
+                      document.getElementById('appbundle_rezultaty_nazwa_s').value = id;
+            }
+           function wybierzKonk(){
+      
+              var t = $("#wybierzKonkurencje :selected").text();
+           
+                document.getElementById('test').value = t;
+            }
+      
+      
+      
+            function myFunction() {
+
+                $('#other')
+                        .show('slow');
+                $("#other").css("visibility", "visible")
+
+            }
+            function myFunctionShowForm() {
+
+                $("#other").css("visibility", "visible")
+
+            }
+            function myDiv() {
+                $('#myPopup')
+                        .hide('slow')
+                        .css.visibility('visible');
+            }
+
+            var okno;
+            function nowe_okno() {
+                $('#other').hide('slow');
+                $('#resByIdDiv').show('slow');
+            }
+        </script>
+
+        {% endblock %}
