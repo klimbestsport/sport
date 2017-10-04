@@ -43,3 +43,4 @@ src/AppBundle/Entity/Zawodnik.php~
 src/AppBundle/Entity/Users.php~
 src/AppBundle/Entity/Rezultaty.php~
 config
+/nbproject/private/
