@@ -17,8 +17,8 @@ class DefaultController extends Controller
          $em = $this->getDoctrine()->getManager();
          $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-      //  if($$konkurencjaQ){$konk = $konkurencjaQ->getNazwaP();}
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+      //  if($$konkurencjaQuery){$konk = $konkurencjaQuery->getNazwaP();}
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,

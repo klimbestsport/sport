@@ -7,7 +7,7 @@
 
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
             </button>
-        </form></div><div style="float:right"> <a href="{{ path('zawodnik_new') }}">Dodaj nowego zawodnika</a></div>
+        </form></div><div style="float:right"> <a href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus" aria-hidden="true">Dodaj nowego zawodnika</i></a></div>
 {% if (ile is defined and ile) %}
        Iość:{{ile}}
       {% endif%}
@@ -33,7 +33,7 @@
                         <td>{{ zawodnik2.klub }}</td>
                         <td>
 
-                            <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyViewI')}}" method="post">
+                            <form style=" padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyViewI')}}" method="post">
 
 
                                 <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
@@ -43,7 +43,7 @@
                                 <input type="hidden" name="luckyRokU" id="luckyRokU" value="{{ zawodnik2.rokU }}" />
                                 <input type="hidden" name="luckyNrLic" id="luckyNrLic" value="{{ zawodnik2.nrLic }}" />
                                 <input type="hidden" name="luckyKlub" id="luckyKlub" value="{{ zawodnik2.klub }}" />
-                                <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                                <button  type="submit"><i class="fa fa-plus" aria-hidden="true"></i>
                                 </button>
                             </form>
                             

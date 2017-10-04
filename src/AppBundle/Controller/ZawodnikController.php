@@ -46,10 +46,10 @@ class ZawodnikController extends Controller {
 //        $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
 //        $form->handleRequest($request);
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         $rezultaties = new Rezultaty();
         $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaties);
         $form->handleRequest($request);
@@ -61,7 +61,7 @@ class ZawodnikController extends Controller {
 //
 //                return $this->redirectToRoute('zawodnik_new', array('id' => $findById, 'rezultaties'=>$rezultaties));
 //            }
-        $konk = $konkurencjaQ->getNazwaP();
+        $konk = $konkurencjaQuery->getNazwaP();
         return $this->render('zawodnik/indexChoose.html.twig', array(
                     'zawodnik' => $zawodnicy,
                     'form' => $form->createView(),
@@ -164,9 +164,9 @@ class ZawodnikController extends Controller {
 
             $queryFind = $em->createQuery(''
                     . " SELECT r FROM AppBundle\Entity\Zawodnik r WHERE r.imie LIKE '%"
-                    . strtolower($find) . "%' OR r.nazwisko LIKE '%" . strtolower($find) . "%' OR r.nrLic LIKE '%"
-                    . strtolower($find) . "%' OR r.klub LIKE '%" . strtolower($find) . "%' OR r.rokU LIKE '%"
-                    . strtolower($find) . "%'");
+                    . $find . "%' OR r.nazwisko LIKE '%" . $find . "%' OR r.nrLic LIKE '%"
+                    . $find . "%' OR r.klub LIKE '%" . $find . "%' OR r.rokU LIKE '%"
+                    . $find . "%'");
 
             $rez = $queryFind->getResult();
 
@@ -216,9 +216,9 @@ class ZawodnikController extends Controller {
 
             $queryFind = $em->createQuery(''
                     . " SELECT r FROM AppBundle\Entity\Zawodnik r WHERE r.imie LIKE '%"
-                    . strtolower($find) . "%' OR r.nazwisko LIKE '%" . strtolower($find) . "%' OR r.nrLic LIKE '%"
-                    . strtolower($find) . "%' OR r.klub LIKE '%" . strtolower($find) . "%' OR r.rokU LIKE '%"
-                    . strtolower($find) . "%'");
+                    . $find . "%' OR r.nazwisko LIKE '%" . $find . "%' OR r.nrLic LIKE '%"
+                    . $find . "%' OR r.klub LIKE '%" . $find . "%' OR r.rokU LIKE '%"
+                    . $find . "%'");
 
             $rez = $queryFind->getResult();
 

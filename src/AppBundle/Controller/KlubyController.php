@@ -127,8 +127,8 @@ class KlubyController extends Controller {
 
 
             $queryFind = $em->createQuery(''
-                    . " SELECT r FROM AppBundle\Entity\Kluby r WHERE r.nazwaDluga LIKE '%" . strtolower($find) . "%' OR r.nazwaKrotka LIKE '%"
-                    . strtolower($find) . "%'");
+                    . " SELECT r FROM AppBundle\Entity\Kluby r WHERE r.nazwaDluga LIKE '%" . $find . "%' OR r.nazwaKrotka LIKE '%"
+                    . $find . "%'");
 
             $rez = $queryFind->getResult();
  $res = array();

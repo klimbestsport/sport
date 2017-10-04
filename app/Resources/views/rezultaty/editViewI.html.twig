@@ -72,13 +72,13 @@
 
                 {{ form_start(edit_form) }}
 
-                 <table  style="text-align:center;" class="table">
+                 <table onchange="factor2rt()" style="text-align:center;" class="table">
                         <tr>
                             <th></th><th>Rezultat</th> <th>Czas</th> <th>Uwagi</th> </tr>
                         <tr>
                             <td>SERIA I</td>
-                            <td onchange="sumaRez()"> {{ form_widget(edit_form.rezultatS1) }}</td> 
-                            <td onchange="factor2()">{{ form_widget(edit_form.factor1) }}</td>
+                            <td> {{ form_widget(edit_form.rezultatS1) }}</td> 
+                            <td>{{ form_widget(edit_form.czas) }}</td>
                             <td>{{ form_widget(edit_form.uwagiS1) }}</td>
                         </tr>
 
@@ -89,15 +89,14 @@
                         <tr>
                             <td></td> 
                             <td></td>
-                            <td onchange="factor2()">{{ form_widget(edit_form.factor2) }}  </td>
+                            <td onchange="factor2rt()">{{ form_widget(edit_form.factor2) }}  </td>
                             <td></td>
                         </tr>  
 
                     </table>
 
-                   <input class="submitRed" type="submit" style="float:right" value="Zapisz" /> 
+                    <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
                    <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
-
                     <div style="visibility:hidden">
                         {{ form_widget(edit_form.xS1) }} 
                         {{ form_widget(edit_form.rezultatS2) }} 
@@ -105,6 +104,8 @@
                         {{ form_widget(edit_form.uwagiS2) }} 
                         {{ form_widget(edit_form.sumaRez) }} 
                         {{ form_widget(edit_form.sumaX) }} 
+                        {{ form_widget(edit_form.pistolet) }} 
+                        {{ form_widget(edit_form.karabin) }} 
                     </div>
                     {{ form_end(edit_form) }}
                  

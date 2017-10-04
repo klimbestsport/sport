@@ -155,10 +155,10 @@ class KonkurencjaController extends Controller {
  $session->get('konkurencjaId');
         $em = $this->getDoctrine()->getManager();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
 
 
         return $this->render('rezultaty/new.html.twig', array(
@@ -177,8 +177,8 @@ class KonkurencjaController extends Controller {
 
 
             $queryFind = $em->createQuery(''
-                    . " SELECT r FROM AppBundle\Entity\Konkurencja r WHERE r.nazwaP LIKE '%" . strtolower($find) . "%' OR r.nazwaS LIKE '%"
-                    . strtolower($find) . "%'");
+                    . " SELECT r FROM AppBundle\Entity\Konkurencja r WHERE r.nazwaP LIKE '%" . $find . "%' OR r.nazwaS LIKE '%"
+                    . $find . "%'");
 
             $rez = $queryFind->getResult();
             $res = array();

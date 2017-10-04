@@ -26,7 +26,8 @@
                     <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form> 
-           <a href="{{ path('rezultaty_index') }}">Wyświetl listę</a>
+                <a href="{{ path('rezultaty_index') }}"><i class="fa" aria-hidden="true">Wyświetl rezultaty</i></a>  {% if (konkurencja is defined and konkurencja) %} 
+           <br/><a href="{{ path('rez_konkurencja_excel', {'id':konkurencja.id }) }}"><i class="fa" aria-hidden="true"> Export listy do Excela </i></a><br>{% endif %} 
                 {% if (resById is defined and resById) %}<br>
 
                     <p style="font-size: 25px;">{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}</p>
@@ -66,16 +67,14 @@
                     </div>
              
             {% else%}
-              Dodaj zawodnika do konkurencji <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-plus" aria-hidden="true"></i></a>
-           
+             <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"> Dodaj zawodnika do konkurencji </i></a>
              {% endif%}
-               {% if (konkurencja is defined and konkurencja) %} 
-                   <a href="{{ path('rez_konkurencja_excel', {'id':konkurencja.id }) }}"> Export listy do Excela </a><br>{% endif %} 
+             
              
             </div>  
 
      {#       {% if (isRes is defined and isRes) %} 
-                <input type="hidden" id="factor1" name="factor1" value="{{isRes.factor1}}"/> 
+                <input type="hidden" id="czas" name="czas" value="{{isRes.czas}}"/> 
                 <input type="hidden" id="factor2" name="factor2" value="{{isRes.factor2}}"/> 
                 <input type="hidden" id="sumaX" name="sumaX" value="{{isRes.sumaX}}"/> 
                 <input type="hidden" id="sumaRez" name="sumaRez" value="{{isRes.sumaRez}}"/> 

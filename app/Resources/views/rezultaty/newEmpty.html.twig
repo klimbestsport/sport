@@ -53,7 +53,7 @@
                             <td>SERIA I<br>karabin</td>
                             <td onchange="sumaRez()"> {{ form_widget(form.rezultatS1) }}</td>
                             <td onchange="sumaX()">{{ form_widget(form.xS1) }}</td> 
-                            <td onchange="factor()">{{ form_widget(form.factor1) }}</td>
+                            <td onchange="factor()">{{ form_widget(form.czas) }}</td>
                             <td>{{ form_widget(form.uwagiS1) }}</td>
                         </tr>
                         <tr>
@@ -104,9 +104,9 @@
                 document.getElementById('appbundle_rezultaty_nazwa_s').value = konkurencjaNazwaS;
                 var konkurencjaId = document.getElementById('konkurencjaId').value;
                 document.getElementById('appbundle_rezultaty_konkurencja').value = konkurencjaId;
-                var czas = document.getElementById('appbundle_rezultaty_factor1').value;
+                var czas = document.getElementById('appbundle_rezultaty_czas').value;
                 czas = Math.round(czas * 1e2) / 1e2;
-                document.getElementById('appbundle_rezultaty_factor1').value = czas;
+                document.getElementById('appbundle_rezultaty_czas').value = czas;
                 var factor = sumaR / czas;
                 factor = Math.round(factor * 1e4) / 1e4;
                 document.getElementById('appbundle_rezultaty_factor2').value = factor;
@@ -149,9 +149,9 @@
             function factor() {
 
                 var sumaR = document.getElementById('appbundle_rezultaty_sumaRez').value;
-                var czas = document.getElementById('appbundle_rezultaty_factor1').value;
+                var czas = document.getElementById('appbundle_rezultaty_czas').value;
                 czas = Math.round(czas * 1e2) / 1e2;
-                document.getElementById('appbundle_rezultaty_factor1').value = czas;
+                document.getElementById('appbundle_rezultaty_czas').value = czas;
                 var factor = sumaR / czas;
                 factor = Math.round(factor * 1e4) / 1e4;
                 document.getElementById('appbundle_rezultaty_factor2').value = factor;
@@ -159,8 +159,8 @@
 
             function isRes() {
 
-                var f1 = document.getElementById('factor1').value;
-                document.getElementById('appbundle_rezultaty_factor1').value = f1;
+                var f1 = document.getElementById('czas').value;
+                document.getElementById('appbundle_rezultaty_czas').value = f1;
                 var f2 = document.getElementById('factor2').value;
                 document.getElementById('appbundle_rezultaty_factor2').value = f2;
                 var sumaX = document.getElementById('sumaX').value;

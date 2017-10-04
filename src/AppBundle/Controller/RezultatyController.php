@@ -25,8 +25,8 @@ class RezultatyController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konk = $konkurencjaQuery->getNazwaP();
 
         // $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findByNazwaP($konk);
         $queryFind = $em->createQuery(''
@@ -62,11 +62,11 @@ class RezultatyController extends Controller {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
+        $konk = $konkurencjaQuery->getNazwaP();
         $zawodnik = $this->getDoctrine()
                 ->getRepository(\AppBundle\Entity\Zawodnik::class)
                 ->findOneById(1);
@@ -106,11 +106,11 @@ class RezultatyController extends Controller {
         $session = new Session();
 
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
+        $konk = $konkurencjaQuery->getNazwaP();
 
 
         if ($request->get('luckyId')) {
@@ -183,11 +183,11 @@ class RezultatyController extends Controller {
                     $view4 = $v4a[$i];
                 }
             }
-            
-            
+
+
             $v3a[0] = 'Karabin + Pistolet Standard';
             $v3a[1] = 'Karabin + Pistolet OPEN';
-        
+
             $lenghtV3a = count($v3a);
             for ($i = 0; $i < $lenghtV3a; $i++) {
                 if (strstr($konk, $v3a[$i]) != False) {
@@ -235,8 +235,8 @@ class RezultatyController extends Controller {
                             'konk' => $konk,
                             'konkurencja' => $konkurencja,
                 ));
-            } 
-            
+            }
+
             if (strstr($konk, $view4) !== False) {
                 return $this->render('rezultaty/newEmptyViewIa.html.twig', array(
                             'id' => $rezultaty->getId(),
@@ -330,11 +330,11 @@ class RezultatyController extends Controller {
         $editForm->handleRequest($request);
 
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
+        $konk = $konkurencjaQuery->getNazwaP();
 
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -347,30 +347,92 @@ class RezultatyController extends Controller {
             ));
         }
 
-        if (strstr($konk, "Karabin") !== False) {
+        $view1 = 'puste';
+        $view2 = 'puste';
+        $view3 = 'puste';
+        $view4 = 'puste';
 
-            return $this->render('rezultaty/editViewI.html.twig', array(
-                        'rezultaty' => $rezultaty,
-                        'edit_form' => $editForm->createView(),
-                        'konkurencja' => $konkurencja,
-                        'delete_form' => $deleteForm->createView(),
-            ));
+        $v4a[0] = 'Karabin czarnoprochowy';
+        $v4a[1] = 'Pistolet czarnoprochowy';
+        $v4a[2] = 'Pistolet snajperski';
+        $v4a[3] = 'Karabin dowolny';
+        $v4a[4] = 'Karabin samopowtarzalny';
+
+        $lenghtV4a = count($v4a);
+        for ($i = 0; $i < $lenghtV4a; $i++) {
+            if (strstr($konk, $v4a[$i]) != False) {
+                $view4 = $v4a[$i];
+            }
         }
 
-        if (strstr($konk, "Karabin") !== False) {
 
-            return $this->render('rezultaty/editViewI.html.twig', array(
-                        'rezultaty' => $rezultaty,
-                        'edit_form' => $editForm->createView(),
-                        'konkurencja' => $konkurencja,
-                        'delete_form' => $deleteForm->createView(),
-            ));
+        $v3a[0] = 'Karabin + Pistolet Standard';
+        $v3a[1] = 'Karabin + Pistolet OPEN';
+
+        $lenghtV3a = count($v3a);
+        for ($i = 0; $i < $lenghtV3a; $i++) {
+            if (strstr($konk, $v3a[$i]) != False) {
+                $view3 = $v3a[$i];
+            }
         }
 
 
-        if (strstr($konk, "Pistolet") !== False) {
 
+        $v1a[0] = 'Pistolet zapłon centralny';
+        $v1a[1] = 'Pistolet zapłon centralny';
+        $v1a[2] = 'Pistolet sportowy';
+        $v1a[3] = 'Karabin dowolny';
+        $v1a[4] = 'Karabin wojskowy 100/75m';
+
+        $lenghtV1a = count($v1a);
+        for ($i = 0; $i < $lenghtV1a; $i++) {
+            if (strstr($konk, $v1a[$i]) != False) {
+                $view2 = $v1a[$i];
+            }
+        }
+
+        $v2a[0] = "Strzelba OPEN";
+        $v2a[1] = "Strzelba Standard";
+        $lenghtV2a = count($v2a);
+        for ($i = 0; $i < $lenghtV2a; $i++) {
+            if (strstr($konk, $v2a[$i]) != False) {
+                $view1 = $v2a[$i];
+            }
+        }
+
+        if (strstr($konk, $view2) !== False) {
             return $this->render('rezultaty/editViewII.html.twig', array(
+                        'rezultaty' => $rezultaty,
+                        'edit_form' => $editForm->createView(),
+                        'konkurencja' => $konkurencja,
+                        'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
+        if (strstr($konk, $view4) !== False) {
+            return $this->render('rezultaty/editViewIa.html.twig', array(
+                        'rezultaty' => $rezultaty,
+                        'edit_form' => $editForm->createView(),
+                        'konkurencja' => $konkurencja,
+                        'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
+        if (strstr($konk, $view1) !== False) {
+
+            return $this->render('rezultaty/editViewI.html.twig', array(
+                        'rezultaty' => $rezultaty,
+                        'edit_form' => $editForm->createView(),
+                        'konkurencja' => $konkurencja,
+                        'delete_form' => $deleteForm->createView(),
+            ));
+        }
+
+
+
+        if (strstr($konk, $view3) !== False) {
+
+            return $this->render('rezultaty/editViewIII.html.twig', array(
                         'rezultaty' => $rezultaty,
                         'edit_form' => $editForm->createView(),
                         'konkurencja' => $konkurencja,
@@ -430,8 +492,8 @@ class RezultatyController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konk = $konkurencjaQuery->getNazwaP();
         $rezultaty = new Rezultaty();
         $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
         $form->handleRequest($request);
@@ -440,7 +502,7 @@ class RezultatyController extends Controller {
             $find = $request->get('find');
 
             $queryFind = $em->createQuery(''
-                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konk . "' AND (f.imie LIKE '%" . strtolower($find) . "%' OR f.nazwisko LIKE '%" . strtolower($find) . "%' OR f.nrLic LIKE '%" . strtolower($find) . "%' OR f.klub LIKE '%" . strtolower($find) . "%' OR f.rokU LIKE '%" . strtolower($find) . "%')");
+                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konk . "' AND (f.imie LIKE '%" . $find . "%' OR f.nazwisko LIKE '%" . $find . "%' OR f.nrLic LIKE '%" . $find . "%' OR f.klub LIKE '%" . $find . "%' OR f.rokU LIKE '%" . $find . "%')");
 
             $fUsers = $queryFind->getResult();
             if (!empty($fUsers)) {
@@ -466,7 +528,7 @@ class RezultatyController extends Controller {
                 }
                 //  $zawodnik = $em->getRepository('AppBundle:Zawodnik')->findAll();
                 $queryFind = $em->createQuery(''
-                        . " SELECT f FROM AppBundle\Entity\Zawodnik f WHERE f.imie LIKE '%" . strtolower($find) . "%' OR f.nazwisko LIKE '%" . strtolower($find) . "%' OR f.nrLic LIKE '%" . strtolower($find) . "%' OR f.klub LIKE '%" . strtolower($find) . "%' OR f.rokU LIKE '%" . strtolower($find) . "%'");
+                        . " SELECT f FROM AppBundle\Entity\Zawodnik f WHERE f.imie LIKE '%" . $find . "%' OR f.nazwisko LIKE '%" . $find . "%' OR f.nrLic LIKE '%" . $find . "%' OR f.klub LIKE '%" . $find . "%' OR f.rokU LIKE '%" . $find . "%'");
 
                 $zawodnicy = $queryFind->getResult();
                 if (!empty($zawodnicy)) {
@@ -508,12 +570,12 @@ class RezultatyController extends Controller {
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
 
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
 
-        $konk = $konkurencjaQ->getNazwaP();
+        $konk = $konkurencjaQuery->getNazwaP();
         $rezultaty = new Rezultaty();
 
         $editForm = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
@@ -528,7 +590,7 @@ class RezultatyController extends Controller {
             $nazwisko = $resById->getNazwisko();
             $queryFind = $em->createQuery(''
                             . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konk . "' AND (f.imie='" . $imie . "' AND f.nazwisko='" . $nazwisko . "')")->setMaxResults(1);
-// . " OR f.nrLic LIKE '%" . strtolower($find) . "%' OR f.klub LIKE '%" . strtolower($find) . "%' OR f.rokU LIKE '%" . strtolower($find) . "%'");
+// . " OR f.nrLic LIKE '%" . $find . "%' OR f.klub LIKE '%" . $find . "%' OR f.rokU LIKE '%" . $find . "%'");
 
             $findResByUserId = $queryFind->getResult();
 
@@ -557,8 +619,8 @@ class RezultatyController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konk = $konkurencjaQ->getNazwaP();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konk = $konkurencjaQuery->getNazwaP();
 //$rezultaties = $em->getRepository('AppBundle:Rezultaty')->findByNazwaP($konk);
 
         if ($request->get('find') && $request->get('filtr')) {
@@ -581,7 +643,7 @@ class RezultatyController extends Controller {
                 $results2['xS1'] = $r2->getXS1();
                 $results2['rezultatS2'] = $r2->getRezultatS2();
                 $results2['xS2'] = $r2->getXS2();
-                $results2['factor1'] = $r2->getFactor1();
+                $results2['czas'] = $r2->getczas();
                 $results2['factor2'] = $r2->getFactor2();
                 $results2['uwagiS1'] = $r2->getUwagiS1();
                 $results2['uwagiS2'] = $r2->getUwagiS2();
@@ -599,15 +661,15 @@ class RezultatyController extends Controller {
             $find = $request->get('find');
 
             $queryFind = $em->createQuery(''
-                    . " SELECT r FROM AppBundle\Entity\Rezultaty r WHERE r.nazwaP='" . $konk . "' AND (r.sumaX LIKE '%" . strtolower($find) . "%' OR r.sumaRez LIKE '%"
-                    . strtolower($find) . "%' OR r.nazwaP LIKE '%" . strtolower($find) . "%' OR r.uwagiS2 LIKE '%"
-                    . strtolower($find) . "%' OR r.uwagiS1 LIKE '%" . strtolower($find) . "%' OR r.factor2 LIKE '%"
-                    . strtolower($find) . "%' OR r.factor1 LIKE '%" . strtolower($find) . "%' OR r.xS2 LIKE '%"
-                    . strtolower($find) . "%' OR r.rezultatS2 LIKE '%" . strtolower($find) . "%' OR r.xS1 LIKE '%"
-                    . strtolower($find) . "%' OR r.rezultatS1 LIKE '%" . strtolower($find) . "%' OR r.imie LIKE '%"
-                    . strtolower($find) . "%' OR r.nazwisko LIKE '%" . strtolower($find) . "%' OR r.nrLic LIKE '%"
-                    . strtolower($find) . "%' OR r.klub LIKE '%" . strtolower($find) . "%' OR r.rokU LIKE '%"
-                    . strtolower($find) . "%')");
+                    . " SELECT r FROM AppBundle\Entity\Rezultaty r WHERE r.nazwaP='" . $konk . "' AND (r.sumaX LIKE '%" . $find . "%' OR r.sumaRez LIKE '%"
+                    . $find . "%' OR r.nazwaP LIKE '%" . $find . "%' OR r.uwagiS2 LIKE '%"
+                    . $find . "%' OR r.uwagiS1 LIKE '%" . $find . "%' OR r.factor2 LIKE '%"
+                    . $find . "%' OR r.czas LIKE '%" . $find . "%' OR r.xS2 LIKE '%"
+                    . $find . "%' OR r.rezultatS2 LIKE '%" . $find . "%' OR r.xS1 LIKE '%"
+                    . $find . "%' OR r.rezultatS1 LIKE '%" . $find . "%' OR r.imie LIKE '%"
+                    . $find . "%' OR r.nazwisko LIKE '%" . $find . "%' OR r.nrLic LIKE '%"
+                    . $find . "%' OR r.klub LIKE '%" . $find . "%' OR r.rokU LIKE '%"
+                    . $find . "%')");
 
             $rez = $queryFind->getResult();
 
@@ -662,12 +724,12 @@ class RezultatyController extends Controller {
 //echo $session->get('konkurencjaId');
         $konkurencjaId = $session->get('konkurencjaId');
 
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQ->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQ->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQ->getId();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
 
-        $konk = $konkurencjaQ->getNazwaP();
+        $konk = $konkurencjaQuery->getNazwaP();
         $rezultaty = new Rezultaty();
 
 
@@ -700,9 +762,9 @@ class RezultatyController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQ = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konk = $konkurencjaQ->getNazwaP();
-        $konkS = $konkurencjaQ->getNazwaS();
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konk = $konkurencjaQuery->getNazwaP();
+        $konkS = $konkurencjaQuery->getNazwaS();
         $queryFind = $em->createQuery(''
                 . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konk . "' ORDER BY f.sumaRez DESC, f.sumaX DESC");
 

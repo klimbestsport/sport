@@ -72,39 +72,36 @@
 
                 {{ form_start(edit_form) }}
 
-                <table onchange="sumaRez(); sumaRez(); factor() " style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Czas</th> <th>Uwagi</th> 
-                    <tr>
-                        <td>SERIA I<br>karabin</td>
-                        <td onchange="sumaRez()"> {{ form_widget(edit_form.rezultatS1) }}</td>
-                        <td onchange="sumaX()">{{ form_widget(edit_form.xS1) }}</td> 
-                        <td onchange="factor()">{{ form_widget(edit_form.czas) }}</td>
-                        <td>{{ form_widget(edit_form.uwagiS1) }}</td>
-                    </tr>
-                    <tr>
-                        <td>SERIA II<br>pistolet</td>
-                        <td onchange="sumaRez()"> {{ form_widget(edit_form.rezultatS2) }}</td>
-                        <td onchange="sumaX()">{{ form_widget(edit_form.xS2) }}</td> 
-                        <td></td>
-                        <td>{{ form_widget(edit_form.uwagiS2) }}</td>  
-                    </tr>
+                <table  style="text-align:center;" class="table">
+                        <tr>
+                            <th></th><th>Rezultat</th> <th>Czas</th> <th>Uwagi</th> </tr>
+                        <tr>
+                            <td></td>
+                            <td>{{ form_widget(edit_form.rezultatS1) }}</td> 
+                            <td>{{ form_widget(edit_form.czas) }}</td>
+                            <td>{{ form_widget(edit_form.uwagiS1) }}</td>
+                        </tr>
 
-                    <tr>
-                        <th style="background-color:#e9e4d64d"></th><th style="background-color: silver">Suma punktów</th> <th style="background-color: silver">Suma</th> <th style="background-color:silver">Factor</th> <th style="background-color:#e9e4d64d"></th> 
-                    <tr>
-                        <td></td> 
-                        <td onchange="sumaChangeRez()">{{ form_widget(edit_form.sumaRez) }}</td>
-                        <td onchange="sumaChangeX()"> {{ form_widget(edit_form.sumaX) }}</td>
-                        <td onchange="factor()">{{ form_widget(edit_form.factor2) }}  </td>
-                        <td></td>
-                    </tr>
+                    </table>
 
-                </table>
-
-                <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
-                <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
+                    <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
+                   <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
+                    <div style="visibility:hidden">
+                        {{ form_widget(edit_form.xS1) }} 
+                        {{ form_widget(edit_form.rezultatS2) }} 
+                        {{ form_widget(edit_form.xS2) }} 
+                        {{ form_widget(edit_form.uwagiS2) }} 
+                        {{ form_widget(edit_form.sumaRez) }} 
+                        {{ form_widget(edit_form.sumaX) }} 
+                        {{ form_widget(edit_form.pistolet) }} 
+                        {{ form_widget(edit_form.karabin) }} 
+                        {{ form_widget(edit_form.factor2) }} 
+                    </div>
                     {{ form_end(edit_form) }}
+                    
             </div>       <div class="col-md-2" style="float:left"></div>
 
+         
             <style>
 
                 table, th, td, tr{ 
