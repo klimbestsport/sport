@@ -91,15 +91,7 @@ class RezultatyController extends Controller {
         ));
     }
 
-    public function newEmptyAction(Request $request) {
-        
-    }
-
-    public function newEmptyViewIIAction(Request $request) {
-        
-    }
-
-    public function newEmptyViewIAction(Request $request) {
+    public function newEmptyViewAction(Request $request) {
         $rezultaty = new Rezultaty();
 
         $em = $this->getDoctrine()->getManager();
@@ -111,7 +103,6 @@ class RezultatyController extends Controller {
         $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
         $konkurencja['id'] = $konkurencjaQuery->getId();
         $konk = $konkurencjaQuery->getNazwaP();
-
 
         if ($request->get('luckyId')) {
             $luckyId = $request->get('luckyId');
@@ -184,7 +175,6 @@ class RezultatyController extends Controller {
                 }
             }
 
-
             $v3a[0] = 'Karabin + Pistolet Standard';
             $v3a[1] = 'Karabin + Pistolet OPEN';
 
@@ -194,8 +184,6 @@ class RezultatyController extends Controller {
                     $view3 = $v3a[$i];
                 }
             }
-
-
 
             $v1a[0] = 'Pistolet zapłon centralny';
             $v1a[1] = 'Pistolet zapłon centralny';
@@ -218,8 +206,6 @@ class RezultatyController extends Controller {
                     $view1 = $v2a[$i];
                 }
             }
-
-
 
             if (strstr($konk, $view2) !== False) {
                 return $this->render('rezultaty/newEmptyViewII.html.twig', array(
@@ -269,8 +255,6 @@ class RezultatyController extends Controller {
                             'konkurencja' => $konkurencja,
                 ));
             }
-
-
 
             if (strstr($konk, $view3) !== False) {
 
@@ -365,7 +349,6 @@ class RezultatyController extends Controller {
             }
         }
 
-
         $v3a[0] = 'Karabin + Pistolet Standard';
         $v3a[1] = 'Karabin + Pistolet OPEN';
 
@@ -375,8 +358,6 @@ class RezultatyController extends Controller {
                 $view3 = $v3a[$i];
             }
         }
-
-
 
         $v1a[0] = 'Pistolet zapłon centralny';
         $v1a[1] = 'Pistolet zapłon centralny';
@@ -428,8 +409,6 @@ class RezultatyController extends Controller {
             ));
         }
 
-
-
         if (strstr($konk, $view3) !== False) {
 
             return $this->render('rezultaty/editViewIII.html.twig', array(
@@ -447,13 +426,6 @@ class RezultatyController extends Controller {
             ));
         }
     }
-
-//        return $this->render('rezultaty/edit.html.twig', array(
-//                    'rezultaty' => $rezultaty,
-//                    'edit_form' => $editForm->createView(),
-//                    'konkurencja' => $konkurencja,
-//                    'delete_form' => $deleteForm->createView(),
-//        ));
 
     /**
      * Deletes a rezultaty entity.
@@ -526,7 +498,6 @@ class RezultatyController extends Controller {
                 if ($form->isSubmitted() && $form->isValid()) {
                     $this->getDoctrine()->getManager()->flush();
                 }
-                //  $zawodnik = $em->getRepository('AppBundle:Zawodnik')->findAll();
                 $queryFind = $em->createQuery(''
                         . " SELECT f FROM AppBundle\Entity\Zawodnik f WHERE f.imie LIKE '%" . $find . "%' OR f.nazwisko LIKE '%" . $find . "%' OR f.nrLic LIKE '%" . $find . "%' OR f.klub LIKE '%" . $find . "%' OR f.rokU LIKE '%" . $find . "%'");
 
@@ -544,8 +515,6 @@ class RezultatyController extends Controller {
                         $results['klub'] = $fUser->getKlub();
                         $res[] = $results;
                     }
-
-
                     return $this->render('zawodnik/indexChoose.html.twig', array(
                                 'konkurencje' => $konkurencjaId,
                                 'zawodnik' => $res,
@@ -590,7 +559,6 @@ class RezultatyController extends Controller {
             $nazwisko = $resById->getNazwisko();
             $queryFind = $em->createQuery(''
                             . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konk . "' AND (f.imie='" . $imie . "' AND f.nazwisko='" . $nazwisko . "')")->setMaxResults(1);
-// . " OR f.nrLic LIKE '%" . $find . "%' OR f.klub LIKE '%" . $find . "%' OR f.rokU LIKE '%" . $find . "%'");
 
             $findResByUserId = $queryFind->getResult();
 
@@ -621,8 +589,6 @@ class RezultatyController extends Controller {
         $konkurencjaId = $session->get('konkurencjaId');
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
         $konk = $konkurencjaQuery->getNazwaP();
-//$rezultaties = $em->getRepository('AppBundle:Rezultaty')->findByNazwaP($konk);
-
         if ($request->get('find') && $request->get('filtr')) {
             $find = $request->get('find');
             $filtr = $request->get('filtr');
@@ -720,10 +686,7 @@ class RezultatyController extends Controller {
     public function newResByIdAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-//$konkurencje = $em->getRepository('AppBundle:Konkurencja')->findAll();
-//echo $session->get('konkurencjaId');
         $konkurencjaId = $session->get('konkurencjaId');
-
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
         $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
         $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
