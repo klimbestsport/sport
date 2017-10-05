@@ -27,7 +27,7 @@ class KonkurencjaController extends Controller {
         $konkurencja = $em->getRepository('AppBundle:Konkurencja')->findAll();
 
         return $this->render('konkurencja/index.html.twig', array(
-                    'konkurencje' => $konkurencja,
+                    'konkurencje' => $competition,
         ));
     }
 
@@ -47,11 +47,11 @@ class KonkurencjaController extends Controller {
             $em->persist($konkurencja);
             $em->flush();
 
-            return $this->redirectToRoute('konkurencja_show', array('id' => $konkurencja->getId()));
+            return $this->redirectToRoute('konkurencja_show', array('id' => $competition->getId()));
         }
 
         return $this->render('konkurencja/new.html.twig', array(
-                    'konkurencja' => $konkurencja,
+                    'konkurencja' => $competition,
                     'form' => $form->createView(),
         ));
     }
@@ -64,7 +64,7 @@ class KonkurencjaController extends Controller {
         $deleteForm = $this->createDeleteForm($konkurencja);
 
         return $this->render('konkurencja/show.html.twig', array(
-                    'konkurencja' => $konkurencja,
+                    'konkurencja' => $competition,
                     'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -81,11 +81,11 @@ class KonkurencjaController extends Controller {
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('konkurencja_edit', array('id' => $konkurencja->getId()));
+            return $this->redirectToRoute('konkurencja_edit', array('id' => $competition->getId()));
         }
 
         return $this->render('konkurencja/edit.html.twig', array(
-                    'konkurencja' => $konkurencja,
+                    'konkurencja' => $competition,
                     'edit_form' => $editForm->createView(),
                     'delete_form' => $deleteForm->createView(),
         ));
@@ -117,7 +117,7 @@ class KonkurencjaController extends Controller {
      */
     private function createDeleteForm(Konkurencja $konkurencja) {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('konkurencja_delete', array('id' => $konkurencja->getId())))
+                        ->setAction($this->generateUrl('konkurencja_delete', array('id' => $competition->getId())))
                         ->setMethod('DELETE')
                         ->getForm()
         ;
@@ -154,16 +154,16 @@ class KonkurencjaController extends Controller {
 
  $session->get('konkurencjaId');
         $em = $this->getDoctrine()->getManager();
-        $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQuery->getId();
+        $competitionId = $session->get('konkurencjaId');
+        $competitionQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($competitionId);
+        $competition['nazwaS'] = $competitionQuery->getNazwaS();
+        $competition['nazwaP'] = $competitionQuery->getNazwaP();
+        $competition['id'] = $competitionQuery->getId();
 
 
         return $this->render('rezultaty/new.html.twig', array(
                     'konkId' => $konkId,
-                    'konkurencja' => $konkurencja,
+                    'konkurencja' => $competition,
         ));
     }
 
