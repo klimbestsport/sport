@@ -18,7 +18,7 @@ use PHPExcel_Style_Fill;
 class RezultatyController extends Controller {
 
     /**
-     * Lists all rezultaty entities.
+     * Lists all rezultaty entities. 
      *
      */
     public function indexAction() {
@@ -91,15 +91,7 @@ class RezultatyController extends Controller {
         ));
     }
 
-    public function newEmptyAction(Request $request) {
-        
-    }
-
-    public function newEmptyViewIIAction(Request $request) {
-        
-    }
-
-    public function newEmptyViewIAction(Request $request) {
+    public function newEmptyViewAction(Request $request) {
         $rezultaty = new Rezultaty();
 
         $em = $this->getDoctrine()->getManager();
