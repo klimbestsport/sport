@@ -30,21 +30,21 @@ class ZawodnikController extends Controller {
             $ile += 1;
         }
 
-       return $this->render('zawodnik/index.html.twig', array(
+        return $this->render('zawodnik/index.html.twig', array(
                     'zawodnik' => $zawodnik,
                     'ile' => $ile,
-        ));    
-     
+        ));
     }
 
     public function indexChooseZAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
         $zawodnicy = $em->getRepository('AppBundle:Zawodnik')->findAll();
-        $session = new Session();
+
 
 //        $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
 //        $form->handleRequest($request);
+        $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
         $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
@@ -135,7 +135,7 @@ class ZawodnikController extends Controller {
     }
 
     public function deleteAction(Request $request, Zawodnik $zawodnik) {
-        $form = $this->createDeleteForm($user);
+        $form = $this->createDeleteForm($zawodnik);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -149,7 +149,7 @@ class ZawodnikController extends Controller {
 
     private function createDeleteForm(Zawodnik $zawodnik) {
         return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('users_delete', array('id' => $zawodnik->getId())))
+                        ->setAction($this->generateUrl('zawodnik_delete', array('id' => $zawodnik->getId())))
                         ->setMethod('DELETE')
                         ->getForm()
         ;
@@ -158,9 +158,14 @@ class ZawodnikController extends Controller {
     public function findResultAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         if ($request->get('find')) {
             $find = $request->get('find');
-
 
             $queryFind = $em->createQuery(''
                     . " SELECT r FROM AppBundle\Entity\Zawodnik r WHERE r.imie LIKE '%"
@@ -180,17 +185,15 @@ class ZawodnikController extends Controller {
                 $res[] = $results;
             }
 
+            if (isset($res)) {
+                $ile = 0;
+                foreach ($rez as $r) {
 
-           if (isset($res)) { $ile = 0;
-        foreach ($rez as $r) {
-
-            $ile += 1;
-        }
-
-
+                    $ile += 1;
+                }
                 return $this->render('zawodnik/indexChoose.html.twig', array(
                             'zawodnik' => $res,
-                    'ile'=>$ile,
+                            'ile' => $ile,
                 ));
             } $res = array();
 
@@ -210,6 +213,12 @@ class ZawodnikController extends Controller {
     public function findResultChooseAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         if ($request->get('find')) {
             $find = $request->get('find');
 
