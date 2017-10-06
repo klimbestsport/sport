@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div><h1>Rezultaty</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+
+            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj rezultat"/>
+
+
+             {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
+        <select id="filtr" name="filtr">
+            <option value=""></option>
+            <option value="imie">Imię</option>
+            <option value="nazwisko">Nazwisko</option>
+            <option value="rokU">Rok urodzenia</option>
+            <option value="nrLic">Nr licencji</option>
+            <option value="klub">Klub</option>
+            <option value="nazwaP">Konkurencja</option>
+        </select>
+        
+       {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
+              #}
+            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+         </button>
+        </form> 
+
+        
+    </div><div style="float:right"> <a href="{{ path('chooseKonk') }}">Dodaj rezultat</a></div>
+    <div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Imię</th>
+                    <th>Nazwisko</th>
+                    <th>Rok urodzenia</th>
+                    <th>Nr licencji</th>
+                    <th>Klub</th>
+                    <th>Rezultat s1</th>
+                    <th>X s1</th>
+                    <th>Rezultat s2</th>
+                    <th>X s2</th>
+                    <th>czas</th>
+                    <th>Factor2</th>
+                    <th>Uwagi s1</th>
+                    <th>Uwagi s2</th>
+                    <th>Konkurencja</th>
+                    <th>Suma rez</th>     
+                    <th>Suma X</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rez in rezultaty %}
+                    <tr>
+                        <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                        <td>{{ rez.nazwisko }}</td>
+                        <td>{{ rez.rokU }}</td>
+                        <td>{{ rez.nrLic }}</td>
+                        <td>{{ rez.klub }}</td>
+                        <td>{{ rez.rezultatS1 }}</td>
+                        <td>{{ rez.xS1 }}</td>
+                        <td>{{ rez.rezultatS2 }}</td>
+                        <td>{{ rez.xS2 }}</td>
+                        <td>{{ rez.czas }}</td>
+                        <td>{{ rez.factor2 }}</td>
+                        <td>{{ rez.uwagiS1 }}</td>
+                        <td>{{ rez.uwagiS2 }}</td>
+                        <td>{{ rez.nazwaP }}</td>
+                        <td>{{ rez.sumaRez }}</td>
+                        <td>{{ rez.sumaX }}</td>
+                        <td>
+
+                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}">Wybierz</a>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <style>
+
+        h1{
+            font-size: 2.5rem;
+            padding-bottom: 30px;
+        }
+        a{
+            color: #622925e6;
+
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        thead{
+            background:silver;
+        }
+        tbody{
+
+            background:#f0eded;
+        }
+        td{
+            border-bottom: 0.7px solid white;
+        }
+    </style>
+{% endblock %}
