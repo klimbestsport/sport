@@ -16,13 +16,13 @@ class DefaultController extends Controller
     {     
          $em = $this->getDoctrine()->getManager();
          $session = new Session();
-        $competitionId = $session->get('konkurencjaId');
-        $competitionQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($competitionId);
-      //  if($$competitionQuery){$competitionFullName =  $competitionQuery->getNazwaP();}
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+      //  if($$konkurencjaQuery){$konkurencjaFullName =  $konkurencjaQuery->getNazwaP();}
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-           // 'konkurencjaBase'=> $competitionFullName,
+           // 'konkurencjaBase'=> $konkurencjaFullName,
             
         ]);
     }

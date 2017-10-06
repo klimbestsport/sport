@@ -1,33 +1,22 @@
-{% extends 'base.html.twig' %}
-
+<head>
+    <link href="{{ asset('bundles/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('bundles/css/font-awesome/css/font-awesome.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('bundles/css/css.css') }}" >
+    <script src="{{ asset('bundles/js/js.js') }}" type="text/javascript" /></script>
+<link rel="stylesheet" href="{{ asset('bundles/jquery/jquery.min.js') }}" >
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
 {% block body %}
-    <div><h1>Rezultaty</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+    <div>{#{% for competition in konkurencja %} 
+        <h1> trgd{{competition}}</h1>{% endfor %}#}
 
-            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj rezultat"/>
-
-
-             {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
-        <select id="filtr" name="filtr">
-            <option value=""></option>
-            <option value="imie">Imię</option>
-            <option value="nazwisko">Nazwisko</option>
-            <option value="rokU">Rok urodzenia</option>
-            <option value="nrLic">Nr licencji</option>
-            <option value="klub">Klub</option>
-            <option value="nazwaP">Konkurencja</option>
-        </select>
-        
-       {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
-              #}
-            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-         </button>
-        </form> 
-
-        
-    </div><div style="float:right"> <a href="{{ path('chooseKonk') }}">Dodaj rezultat</a></div>
-    <div>
-
-        <table class="table">
+       
+    </div>
+    <div id="container">
+ 
+            <div id="wykaz"> <button id="pobierz"  typ="submit">KlikNext</button>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Imię</th>
@@ -46,7 +35,6 @@
                     <th>Konkurencja</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
-                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,15 +56,13 @@
                         <td>{{ rez.nazwaP }}</td>
                         <td>{{ rez.sumaRez }}</td>
                         <td>{{ rez.sumaX }}</td>
-                        <td>
 
-                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}">Wybierz</a>
-
-                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
+            <input type="text" value="data21" id="data1" name="data1"/>
+           </div>
     </div>
     <style>
 
@@ -102,4 +88,75 @@
             border-bottom: 0.7px solid white;
         }
     </style>
+
+    <script>
+    function autoLoaderCompetition() {
+            $.post('{{path('auto_view_results')}}',
+                    {data1: 'data1'},
+                   function(json) { 
+                  //  for (var klucz in json)
+                    //    {
+                            {#var wiersz = json[klucz]; 
+                            var id = wiersz[1];
+                            var nazwisko = wiersz[1];
+                             #}
+                    $('#wykaz').empty() 
+                         setTimeout("autoLoaderCompetition()", 15000);
+                            $("<span>"+json+"</span>")
+                            .appendTo('#wykaz')
+                            .append("<hr>")
+                      //  } 
+
+            });
+
+        }
+
+    {#
+     $('#pobierz').click(function() {
+     var path = {{ path('take_next_competition') }};
+        $.ajax({
+            type:"GET", 
+            url:path,
+            contentType:"application/json; charset=utf-8", /*Informacja o formacie transferu danych*/
+            dataType:'json', /*Informacja o formacie transferu danych*/
+             #}
+            {#    success: function(json) { 
+                    for (var klucz in json)
+                        {
+                            var wiersz = json[klucz]; 
+                            var id = wiersz[0];
+                            var nazwisko = wiersz[1];
+                             
+                            /*Ustalenie sposobu wyświetlania pobranych danych w bloku div*/
+                            $("<span>id: "+id+" nazwa: "+nazwisko+"</span>")
+                            .appendTo('#wykaz')
+                            .append("<hr>")
+                        } 
+                     
+                     
+                    /*Dezaktywacja na określony czas przycisku wysyłającego - ten krok można pomninąć*/
+                    $("#pobierz").attr("disabled", true);
+                    setTimeout(function(){
+                        $("#pobierz").attr("disabled", false); 
+                    }, 10000);  
+                 
+                },
+                 
+                 
+                /*Działania wykonywane w przypadku błędu*/
+                error: function(blad) {
+                    alert( "Wystąpił błąd");
+                    console.log(blad); /*Funkcja wyświetlająca informacje 
+                    o ewentualnym błędzie w konsoli przeglądarki*/
+                }#}
+      {#       
+        });
+     
+    });#}
+       $(document).ready(function () {
+            $('button').on('click', function () {
+                autoLoaderCompetition();
+            });
+        });
+    </script>
 {% endblock %}

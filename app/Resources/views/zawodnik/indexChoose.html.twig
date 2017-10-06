@@ -8,76 +8,71 @@
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
             </button>
         </form></div><div style="float:right"> <a href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus" aria-hidden="true">Dodaj nowego zawodnika</i></a></div>
-{% if (ile is defined and ile) %}
-       Iość:{{ile}}
-      {% endif%}
-        <table class="table">
-            <thead>
+        {% if (ile is defined and ile) %}
+        Iość:{{ile}}
+    {% endif%}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Rok urodzenia</th>
+                <th>Nr licencji</th>
+                <th>Klub</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for zawodnik2 in zawodnik %}
                 <tr>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Rok urodzenia</th>
-                    <th>Nr licencji</th>
-                    <th>Klub</th>
-                    <th>Akcje</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for zawodnik2 in zawodnik %}
-                    <tr>
-                        <td><a href="{{ path('zawodnik_show', { 'id': zawodnik2.id }) }}">{{ zawodnik2.imie }}</a></td>
+                    <td><a href="{{ path('zawodnik_show', { 'id': zawodnik2.id }) }}">{{ zawodnik2.imie }}</a></td>
 
-                        <td>{{ zawodnik2.nazwisko }}</td>
-                        <td>{{ zawodnik2.rokU }}</td>
-                        <td>{{ zawodnik2.nrLic }}</td>
-                        <td>{{ zawodnik2.klub }}</td>
-                        <td>
+                    <td>{{ zawodnik2.nazwisko }}</td>
+                    <td>{{ zawodnik2.rokU }}</td>
+                    <td>{{ zawodnik2.nrLic }}</td>
+                    <td>{{ zawodnik2.klub }}</td>
+                    <td>
+                        <form style=" padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyView')}}" method="post">
+                            <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
+                            <input type="hidden" name="luckyId" id="luckyId" value="{{ zawodnik2.klub }}" />
+                            <input type="hidden" name="luckyImie" id="luckyImie" value="{{ zawodnik2.imie }}" />
+                            <input type="hidden" name="luckyNazwisko" id="luckyNazwisko" value="{{ zawodnik2.nazwisko }}" />
+                            <input type="hidden" name="luckyRokU" id="luckyRokU" value="{{ zawodnik2.rokU }}" />
+                            <input type="hidden" name="luckyNrLic" id="luckyNrLic" value="{{ zawodnik2.nrLic }}" />
+                            <input type="hidden" name="luckyKlub" id="luckyKlub" value="{{ zawodnik2.klub }}" />
+                            <button  type="submit"><i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </form>
 
-                            <form style=" padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyView')}}" method="post">
+                    </td>
+                </tr>  
+            <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
+        {% endfor %}
+    </tbody>
+</table>
+<div>
+    <style>
 
+        h1{
+            font-size: 2.5rem;
+            padding-bottom: 30px;
+        }
+        a{
+            color: #622925e6;
 
-                                <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
-                                <input type="hidden" name="luckyId" id="luckyId" value="{{ zawodnik2.klub }}" />
-                                <input type="hidden" name="luckyImie" id="luckyImie" value="{{ zawodnik2.imie }}" />
-                                <input type="hidden" name="luckyNazwisko" id="luckyNazwisko" value="{{ zawodnik2.nazwisko }}" />
-                                <input type="hidden" name="luckyRokU" id="luckyRokU" value="{{ zawodnik2.rokU }}" />
-                                <input type="hidden" name="luckyNrLic" id="luckyNrLic" value="{{ zawodnik2.nrLic }}" />
-                                <input type="hidden" name="luckyKlub" id="luckyKlub" value="{{ zawodnik2.klub }}" />
-                                <button  type="submit"><i class="fa fa-plus" aria-hidden="true"></i>
-                                </button>
-                            </form>
-                            
-                        </td>
-                    </tr>   <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
-                {% endfor %}
-            </tbody>
-        </table>
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        thead{
+            background:silver;
+        }
+        tbody{
 
-
-
-        <div>
-            <style>
-
-                h1{
-                    font-size: 2.5rem;
-                    padding-bottom: 30px;
-                }
-                a{
-                    color: #622925e6;
-
-                }
-                a:hover{
-                    text-decoration:none;
-                }
-                thead{
-                    background:silver;
-                }
-                tbody{
-
-                    background:#f0eded;
-                }
-                td{
-                    border-bottom: 0.7px solid white;
-                }
-            </style>
-        {% endblock %}
+            background:#f0eded;
+        }
+        td{
+            border-bottom: 0.7px solid white;
+        }
+    </style>
+{% endblock %}

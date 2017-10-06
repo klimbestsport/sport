@@ -45,11 +45,11 @@ class ZawodnikController extends Controller {
 //        $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
 //        $form->handleRequest($request);
         $session = new Session();
-        $competitionId = $session->get('konkurencjaId');
-        $competitionQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($competitionId);
-        $competition['nazwaS'] = $competitionQuery->getNazwaS();
-        $competition['nazwaP'] = $competitionQuery->getNazwaP();
-        $competition['id'] = $competitionQuery->getId();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         $rezultaties = new Rezultaty();
         $form = $this->createForm('AppBundle\Form\RezultatyType', $rezultaties);
         $form->handleRequest($request);
@@ -61,7 +61,7 @@ class ZawodnikController extends Controller {
 //
 //                return $this->redirectToRoute('zawodnik_new', array('id' => $findById, 'rezultaties'=>$rezultaties));
 //            }
-        $competitionFullName =  $competitionQuery->getNazwaP();
+        $konkurencjaFullName =  $konkurencjaQuery->getNazwaP();
         return $this->render('zawodnik/indexChoose.html.twig', array(
                     'zawodnik' => $zawodnicy,
                     'form' => $form->createView(),
@@ -159,11 +159,11 @@ class ZawodnikController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $competitionId = $session->get('konkurencjaId');
-        $competitionQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($competitionId);
-        $competition['nazwaS'] = $competitionQuery->getNazwaS();
-        $competition['nazwaP'] = $competitionQuery->getNazwaP();
-        $competition['id'] = $competitionQuery->getId();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         if ($request->get('find')) {
             $find = $request->get('find');
 
@@ -214,11 +214,11 @@ class ZawodnikController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $competitionId = $session->get('konkurencjaId');
-        $competitionQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($competitionId);
-        $competition['nazwaS'] = $competitionQuery->getNazwaS();
-        $competition['nazwaP'] = $competitionQuery->getNazwaP();
-        $competition['id'] = $competitionQuery->getId();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
+        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
+        $konkurencja['id'] = $konkurencjaQuery->getId();
         if ($request->get('find')) {
             $find = $request->get('find');
 

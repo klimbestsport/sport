@@ -1,33 +1,21 @@
-{% extends 'base.html.twig' %}
-
+<head>
+      <link href="{{ asset('bundles/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ asset('bundles/css/font-awesome/css/font-awesome.min.css') }}" >
+    <link rel="stylesheet" href="{{ asset('bundles/css/css.css') }}" >
+    <script src="{{ asset('bundles/js/js.js') }}" type="text/javascript" /></script>
+    <link rel="stylesheet" href="{{ asset('bundles/jquery/jquery.min.js') }}" >
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
 {% block body %}
-    <div><h1>Rezultaty</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
-
-            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj rezultat"/>
-
-
-             {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
-        <select id="filtr" name="filtr">
-            <option value=""></option>
-            <option value="imie">Imię</option>
-            <option value="nazwisko">Nazwisko</option>
-            <option value="rokU">Rok urodzenia</option>
-            <option value="nrLic">Nr licencji</option>
-            <option value="klub">Klub</option>
-            <option value="nazwaP">Konkurencja</option>
-        </select>
-        
-       {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
-              #}
-            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-         </button>
-        </form> 
+    <div>{% if (konkurencja is defined and konkurencja) %} 
+       <h1> {{konkurencja}}</h1>{% endif %}
 
         
-    </div><div style="float:right"> <a href="{{ path('chooseKonk') }}">Dodaj rezultat</a></div>
+    </div>
     <div>
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Imię</th>
@@ -46,7 +34,6 @@
                     <th>Konkurencja</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
-                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,11 +55,7 @@
                         <td>{{ rez.nazwaP }}</td>
                         <td>{{ rez.sumaRez }}</td>
                         <td>{{ rez.sumaX }}</td>
-                        <td>
-
-                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}">Wybierz</a>
-
-                        </td>
+                    
                     </tr>
                 {% endfor %}
             </tbody>
