@@ -22,15 +22,13 @@
                     <th>Nazwisko</th>
                     <th>Rok urodzenia</th>
                     <th>Nr licencji</th>
-                    <th>Klub</th>
-                    <th>Rezultat s1</th>
-                    <th>X s1</th>
-                    <th>Rezultat s2</th>
-                    <th>X s2</th>
-                    <th>czas</th>
+                   <th>Klub</th>
+           <th th style="border-left:2px solid white">Seria I <br>Rezultat</th>
+                <th style="border-right:2px solid white">X </th>
+                <th>Seria II <br> Rezultat</th>
+                    <th style="border-right:2px solid white">X</th>
+                    <th>Czas</th>
                     <th>Factor2</th>
-                    <th>Uwagi s1</th>
-                    <th>Uwagi s2</th>
                     <th>Konkurencja</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
@@ -43,15 +41,13 @@
                         <td>{{ rez.nazwisko }}</td>
                         <td>{{ rez.rokU }}</td>
                         <td>{{ rez.nrLic }}</td>
-                        <td>{{ rez.klub }}</td>
-                        <td>{{ rez.rezultatS1 }}</td>
-                        <td>{{ rez.xS1 }}</td>
-                        <td>{{ rez.rezultatS2 }}</td>
-                        <td>{{ rez.xS2 }}</td>
+                       <td style="border-right:2px solid white">{{ rez.klub }}</td>
+                     <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
+                    <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
+                    <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
+                    <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
                         <td>{{ rez.czas }}</td>
                         <td>{{ rez.factor2 }}</td>
-                        <td>{{ rez.uwagiS1 }}</td>
-                        <td>{{ rez.uwagiS2 }}</td>
                         <td>{{ rez.nazwaP }}</td>
                         <td>{{ rez.sumaRez }}</td>
                         <td>{{ rez.sumaX }}</td>

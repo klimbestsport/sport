@@ -42,11 +42,11 @@
                     <th>X s2</th>
                     <th>Czas</th>
                     <th>Factor</th>
-                    <th>Uwagi s1</th>
-                    <th>Uwagi s2</th>
+                    
                     <th>Konkurencja</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
+                    <th>Uwagi s1</th>
                     <th>Akcje</th>
                 </tr>
             </thead>
@@ -64,11 +64,11 @@
                         <td>{{ rez.xS2 }}</td>
                         <td>{{ rez.czas }}</td>
                         <td>{{ rez.factor2 }}</td>
-                        <td>{{ rez.uwagiS1 }}</td>
-                        <td>{{ rez.uwagiS2 }}</td>
+                    
                         <td>{{ rez.nazwaP }}</td>
                         <td>{{ rez.sumaRez }}</td>
                         <td>{{ rez.sumaX }}</td>
+                            <td>{{ rez.uwagiS1 }}</td>
                         <td>
                    
                             <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}">Edytuj</a>

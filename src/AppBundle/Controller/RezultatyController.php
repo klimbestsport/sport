@@ -118,9 +118,42 @@ class RezultatyController extends Controller {
         return new Response(json_encode($json));
     }
 
+    public function raportsAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+        $session = new Session();
+        $konkurencjaId = $session->get('konkurencjaId');
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+           $rezultaty = new Rezultaty();
+      
+        
+        if ($request->get('sortByThis')) {
+            $sortByThis = $request->get('sortByThis');
+        }
+        if ($request->get('orderBy')) {
+            $orderBy = $request->get('orderBy');
+        }
+        
+        
+        $queryFind = $em->createQuery(''
+                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC");
+//. SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f." . $sortByThis . " DESC");
+
+        $rezultaties = $queryFind->getResult();
+        foreach ($rezultaties as $r) {
+
+        }  
+
+        return $this->render('rezultaty/raports.html.twig', array(
+                    'rezultaty' => $rezultaties,
+            'konkurencja'=>$konkurencjaFullName,
+        ));
+    }
+
     public function autoViewResultsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
-      
+
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById(2);
         $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
 

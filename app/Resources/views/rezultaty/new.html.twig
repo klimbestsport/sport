@@ -26,7 +26,7 @@
                     <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form> 
-                <a href="{{ path('rezultaty_index') }}"><i class="fa" aria-hidden="true">Wyświetl rezultaty</i></a>  {% if (konkurencja is defined and konkurencja) %} 
+                <a href="{{ path('rezultaty_raports') }}"><i class="fa" aria-hidden="true">Wyświetl rezultaty</i></a>  {% if (konkurencja is defined and konkurencja) %} 
            <br/><a href="{{ path('rez_konkurencja_excel', {'id':konkurencja.id }) }}"><i class="fa" aria-hidden="true"> Export listy do Excela </i></a><br>{% endif %} 
                 {% if (resById is defined and resById) %}<br>
 

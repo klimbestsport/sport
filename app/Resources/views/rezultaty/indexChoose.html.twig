@@ -3,27 +3,27 @@
 {% block body %}
     <div><h1>Rezultaty</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
-            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj rezultat"/>
+            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
 
-             {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
-        <select id="filtr" name="filtr">
-            <option value=""></option>
-            <option value="imie">Imię</option>
-            <option value="nazwisko">Nazwisko</option>
-            <option value="rokU">Rok urodzenia</option>
-            <option value="nrLic">Nr licencji</option>
-            <option value="klub">Klub</option>
-            <option value="nazwaP">Konkurencja</option>
-        </select>
-        
-       {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
-              #}
+            {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
+            <select id="filtr" name="filtr">
+                <option value=""></option>
+                <option value="imie">Imię</option>
+                <option value="nazwisko">Nazwisko</option>
+                <option value="rokU">Rok urodzenia</option>
+                <option value="nrLic">Nr licencji</option>
+                <option value="klub">Klub</option>
+                <option value="nazwaP">Konkurencja</option>
+            </select>
+
+            {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
+                   #}
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-         </button>
+            </button>
         </form> 
 
-        
+
     </div><div style="float:right"> <a href="{{ path('chooseKonk') }}">Dodaj rezultat</a></div>
     <div>
 
@@ -41,11 +41,11 @@
                     <th>X s2</th>
                     <th>czas</th>
                     <th>Factor2</th>
-                    <th>Uwagi s1</th>
-                    <th>Uwagi s2</th>
+
                     <th>Konkurencja</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
+                    <th>Uwagi s1</th>
                     <th>Akcje</th>
                 </tr>
             </thead>
@@ -63,11 +63,11 @@
                         <td>{{ rez.xS2 }}</td>
                         <td>{{ rez.czas }}</td>
                         <td>{{ rez.factor2 }}</td>
-                        <td>{{ rez.uwagiS1 }}</td>
-                        <td>{{ rez.uwagiS2 }}</td>
+
                         <td>{{ rez.nazwaP }}</td>
                         <td>{{ rez.sumaRez }}</td>
                         <td>{{ rez.sumaX }}</td>
+                        <td>{{ rez.uwagiS1 }}</td>
                         <td>
 
                             <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}">Wybierz</a>
