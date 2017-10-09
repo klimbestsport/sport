@@ -16,7 +16,7 @@
     <div id="container">
 
         <div id="wykaz"> <button id="pobierz"  typ="submit">KlikNext</button>
-            <table class="table table-striped">
+            <table class="sortable table table-striped">
                 <thead>
                     <tr>
                         <th>Imię</th>
@@ -50,9 +50,9 @@
                              <td>{{ rez.czas }}</td>
                             <td>{{ rez.factor2 }}</td>
                             <td>{{ rez.nazwaP }}</td>
-                            <td>{{ rez.sumaRez }}</td>
-                            <td>{{ rez.sumaX }}</td>
-
+                            
+                    <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                    <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -61,7 +61,11 @@
         </div>
     </div>
     <style>
-
+table.sortable thead {
+            color: #622925e6;
+            font-weight: bold;
+            cursor: default;
+        }
         h1{
             font-size: 2.5rem;
             padding-bottom: 30px;
