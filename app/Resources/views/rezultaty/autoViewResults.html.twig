@@ -7,15 +7,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-{% block body %}
-    <div>{#{% for competition in konkurencja %} 
-        <h1> trgd{{competition}}</h1>{% endfor %}#}
-
-
-    </div>
+<body onLoad="autoLoaderCompetition()">
     <div id="container">
 
-        <div id="wykaz"> <button id="pobierz"  typ="submit">KlikNext</button>
+        <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
+            <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
             <table class="sortable table table-striped">
                 <thead>
                     <tr>
@@ -24,13 +20,12 @@
                         <th>Rok urodzenia</th>
                         <th>Nr licencji</th>
                         <th>Klub</th>
-                        <th th style="border-left:2px solid white">Seria I <br>Rezultat</th>
+                        <th style="border-left:2px solid white">Seria I <br>Rezultat</th>
                         <th style="border-right:2px solid white">X </th>
                         <th>Seria II <br> Rezultat</th>
                         <th style="border-right:2px solid white">X</th>
                         <th>Czas</th>
-                        <th>Factor2</th>
-                        <th>Konkurencja</th>
+                        <th>Factor</th>
                         <th>Suma rez</th>     
                         <th>Suma X</th>
                     </tr>
@@ -47,116 +42,56 @@
                             <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
                             <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
                             <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                             <td>{{ rez.czas }}</td>
+                            <td>{{ rez.czas }}</td>
                             <td>{{ rez.factor2 }}</td>
-                            <td>{{ rez.nazwaP }}</td>
-                            
-                    <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                    <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                            <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                            <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
             <input type="hidden" value="data21" id="data1" name="data1"/>
+                      
         </div>
     </div>
-    <style>
-table.sortable thead {
-            color: #622925e6;
-            font-weight: bold;
-            cursor: default;
-        }
-        h1{
-            font-size: 2.5rem;
-            padding-bottom: 30px;
-        }
-        a{
-            color: #622925e6;
+</body>
+<style>
 
-        }
-        a:hover{
-            text-decoration:none;
-        }
-        thead{
-            background:silver;
-        }
-        tbody{
+    h1{
+        font-size: 2.5rem;
+        padding-bottom: 30px;
+    }
+    a{
+        color: #622925e6;
 
-            background:#f0eded;
-        }
-        td{
-            border-bottom: 0.7px solid white;
-        }
-    </style>
+    }
+    a:hover{
+        text-decoration:none;
+    }
+    thead{
+        background:silver;
+    }
+    tbody{
 
-    <script>
-        function autoLoaderCompetition() {
-            $.post('{{path('auto_view_results')}}',
-                    {data1: 'data1'},
-                    function (json) {
-                        //  for (var klucz in json)
-                        //    {
-        {#var wiersz = json[klucz]; 
-        var id = wiersz[1];
-        var nazwisko = wiersz[1];
-         #}
-                             $('#wykaz').empty()
-                             setTimeout("autoLoaderCompetition()", 15000);
-                             $("<span>" + json + "</span>")
-                                     .appendTo('#wykaz')
-                                     .append("<hr>")
-                             //  } 
+        background:#f0eded;
+    }
+    td{
+        border-bottom: 0.7px solid white;
+    }
+</style>
+<script>
+    function autoLoaderCompetition() {
+        var timeSec=3000;
+        
+        $.post('{{path('auto_view_results')}}',
+                {data1: 'data1'},
+                function (json) {
+                    $('#wykaz').empty()
+                    setTimeout("autoLoaderCompetition()", timeSec);
+                    $("<span>" + json + "</span>")
+                            .appendTo('#wykaz')
+                            .append("<hr>")
+                });
 
-                         });
-
-             }
-
-        {#
-         $('#pobierz').click(function() {
-         var path = {{ path('take_next_competition') }};
-            $.ajax({
-                type:"GET", 
-                url:path,
-                contentType:"application/json; charset=utf-8", /*Informacja o formacie transferu danych*/
-                dataType:'json', /*Informacja o formacie transferu danych*/
-                 #}
-        {#    success: function(json) { 
-                for (var klucz in json)
-                    {
-                        var wiersz = json[klucz]; 
-                        var id = wiersz[0];
-                        var nazwisko = wiersz[1];
-                             
-                        /*Ustalenie sposobu wyświetlania pobranych danych w bloku div*/
-                        $("<span>id: "+id+" nazwa: "+nazwisko+"</span>")
-                        .appendTo('#wykaz')
-                        .append("<hr>")
-                    } 
-                     
-                     
-                /*Dezaktywacja na określony czas przycisku wysyłającego - ten krok można pomninąć*/
-                $("#pobierz").attr("disabled", true);
-                setTimeout(function(){
-                    $("#pobierz").attr("disabled", false); 
-                }, 10000);  
-                 
-            },
-                 
-                 
-            /*Działania wykonywane w przypadku błędu*/
-            error: function(blad) {
-                alert( "Wystąpił błąd");
-                console.log(blad); /*Funkcja wyświetlająca informacje 
-                o ewentualnym błędzie w konsoli przeglądarki*/
-            }#}
-        {#       
-          });
-     
-      });#}
-          $(document).ready(function () {
-              $('button').on('click', function () {
-                  autoLoaderCompetition();
-              });
-          });
-    </script>
-{% endblock %}
+    }
+</script>

@@ -133,7 +133,15 @@ class ZawodnikController extends Controller {
                     'delete_form' => $deleteForm->createView(),
         ));
     }
+    public function showAction(Zawodnik $zawodnik)
+    {
+        $deleteForm = $this->createDeleteForm($zawodnik);
 
+        return $this->render('zawodnik/show.html.twig', array(
+            'zawodnik' => $zawodnik,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
     public function deleteAction(Request $request, Zawodnik $zawodnik) {
         $form = $this->createDeleteForm($zawodnik);
         $form->handleRequest($request);

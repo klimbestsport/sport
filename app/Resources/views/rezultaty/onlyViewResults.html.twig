@@ -9,7 +9,7 @@
 </head>
 {% block body %}
     <div>{% if (konkurencja is defined and konkurencja) %} 
-        <h1> {{konkurencja}}</h1>{% endif %}
+        <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
 
 
     </div>
@@ -27,8 +27,6 @@
                     <th style="border-right:2px solid white">X </th>
                     <th>Seria II <br> Rezultat</th>
                     <th style="border-right:2px solid white">X</th>
-                    <th>Czas</th>
-                    <th>Factor</th>
                     <th>Suma rez</th>     
                     <th>Suma X</th>
                 </tr>
@@ -45,9 +43,7 @@
                         <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
                         <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
                         <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                        <td>{{ rez.czas }}</td>
-                        <td>{{ rez.factor2 }}</td>
-
+                    
                         <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
                         <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
 

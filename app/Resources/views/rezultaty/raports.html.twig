@@ -2,84 +2,82 @@
 
 {% block body %}
     <div><h1>Rezultaty: {% if (konkurencja is defined and konkurencja) %} 
-       {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+            {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
-            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
-
-
-            {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
-        
-
-            {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
-                   #}
-            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-            </button>  
-            <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
-        </form> 
+                <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
 
-    </div><div style="float:right"> <a href="{{ path('takeOneKonk') }}">Nowy rezultat</a></div>
-    <div>
+                {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
 
-        <table class="sortable table table-striped">
-            <thead>
-                <tr>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Rok urodzenia</th>
-                    <th>Nr licencji</th>
-                    <th>Klub</th>
-           <th style="border-left:2px solid white">Seria I <br>Rezultat</th>
-                <th style="border-right:2px solid white">X </th>
-                <th>Seria II <br> Rezultat</th>
-                    <th style="border-right:2px solid white">X</th>
-                    <th>Czas</th>
-                    <th>Factor</th>
-             
-                    <th>Suma rez</th>     
-                    <th>Suma X</th>
-                           <th>Uwagi</th>
-                           <th>Akcje</th>
-                </tr>  </thead>
-                {% for rez in rezultaty %}
-                <tr>
-                    <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                    <td>{{ rez.nazwisko }}</td>
-                    <td>{{ rez.rokU }}</td>
-                    <td>{{ rez.nrLic }}</td>
-                    <td style="border-right:2px solid white">{{ rez.klub }}</td>
-                     <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                    <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                    <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                    <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                    <td>{{ rez.czas }}</td>
-                    <td>{{ rez.factor2 }}</td>
 
-                    <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                    <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                    <td > {{ rez.uwagiS1 }}</td>
-                    <td>
+                {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
+                       #}
+                <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                </button>  
+                <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
+            </form> 
 
-                     <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
-                 
-                     <i class="fa fa-trash" aria-hidden="true">
-                         
-                     </i>
-     
-                  
-                    </td>
-                </tr>
-            {% endfor %}
 
-        </table>
-            
-    </div>
-    <script>
-        //function chooseSort() {
-        {# var t="ASC";
-   var x=document.getElementsByTagName("th");
+        </div><div style="float:right"> <a href="{{ path('takeOneKonk') }}">Nowy rezultat</a></div>
+        <div>
+
+            <table class="sortable table table-striped">
+                <thead>
+                    <tr>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>Rok urodzenia</th>
+                        <th>Nr licencji</th>
+                        <th>Klub</th>
+                        <th style="border-left:2px solid white">Seria I <br>Rezultat</th>
+                        <th style="border-right:2px solid white">X </th>
+                        <th>Seria II <br> Rezultat</th>
+                        <th style="border-right:2px solid white">X</th>
+
+
+                        <th>Suma rez</th>     
+                        <th>Suma X</th>
+                        <th>Uwagi</th>
+                        <th>Akcje</th>
+                    </tr>  </thead>
+                    {% for rez in rezultaty %}
+                    <tr>
+                        <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                        <td>{{ rez.nazwisko }}</td>
+                        <td>{{ rez.rokU }}</td>
+                        <td>{{ rez.nrLic }}</td>
+                        <td style="border-right:2px solid white">{{ rez.klub }}</td>
+                        <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
+                        <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
+                        <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
+                        <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
+
+
+                        <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                        <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                        <td > {{ rez.uwagiS1 }}</td>
+                        <td>
+
+                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+
+                            <i class="fa fa-trash" aria-hidden="true">
+
+                            </i>
+
+
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+        <script>
+            //function chooseSort() {
+            {# var t="ASC";
+       var x=document.getElementsByTagName("th");
               
-     alert(x[3].innerHTML);#}
+         alert(x[3].innerHTML);#}
             {# var zaznaczonyWiersz;
              $("#tabela th").click(function ()
              {
@@ -100,50 +98,50 @@
          }
          
 #}
-        {# var t="ASC";
-         document.getElementById('chooseSortAsc').value= t; 
+            {# var t="ASC";
+             document.getElementById('chooseSortAsc').value= t; 
               
-         alert(t);}#}
-        {#
-        $('#chooseSortAsc').click(function() { 
-            var t="ASC";
-            val elementList = $(".chooseSortAsc");
-for (var i = 1; i <= list.length; i++) {
-  elementList[i].attr("id", "chooseSortAsc" + i);
-}
-            //document.getElementById('chooseSortAsc').value= t; 
+             alert(t);}#}
+            {#
+            $('#chooseSortAsc').click(function() { 
+                var t="ASC";
+                val elementList = $(".chooseSortAsc");
+    for (var i = 1; i <= list.length; i++) {
+      elementList[i].attr("id", "chooseSortAsc" + i);
+    }
+                //document.getElementById('chooseSortAsc').value= t; 
               
-            alert(t); 
-});#}
+                alert(t); 
+    });#}
 
 
-    </script>
-    <style>
-table.sortable thead {
-    color: #622925e6;
-    font-weight: bold;
-    cursor: default;
-}
-        h1{
-            font-size: 2.5rem;
-            padding-bottom: 30px;
-        }
-        a{
-            color: #622925e6;
+        </script>
+        <style>
+            table.sortable thead {
+                color: #622925e6;
+                font-weight: bold;
+                cursor: default;
+            }
+            h1{
+                font-size: 2.5rem;
+                padding-bottom: 30px;
+            }
+            a{
+                color: #622925e6;
 
-        }
-        a:hover{
-            text-decoration:none;
-        }
-        thead{
-            background:silver;
-        }
-        tbody{
+            }
+            a:hover{
+                text-decoration:none;
+            }
+            thead{
+                background:silver;
+            }
+            tbody{
 
-            background:#f0eded;
-        }
-        td{
-            border-bottom: 0.7px solid white;
-        }
-    </style>
-{% endblock %}
+                background:#f0eded;
+            }
+            td{
+                border-bottom: 0.7px solid white;
+            }
+        </style>
+        {% endblock %}
