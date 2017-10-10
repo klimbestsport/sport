@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+   <table class="table table-inverse">
+        <tbody>
+            <tr>
+                <th>Imie</th>
+                <td>{{ zawodnik.imie }}</td>
+            </tr>
+            <tr>
+                <th>Nazwisko</th>
+                <td>{{ zawodnik.nazwisko }}</td>
+            </tr>
+            <tr>
+                <th>rokU</th>
+                <td>{{ zawodnik.rokU }}</td>
+            </tr>
+            <tr>
+                <th>nrLic</th>
+                <td>{{ zawodnik.nrLic }}</td>
+            </tr>
+            <tr>
+                <th>Klub</th>
+                <td>{{ zawodnik.klub }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+   {# <ul>
+        <li>
+            <a href="{{ path('users_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('users_edit', { 'id': user.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>#}
+{% endblock %}
