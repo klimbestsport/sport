@@ -16,15 +16,8 @@
 
                 <div name="resByIdDiv" id="resByIdDiv" style="margin-top: -15px; border-bottom: 0.4px solid red;">
 
-                    {# <input type="text" id="konkId" name="konkId" value="{{konkurencja.id}}"/>#}
                     <br/>                         
 
-                    {# <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
- 
-                         <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj osobę">
-                         <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                         </button>
-                     </form> <a href="{{ path('rezultaty_index') }}">Wyświetl listę rezultatów</a>#}
                     {% if (luckyImie is defined and luckyImie) %}<br>
                         <p style="font-size: 25px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}}  <br></p>
                         <p style="font-size: 16px;"> <strong>Klub: </strong>{{luckyKlub}}</p>
@@ -41,8 +34,6 @@
 
                 {% if (form is defined and form) %}
 
-
-
                     {% form_theme form 'form_table_layout.html.twig' %}
 
                     {{ form_start(form) }}
@@ -56,7 +47,6 @@
                             <td onchange="factor2rt()">{{ form_widget(form.czas) }}</td>
                             <td>{{ form_widget(form.uwagiS1) }}</td>
                         </tr>
-
 
                         <tr>
                             <th style="background-color:#e9e4d64d"></th><th style="background-color:#e9e4d64d"></th> <th style="background-color: silver;">Factor</th> <th style="background-color:#e9e4d64d"></th> <th style="background-color:#e9e4d64d"></th> 
@@ -84,7 +74,6 @@
                     </div>
                     {{ form_end(form) }}
                
-
                 </div>   
 
             </div>
