@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<input type="text" id="whichType" value="{{whichType}}"/>
+    <body onload="takeView()">
+<input type="text" id="whichView" value="{{whichView}}"/>
     <div onclick="sendNrLic()" id="container">
         <div class="col-md-2" style="float:left"></div>
         <div class="col-md-8" style="float:left">
@@ -41,8 +42,6 @@
                 </div>
 
                 {% if (form is defined and form) %}
-
-
 
                     {% form_theme form 'form_table_layout.html.twig' %}
 
@@ -87,63 +86,16 @@
         {% endif%}
 
         <script>
-            function sendNrLic() {
-                var imie = document.getElementById('imieD').value;
-                document.getElementById('appbundle_rezultaty_imie').value = imie;
-                var nazwisko = document.getElementById('nazwiskoD').value;
-                document.getElementById('appbundle_rezultaty_nazwisko').value = nazwisko;
-                var nrLic = document.getElementById('nrLicD').value;
-                document.getElementById('appbundle_rezultaty_nrLic').value = nrLic;
-                var rokU = document.getElementById('rokUD').value;
-                document.getElementById('appbundle_rezultaty_rokU').value = rokU;
-                var klub = document.getElementById('klubD').value;
-                document.getElementById('appbundle_rezultaty_klub').value = klub;
-                var konkurencjaNazwaP = document.getElementById('konkurencjaNazwaP').value;
-                document.getElementById('appbundle_rezultaty_nazwa_p').value = konkurencjaNazwaP;
-                var konkurencjaNazwaS = document.getElementById('konkurencjaNazwaS').value;
-                document.getElementById('appbundle_rezultaty_nazwa_s').value = konkurencjaNazwaS;
-                var konkurencjaId = document.getElementById('konkurencjaId').value;
-                document.getElementById('appbundle_rezultaty_konkurencja').value = konkurencjaId;
-                var czas = document.getElementById('appbundle_rezultaty_czas').value;
-                czas = Math.round(czas * 1e2) / 1e2;
-                document.getElementById('appbundle_rezultaty_czas').value = czas;
-                var factor = sumaR / czas;
-                factor = Math.round(factor * 1e4) / 1e4;
-                document.getElementById('appbundle_rezultaty_factor2').value = factor;
-
-            }
-
-            function sumaRez() {
-
-                var rez1 = document.getElementById('appbundle_rezultaty_rezultatS1').value;
-                var rez2 = document.getElementById('appbundle_rezultaty_rezultatS2').value;
-                var rez11 = parseInt(rez1);
-
-                if (!rez2) {
-                    document.getElementById('appbundle_rezultaty_sumaRez').value = rez11;
-                } else {
-
-
-                    var rez22 = parseInt(rez2);
-                    document.getElementById('appbundle_rezultaty_sumaRez').value = rez11 + rez22;
-                }
-
-            }
-
-            function sumaX() {
-
-                var x1 = document.getElementById('appbundle_rezultaty_xS1').value;
-                var x2 = document.getElementById('appbundle_rezultaty_xS2').value;
-                var x11 = parseInt(x1);
-
-                if (!x2) {
-
-                    document.getElementById('appbundle_rezultaty_sumaX').value = x11;
-                } else {
-                    var x22 = parseInt(x2);
-                    document.getElementById('appbundle_rezultaty_sumaX').value = x11 + x22;
-                }
-            }
+  {#        
+          function takeView(){
+              
+              var takeViewNr = document.getElementById('whichView').value;
+              if (takeViewNr==1){
+               document.getElementById('appbundle_rezultaty_uwagiS2').css("visibility", "hidden");
+              }
+              alert(takeViewNr);
+              
+          }#}
 
 
             function factor() {
@@ -220,5 +172,5 @@
             }
 
         </style>
-
+            </body>
         {% endblock %}

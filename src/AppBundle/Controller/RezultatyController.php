@@ -168,10 +168,13 @@ class RezultatyController extends Controller {
             $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
         }
         $queryFind = $em->createQuery(''
-                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC");
+                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
         $rezultaties = $queryFind->getResult();
 
+        $i=0;
         foreach ($rezultaties as $r) {
+            $i+=1;
+            
             $results['id'] = $r->getId();
             $results['imie'] = $r->getImie();
             $results['nazwisko'] = $r->getNazwisko();
@@ -180,11 +183,15 @@ class RezultatyController extends Controller {
             $results['klub'] = $r->getKlub();
             $json = $results;
         }
+        for($j=0; $j<$i; $j++){
+            $nr['nr'] = $j;
+        }
 
         return $this->render('rezultaty/autoViewResults.html.twig', array(
                     'rezultaty' => $rezultaties,
                     'konkurencja' => $konkurencjaFullName,
                     'ile' => $ile,
+                    'nr'=>$nr
         ));
     }
 
@@ -301,11 +308,11 @@ class RezultatyController extends Controller {
                     }
                 }
             }
-           // $whichView=1;
-//            for($i=0;$i<4;$i++){
-//             if (strstr($konkurencjaFullName, $view[$i]) !== False) {
-//                 $whichView = $i+1 ;
-//            }}
+            $whichView=1;
+            for($i=0;$i<4;$i++){
+             if (strstr($konkurencjaFullName, $view[$i]) !== False) {
+                 $whichView = $i+1 ;
+            }}
             
             
             $array = ['id' => $rezultaty->getId(),
@@ -318,24 +325,28 @@ class RezultatyController extends Controller {
                 'rezultaty' => $rezultaty,
                 'form' => $form->createView(),
                 'competitionFullName' => $konkurencjaFullName,
-               // 'whichView' =>$whichView,
+                'whichView' =>$whichView,
                 'konkurencja' => $konkurencja];
         
             
             if (strstr($konkurencjaFullName, $view[1]) !== False) {
-                return $this->render('rezultaty/newEmptyViewII.html.twig', $array);
+                // return $this->render('rezultaty/newEmpty.html.twig', $array);
+                 return $this->render('rezultaty/newEmptyViewII.html.twig', $array);
             }
 
             if (strstr($konkurencjaFullName, $view[3]) !== False) {
-                return $this->render('rezultaty/newEmptyViewIa.html.twig',$array);
+                 //return $this->render('rezultaty/newEmpty.html.twig', $array);
+                 return $this->render('rezultaty/newEmptyViewIa.html.twig',$array);
             }
 
             if (strstr($konkurencjaFullName, $view[0]) !== False) {
-                return $this->render('rezultaty/newEmptyViewI.html.twig',$array);
+                 //return $this->render('rezultaty/newEmpty.html.twig', $array);
+                 return $this->render('rezultaty/newEmptyViewI.html.twig',$array);
             }
 
             if (strstr($konkurencjaFullName, $view[2]) !== False) {
-                return $this->render('rezultaty/newEmptyViewIII.html.twig', $array);
+                // return $this->render('rezultaty/newEmpty.html.twig', $array);
+                 return $this->render('rezultaty/newEmptyViewIII.html.twig', $array);
             } else {
                 return $this->render('rezultaty/newEmpty.html.twig', $array);
             }

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <body onLoad="tdNr();"
     <div><h1>Rezultaty: {% if (konkurencja is defined and konkurencja) %} 
             {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
@@ -24,6 +25,7 @@
             <table class="sortable table table-striped">
                 <thead>
                     <tr>
+                        <th>Nr</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Rok urodzenia</th>
@@ -114,6 +116,22 @@
                 alert(t); 
     });#}
 
+        function tdNr(){
+      
+    var tables = document.getElementsByTagName('tbody');
+    var table = tables[tables.length -1];
+    var rows = table.rows;
+        
+    for(var i = 0, td; i < rows.length; i++){
+         td = document.createElement('td');
+       
+                     td.appendChild(document.createTextNode(i+1 ));
+                 
+        rows[i].insertBefore(td, rows[i].firstChild);
+                        }
+                        
+    } 
+    
 
         </script>
         <style>
@@ -144,4 +162,5 @@
                 border-bottom: 0.7px solid white;
             }
         </style>
+            </body>
         {% endblock %}

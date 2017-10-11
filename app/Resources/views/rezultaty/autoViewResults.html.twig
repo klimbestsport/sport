@@ -7,14 +7,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-<body onLoad="autoLoaderCompetition()">
+<body onLoad="autoLoaderCompetition(); tdNr();">
     <div id="container">
 
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
             <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
-            <table class="sortable table table-striped">
+            <table class="sortable table table-striped" id='tabliczka'>
                 <thead>
                     <tr>
+                        <th class="mrkPoradaLp" fieldId="0">Nr</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Rok urodzenia</th>
@@ -30,9 +31,11 @@
                         <th>Suma X</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>  
                     {% for rez in rezultaty %}
                         <tr>
+
+                            <td></td>
                             <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
                             <td>{{ rez.nazwisko }}</td>
                             <td>{{ rez.rokU }}</td>
@@ -51,7 +54,7 @@
                 </tbody>
             </table>
             <input type="hidden" value="data21" id="data1" name="data1"/>
-                      
+
         </div>
     </div>
 </body>
@@ -80,18 +83,41 @@
     }
 </style>
 <script>
-    function autoLoaderCompetition() {
-        var timeSec=3000;
-        
-        $.post('{{path('auto_view_results')}}',
-                {data1: 'data1'},
-                function (json) {
-                    $('#wykaz').empty()
-                    setTimeout("autoLoaderCompetition()", timeSec);
-                    $("<span>" + json + "</span>")
-                            .appendTo('#wykaz')
-                            .append("<hr>")
-                });
+    {# function tdNr(){
+         document.getElementsByTagName('td')[0].value=1
+         alert(document.getElementsByTagName('td')[0].value+=1);
+     
+     }#}
 
-    }
+function tdNr(){
+      
+    var tables = document.getElementsByTagName('tbody');
+    var table = tables[tables.length -1];
+    var rows = table.rows;
+        
+    for(var i = 0, td; i < rows.length; i++){
+         td = document.createElement('td');
+       
+                     td.appendChild(document.createTextNode(i+1 ));
+                 
+        rows[i].insertBefore(td, rows[i].firstChild);
+                        }
+                        
+    } 
+        
+        function autoLoaderCompetition() {
+            var timeSec = 3000;
+          
+
+            $.post('{{path('auto_view_results')}}',
+                    {data1: 'data1'},
+                    function (json) {
+                        $('#wykaz').empty()
+                        setTimeout("autoLoaderCompetition()", 3000);
+                        $("<span>" nr+ json + "</span>")
+                                .appendTo('#wykaz')
+                                .append("<hr>")
+                    });
+
+        }
 </script>

@@ -8,6 +8,7 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 {% block body %}
+    <body onload="tdNr();">
     <div>{% if (konkurencja is defined and konkurencja) %} 
         <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
 
@@ -18,6 +19,7 @@
         <table class="sortable table table-striped">
             <thead>
                 <tr>
+                    <th>Nr</th>
                     <th>Imię</th>
                     <th>Nazwisko</th>
                     <th>Rok urodzenia</th>
@@ -80,4 +82,23 @@
             border-bottom: 0.7px solid white;
         }
     </style>
+    
+    <script>
+        function tdNr(){
+      
+    var tables = document.getElementsByTagName('tbody');
+    var table = tables[tables.length -1];
+    var rows = table.rows;
+        
+    for(var i = 0, td; i < rows.length; i++){
+         td = document.createElement('td');
+       
+                     td.appendChild(document.createTextNode(i+1 ));
+                 
+        rows[i].insertBefore(td, rows[i].firstChild);
+                        }
+                        
+    } 
+        </script>
+    </body>
 {% endblock %}
