@@ -8,7 +8,8 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 {% block body %}
-    <body onload="tdNr();">
+    <body onload="tdNr();takeView()">
+            <input type="hidden" id="whichView" value="{{whichView}}"/>
     <div>{% if (konkurencja is defined and konkurencja) %} 
         <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
 
@@ -16,43 +17,64 @@
     </div>
     <div>
 
-        <table class="sortable table table-striped">
-            <thead>
-                <tr>
-                    <th>Nr</th>
-                    <th>Imię</th>
-                    <th>Nazwisko</th>
-                    <th>Rok urodzenia</th>
-                    <th>Nr licencji</th>
-                    <th>Klub</th>
-                    <th th style="border-left:2px solid white">Seria I <br>Rezultat</th>
-                    <th style="border-right:2px solid white">X </th>
-                    <th>Seria II <br> Rezultat</th>
-                    <th style="border-right:2px solid white">X</th>
-                    <th>Suma rez</th>     
-                    <th>Suma X</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for rez in rezultaty %}
-                    <tr>
-                        <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                        <td>{{ rez.nazwisko }}</td>
-                        <td>{{ rez.rokU }}</td>
-                        <td>{{ rez.nrLic }}</td>
-                        <td style="border-right:2px solid white">{{ rez.klub }}</td>
-                        <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                        <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                        <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                        <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                    
-                        <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                        <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
+          <table class="sortable table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nr</th>
+                            <th id="name">Imię</th>
+                            <th id="surname">Nazwisko</th>
+                            <th id="byear">Rok urodzenia</th>
+                            <th id="licNumber">Nr licencji</th>
+                            <th id="club">Klub</th>
 
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                            <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
+                            <th id="x1" style="border-right:2px solid white">X </th>
+                            <th id="rifle" style="border-right:2px solid white">Karabin </th>
+                            <th id="s2result" >Seria II <br> Rezultat</th>
+                            <th id="x2" style="border-right:2px solid white">X</th>
+                            <th id="gun" style="border-right:2px solid white">Pistolet </th>
+
+                            <th id="time">Czas</th>      
+                            <th id="resultsSum">Suma rez</th>     
+                            <th id="xSum">Suma X</th>
+                            <th id="factor">Factor</th>
+                            <th id="comments">Uwagi</th>
+                            <th>Akcje</th>
+                        </tr>  </thead>
+                        {% for rez in rezultaty %}
+                        <tr>
+                            <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                            <td id="tdsurname">{{ rez.nazwisko }}</td>
+                            <td id="tdbyear">{{ rez.rokU }}</td>
+                            <td id="tdlicNumber">{{ rez.nrLic }}</td>
+                            <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
+
+                            <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
+                            <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
+                            <td id="tdrife">{{ rez.karabin }}</td>
+                            <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
+                            <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
+                            <td id="tdgun">{{ rez.pistolet }}</td>
+
+                            <td id="tdtime">{{ rez.czas }}</td>
+                            <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                            <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                            <td id="tdfactor">{{ rez.factor2 }}</td>
+                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
+                            <td>
+
+                                <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+
+                                <i class="fa fa-trash" aria-hidden="true">
+
+                                </i>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
     </div>
     <style>
         table.sortable thead {
@@ -84,6 +106,38 @@
     </style>
     
     <script>
+        
+         function takeView() {
+                    var takeViewNr = document.getElementById("whichView").value;
+
+                    if (takeViewNr == 1) {
+                        
+                        $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                        $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+
+                    }
+                    if (takeViewNr == 2) {
+
+                        $("th").remove("#rifle,#gun,#time,#factor");
+                        $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+                        
+                    }
+
+                    if (takeViewNr == 3) {
+                        
+                        $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                        $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+                  
+                    }
+
+                    if (takeViewNr == 4) {
+
+                        $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                        $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+                 
+                    }
+                }
+                
         function tdNr(){
       
     var tables = document.getElementsByTagName('tbody');

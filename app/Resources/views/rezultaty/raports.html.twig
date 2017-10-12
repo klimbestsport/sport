@@ -1,166 +1,160 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <body onLoad="tdNr();"
-    <div><h1>Rezultaty: {% if (konkurencja is defined and konkurencja) %} 
-            {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+    <body onload="takeView(), tdNr()" >
+        <input type="hidden" id="whichView" value="{{whichView}}"/>
 
-                <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
+        <div><h1>Rezultaty: {% if (konkurencja is defined and konkurencja) %} 
+                {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
+                    <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
-                {#<input style="width:50%; text-align:center" type="text" id="filtr2" name="filtr2" placeholder="f2"/>#}
+                    <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                    </button>  
+                    <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
+                </form> 
 
+            </div><div style="float:right"> <a href="{{ path('takeOneKonk') }}">Nowy rezultat</a></div>
 
-                {# <input style="text-align:center" type="text" id="filtr2" name="filtr2" placeholder=""/>
-                       #}
-                <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                </button>  
-                <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
-            </form> 
+            <div>
 
+                <table class="sortable table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nr</th>
+                            <th id="name">Imię</th>
+                            <th id="surname">Nazwisko</th>
+                            <th id="byear">Rok urodzenia</th>
+                            <th id="licNumber">Nr licencji</th>
+                            <th id="club">Klub</th>
 
-        </div><div style="float:right"> <a href="{{ path('takeOneKonk') }}">Nowy rezultat</a></div>
-        <div>
+                            <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
+                            <th id="x1" style="border-right:2px solid white">X </th>
+                            <th id="rifle" style="border-right:2px solid white">Karabin </th>
+                            <th id="s2result" >Seria II <br> Rezultat</th>
+                            <th id="x2" style="border-right:2px solid white">X</th>
+                            <th id="gun" style="border-right:2px solid white">Pistolet </th>
 
-            <table class="sortable table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nr</th>
-                        <th>Imię</th>
-                        <th>Nazwisko</th>
-                        <th>Rok urodzenia</th>
-                        <th>Nr licencji</th>
-                        <th>Klub</th>
-                        <th style="border-left:2px solid white">Seria I <br>Rezultat</th>
-                        <th style="border-right:2px solid white">X </th>
-                        <th>Seria II <br> Rezultat</th>
-                        <th style="border-right:2px solid white">X</th>
+                            <th id="time">Czas</th>      
+                            <th id="resultsSum">Suma rez</th>     
+                            <th id="xSum">Suma X</th>
+                            <th id="factor">Factor</th>
+                            <th id="comments">Uwagi</th>
+                            <th>Akcje</th>
+                        </tr>  </thead>
+                        {% for rez in rezultaty %}
+                        <tr>
+                            <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                            <td id="tdsurname">{{ rez.nazwisko }}</td>
+                            <td id="tdbyear">{{ rez.rokU }}</td>
+                            <td id="tdlicNumber">{{ rez.nrLic }}</td>
+                            <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
 
+                            <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
+                            <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
+                            <td id="tdrife">{{ rez.karabin }}</td>
+                            <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
+                            <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
+                            <td id="tdgun">{{ rez.pistolet }}</td>
 
-                        <th>Suma rez</th>     
-                        <th>Suma X</th>
-                        <th>Uwagi</th>
-                        <th>Akcje</th>
-                    </tr>  </thead>
-                    {% for rez in rezultaty %}
-                    <tr>
-                        <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                        <td>{{ rez.nazwisko }}</td>
-                        <td>{{ rez.rokU }}</td>
-                        <td>{{ rez.nrLic }}</td>
-                        <td style="border-right:2px solid white">{{ rez.klub }}</td>
-                        <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                        <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                        <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                        <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
+                            <td id="tdtime">{{ rez.czas }}</td>
+                            <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                            <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                            <td id="tdfactor">{{ rez.factor2 }}</td>
+                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
+                            <td>
 
+                                <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
 
-                        <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                        <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                        <td > {{ rez.uwagiS1 }}</td>
-                        <td>
+                                <i class="fa fa-trash" aria-hidden="true">
 
-                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                </i>
 
-                            <i class="fa fa-trash" aria-hidden="true">
+                            </td>
+                        </tr>
+                    {% endfor %}
 
-                            </i>
+                </table>
 
+            </div>
+            <script>
+                function takeView() {
+                    var takeViewNr = document.getElementById("whichView").value;
 
-                        </td>
-                    </tr>
-                {% endfor %}
-
-            </table>
-
-        </div>
-        <script>
-            //function chooseSort() {
-            {# var t="ASC";
-       var x=document.getElementsByTagName("th");
-              
-         alert(x[3].innerHTML);#}
-            {# var zaznaczonyWiersz;
-             $("#tabela th").click(function ()
-             {
-
-                 zaznaczonyWiersz = this;
-                 $(this).addClass('zaznaczony');
-             });
-             var searchByThis = document.getElementsByClassName("zaznaczony")[0].innerHTML;
-
-             $('.zaznaczony').removeClass();
-             document.getElementById('searchBy').value = searchByThis;
-              $.post('{{path('rezultaty_raports')}}',
-                    {searchByThis: 'searchByThis'},
-                   function() { 
-                   alert('veryOK');
-           #}   {#  }         
-            );
-         }
-         
-#}
-            {# var t="ASC";
-             document.getElementById('chooseSortAsc').value= t; 
-              
-             alert(t);}#}
-            {#
-            $('#chooseSortAsc').click(function() { 
-                var t="ASC";
-                val elementList = $(".chooseSortAsc");
-    for (var i = 1; i <= list.length; i++) {
-      elementList[i].attr("id", "chooseSortAsc" + i);
-    }
-                //document.getElementById('chooseSortAsc').value= t; 
-              
-                alert(t); 
-    });#}
-
-        function tdNr(){
-      
-    var tables = document.getElementsByTagName('tbody');
-    var table = tables[tables.length -1];
-    var rows = table.rows;
-        
-    for(var i = 0, td; i < rows.length; i++){
-         td = document.createElement('td');
-       
-                     td.appendChild(document.createTextNode(i+1 ));
-                 
-        rows[i].insertBefore(td, rows[i].firstChild);
-                        }
+                    if (takeViewNr == 1) {
                         
-    } 
-    
+                        $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                        $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
 
-        </script>
-        <style>
-            table.sortable thead {
-                color: #622925e6;
-                font-weight: bold;
-                cursor: default;
-            }
-            h1{
-                font-size: 2.5rem;
-                padding-bottom: 30px;
-            }
-            a{
-                color: #622925e6;
+                    }
+                    if (takeViewNr == 2) {
 
-            }
-            a:hover{
-                text-decoration:none;
-            }
-            thead{
-                background:silver;
-            }
-            tbody{
+                        $("th").remove("#rifle,#gun,#time,#factor");
+                        $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+                        
+                    }
 
-                background:#f0eded;
-            }
-            td{
-                border-bottom: 0.7px solid white;
-            }
-        </style>
-            </body>
+                    if (takeViewNr == 3) {
+                        
+                        $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                        $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+                  
+                    }
+
+                    if (takeViewNr == 4) {
+
+                        $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                        $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+                 
+                    }
+                }
+
+
+                function tdNr() {
+
+                    var tables = document.getElementsByTagName('tbody');
+                    var table = tables[tables.length - 1];
+                    var rows = table.rows;
+
+                    for (var i = 0, td; i < rows.length; i++) {
+                        td = document.createElement('td');
+
+                        td.appendChild(document.createTextNode(i + 1));
+
+                        rows[i].insertBefore(td, rows[i].firstChild);
+                    }
+
+                }
+
+
+            </script>
+            <style>
+                table.sortable thead {
+                    color: #622925e6;
+                    font-weight: bold;
+                    cursor: default;
+                }
+                h1{
+                    font-size: 2.5rem;
+                    padding-bottom: 30px;
+                }
+                a{
+                    color: #622925e6;
+
+                }
+                a:hover{
+                    text-decoration:none;
+                }
+                thead{
+                    background:silver;
+                }
+                tbody{
+
+                    background:#f0eded;
+                }
+                td{
+                    border-bottom: 0.7px solid white;
+                }
+            </style>
+        </body>
         {% endblock %}

@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-<body onLoad="autoLoaderCompetition(); tdNr();">
+<body onLoad="autoLoaderCompetition()">
     <div id="container">
 
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
@@ -15,7 +15,7 @@
             <table class="sortable table table-striped" id='tabliczka'>
                 <thead>
                     <tr>
-                        <th class="mrkPoradaLp" fieldId="0">Nr</th>
+                        <th>Nr</th>
                         <th>Imię</th>
                         <th>Nazwisko</th>
                         <th>Rok urodzenia</th>
@@ -83,12 +83,19 @@
     }
 </style>
 <script>
-    {# function tdNr(){
-         document.getElementsByTagName('td')[0].value=1
-         alert(document.getElementsByTagName('td')[0].value+=1);
-     
-     }#}
-
+     function autoLoaderCompetition() {
+        var timeSec=3000;
+        
+        $.post('{{path('auto_view_results')}}',
+                {data1: 'data1'},
+                function (json) {
+                    $('#wykaz').empty()
+                    setTimeout("autoLoaderCompetition()", timeSec);
+                    $("<span>" + json + "</span>")
+                            .appendTo('#wykaz')
+                            .append("<hr>")
+                });
+                }
 function tdNr(){
       
     var tables = document.getElementsByTagName('tbody');
@@ -103,21 +110,5 @@ function tdNr(){
         rows[i].insertBefore(td, rows[i].firstChild);
                         }
                         
-    } 
-        
-        function autoLoaderCompetition() {
-            var timeSec = 3000;
-          
-
-            $.post('{{path('auto_view_results')}}',
-                    {data1: 'data1'},
-                    function (json) {
-                        $('#wykaz').empty()
-                        setTimeout("autoLoaderCompetition()", 3000);
-                        $("<span>" nr+ json + "</span>")
-                                .appendTo('#wykaz')
-                                .append("<hr>")
-                    });
-
-        }
+    }      
 </script>
