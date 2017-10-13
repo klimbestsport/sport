@@ -11,6 +11,11 @@
     <div id="container">
 
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
+          
+            <div style="float:right" ><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span></div>
+
+
             <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
             <table class="sortable table table-striped" id='tabliczka'>
                 <thead>
@@ -54,6 +59,7 @@
                 </tbody>
             </table>
             <input type="hidden" value="data21" id="data1" name="data1"/>
+             <input type="hidden" value="competitionId" id="competitionId" name="competitionId"/>
 
         </div>
     </div>
@@ -84,10 +90,10 @@
 </style>
 <script>
      function autoLoaderCompetition() {
-        var timeSec=3000;
+        var timeSec=1000;
         
         $.post('{{path('auto_view_results')}}',
-                {data1: 'data1'},
+                {data1: {{actualResult}}, competitionId: {{competitionId}}},
                 function (json) {
                     $('#wykaz').empty()
                     setTimeout("autoLoaderCompetition()", timeSec);

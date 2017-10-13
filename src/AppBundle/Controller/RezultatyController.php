@@ -39,8 +39,8 @@ class RezultatyController extends Controller {
 
         $viewTable4 = ['Karabin czarnoprochowy', 'Pistolet czarnoprochowy', 'Pistolet snajperski', 'Karabin samopowtarzalny'];
         $viewTable3 = ['Karabin + Pistolet Standard', 'Karabin + Pistolet OPEN'];
-        $viewTable2 = ["Strzelba OPEN", "Strzelba Standard"];
-        $viewTable1 = ['Pistolet zapłon centralny', 'Pistolet zapłon centralny', 'Pistolet sportowy', 'Karabin dowolny', 'Karabin wojskowy 100/75m'];
+        $viewTable2 = ['Pistolet zapłon centralny', 'Pistolet sportowy', 'Karabin dowolny', 'Karabin wojskowy 100/75m'];
+        $viewTable1 = ["Strzelba OPEN", "Strzelba Standard"];
         $viewTable = [$viewTable1, $viewTable2, $viewTable3, $viewTable4];
 
         return $viewTable;
@@ -55,6 +55,24 @@ class RezultatyController extends Controller {
         $view = [$view1, $view2, $view3, $view4];
 
         return $view;
+    }
+
+    private function getSession() {
+        $session = new Session();
+        return $session;
+    }
+
+    private function getHowManyCompetitions() {
+
+        $em = $this->getDoctrine()->getManager();
+        $queryHowManyCompetitions = $em->createQuery('SELECT f FROM AppBundle\Entity\Konkurencja f');
+        $ile = 0;
+        $sumCompetitions = $queryHowManyCompetitions->getResult();
+        foreach ($sumCompetitions as $sC) {
+            $ile += 1;
+        }
+
+        return $sumCompetitions;
     }
 
     public function indexAction() {
@@ -159,78 +177,118 @@ class RezultatyController extends Controller {
         ));
     }
 
-    public function autoViewResultsAction(Request $request) {
-        $em = $this->getDoctrine()->getManager();
-        $session = new Session();
-        $q = $em->createQuery('SELECT f FROM AppBundle\Entity\Konkurencja f');
-        $ile = 0;
-        $rezultaties2 = $q->getResult();
-        foreach ($rezultaties2 as $r) {
+    private function getCompetitionId() {
+//
+        if ($actualResult > $howManyResults) {
+            // echo ('wiekszezf');
+            echo ('totototo');
+            $competitionId = rand(0, $howManyCompetitions);
 
-            $ile += 1;
-        }
-        $competitionId = rand(0, $ile);
-        if ($competitionId >= $ile) {
-            $competitionId = 1;
-        } else {
-            $competitionId += 1;
-        }
-        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
-        $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
-        if ($request->get('data1')) {
+            if ($competitionId >= $howManyCompetitions) {
+                $competitionId = 1;
+                echo('65444444444444444');
+                $howManyResults = 1;
+            } else {
+                echo('rtyyerreeyrrrrrrrrrrrrrrrrrrr');
+                $competitionId += 1;
+                $actualResult = 1;
+                $howManyResults = 1;
+            }
 
             $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
             $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
-            $queryFind = $em->createQuery(''
-                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
-            $rezultaties = $queryFind->getResult();
-            $json = '';
-            foreach ($rezultaties as $r) {
-                $results['id'] = $r->getId();
-                $results['imie'] = $r->getImie();
-                $results['nazwisko'] = $r->getNazwisko();
-                $results['nrLic'] = $r->getNrLic();
-                $results['rokU'] = $r->getRokU();
-                $results['klub'] = $r->getKlub();
-                $json = $results;
+
+            $queryFind2 = $em->createQuery(''
+                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
+            ;
+
+            $r2 = $queryFind2->getResult();
+
+
+            foreach ($r2 as $r) {
+                $howManyResults += 1;
             }
+        }
+//
+    }
 
-            return $this->render('rezultaty/autoViewResults.html.twig', array(
-                        'rezultaty' => $rezultaties,
-                        'konkurencja' => $konkurencjaFullName,
-            ));
+    public function autoViewResultsAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $session = $this->getSession();
+        $actualResult = 0;
+        $competitionId = 1;
+        $howManyResults = 1;
+        if ($request->get('data1')) {
+            $actualResult = (int) $request->get('data1');
         }
-        if (!$request->get('data1') && $session->get('konkurencjaId')) {
-            $konkurencjaFullName = $this->getCompetitionNameAction();
-        } else {
-            $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById(1);
-            $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+        if ($request->get('competitionId')) {
+            $competitionId = (int) $request->get('competitionId');
         }
+
+        $howManyCompetitions = 10;
+
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
+        $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+
+
         $queryFind = $em->createQuery(''
-                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
-        $rezultaties = $queryFind->getResult();
+                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
+        ;
 
-        $i = 0;
-        foreach ($rezultaties as $r) {
-            $i += 1;
+        $howManyR = $queryFind->getResult();
 
-            $results['id'] = $r->getId();
-            $results['imie'] = $r->getImie();
-            $results['nazwisko'] = $r->getNazwisko();
-            $results['nrLic'] = $r->getNrLic();
-            $results['rokU'] = $r->getRokU();
-            $results['klub'] = $r->getKlub();
-            $json = $results;
+
+        foreach ($howManyR as $r) {
+            $howManyResults += 1;
         }
-        for ($j = 0; $j < $i; $j++) {
-            $nr['nr'] = $j;
-        }
+        
+        $actualResult += 5;
+        $queryFind2 = $em->createQuery(''
+                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
+                    ->setFirstResult($actualResult)
+                    ->setMaxResults(5);
 
+        $resul = $queryFind2->getResult();
+
+
+        if ($actualResult >= $howManyResults) {
+
+            $actualResult = 0;
+            if ($competitionId < 14) {
+                $competitionId += 1;
+            } else {
+                $competitionId = 1;
+            }
+            $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
+            $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+            $queryFind3 = $em->createQuery(''
+                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
+             ->setFirstResult($actualResult)
+                    ->setMaxResults(5);
+      // $actualResult += 2;
+            $resul = $queryFind3->getResult();
+
+
+            foreach ($resul as $r) {
+                $howManyResults += 1;
+            }
+        }
+        if($howManyResults<5){
+            $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+            $queryFind4 = $em->createQuery(''
+                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
+            ;
+            $resul = $queryFind4->getResult();
+
+            
+        }
+        
+        
         return $this->render('rezultaty/autoViewResults.html.twig', array(
-                    'rezultaty' => $rezultaties,
+                    'rezultaty' => $resul,
                     'konkurencja' => $konkurencjaFullName,
-                    'ile' => $ile,
-                    'nr' => $nr
+                    'actualResult' => $actualResult,
+                    'competitionId' => $competitionId
         ));
     }
 

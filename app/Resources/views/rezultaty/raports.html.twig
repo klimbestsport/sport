@@ -82,7 +82,7 @@
                     var takeViewNr = document.getElementById("whichView").value;
 
                     if (takeViewNr == 1) {
-                        
+
                         $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
                         $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
 
@@ -91,24 +91,23 @@
 
                         $("th").remove("#rifle,#gun,#time,#factor");
                         $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
-                        
+
                     }
 
                     if (takeViewNr == 3) {
-                        
+
                         $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
                         $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
-                  
+
                     }
 
                     if (takeViewNr == 4) {
 
                         $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
                         $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
-                 
+
                     }
                 }
-
 
                 function tdNr() {
 
@@ -125,7 +124,6 @@
                     }
 
                 }
-
 
             </script>
             <style>
@@ -155,6 +153,7 @@
                 td{
                     border-bottom: 0.7px solid white;
                 }
+
             </style>
         </body>
         {% endblock %}
