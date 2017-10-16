@@ -15,7 +15,7 @@
                         <option value="0" selected></option>
                         {% for konk in konkurencje %}
 
-                            <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
+                            <option value="{{loop.index}}">{{konk['nazwaP']}}</option>
 
                         {% endfor %} 
                     </select>  

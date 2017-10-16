@@ -3,7 +3,7 @@
 {% block body %}
     <body onload="takeView()" >
            <div><input type="hidden" id="whichView" value="{{whichView}}"/>
-     
+
         <div class="col-md-2" style="float:left"> 
                     <strong>Wybierz konkurencję: </strong></div>
         <div class="col-md-3" style="float:left">
@@ -11,9 +11,8 @@
 
                 {% if (konkurencje is defined and konkurencje) %}  
                  {#   <strong>Wybierz konkurencję: </strong>#}
-                 <select style="width:86%;" id="wybierzKonkurencje" >  
-                        <option value="0" selected>{% if (competitionName is defined and competitionName) %} 
-                {{competitionName}}{% endif %} </option>
+                 <select style="width:80%;" id="wybierzKonkurencje" >  
+                        <option selected>{{konkId}} </option>
                         {% for konk in konkurencje %}
 
                             <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
@@ -23,9 +22,9 @@
                     <div id="visibleButton" style="visibility: hidden; float:right;">
 
 
-                        <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                        <button  type="submit"><i class="fa fa-search " aria-hidden="true"></i>
                         </button>  {% if (konkId is defined and konkId) %}  
-                    <a id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:black;"class="fa fa-file-excel-o" aria-hidden="true"></i> </a><br>
+                    <a id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:black;"class="fa fa-file-excel-o " aria-hidden="true"></i> </a><br>
 
                 {% endif %} </div>
 
