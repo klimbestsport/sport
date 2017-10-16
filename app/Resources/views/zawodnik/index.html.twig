@@ -7,7 +7,9 @@
 
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
             </button>
-        </form></div><div style="float:right"> <a href="{{ path('zawodnik_new') }}">Dodaj nowego zawodnika</a></div>
+                    <a href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
+        </form></div>     
+            
  {% if (ile is defined and ile) %}
        Iość:{{ile}}
       {% endif%}
@@ -25,7 +27,7 @@
             <tbody>
                 {% for zawodnik2 in zawodnik %}
                     <tr>
-                        <td><a href="{{ path('zawodnik_show', { 'id': zawodnik2.id }) }}">{{ zawodnik2.imie }}</a></td>
+                        <td>{#<a href="{{ path('zawodnik_show', { 'id': zawodnik2.id }) }}">#}{{ zawodnik2.imie }}{#</a>#}</td>
 
                         <td>{{ zawodnik2.nazwisko }}</td>
                         <td>{{ zawodnik2.rokU }}</td>

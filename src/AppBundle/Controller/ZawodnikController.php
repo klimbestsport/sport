@@ -167,11 +167,7 @@ class ZawodnikController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
-        $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
-        $konkurencja['id'] = $konkurencjaQuery->getId();
+       
         if ($request->get('find')) {
             $find = $request->get('find');
 

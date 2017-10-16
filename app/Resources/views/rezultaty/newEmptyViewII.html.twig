@@ -14,10 +14,10 @@
                     <input type="hidden" id="konkurencjaId" name="konkurencjaId" value="{{konkurencja.id}}"/> 
                 {% endif %} 
 
-                <div name="resByIdDiv" id="resByIdDiv" style="margin-top: -15px; border-bottom: 0.4px solid red;">
+                <div name="resByIdDiv" id="resByIdDiv" style=" border-bottom: 0.4px solid red;">
 
                     {# <input type="text" id="konkId" name="konkId" value="{{konkurencja.id}}"/>#}
-                    <br/>                         
+                                         
 
                     {# <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('findUser')}}" method="post">
  
@@ -27,8 +27,8 @@
                      </form> <a href="{{ path('rezultaty_index') }}">Wyświetl listę rezultatów</a>#}
                     {% if (luckyImie is defined and luckyImie) %}<br>
 
-                        <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}}  <br></p>
-                        <p style="font-size: 16px;"> <strong>Klub: </strong>{{luckyKlub}}</p>
+                       <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}} 
+                      <strong >Klub: </strong>{{luckyKlub}} </p>
 
                         <input type="hidden" id="imieD" name="imieD" value="{{luckyImie}}"/>
                         <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{luckyNazwisko}}"/>

@@ -1,11 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <body onload="takeView(), tdNr()" >
-        <input type="hidden" id="whichView" value="{{whichView}}"/>
+    <body onload="takeView()" >
+           <div><input type="hidden" id="whichView" value="{{whichView}}"/>
+     
+        <div class="col-md-2" style="float:left"> 
+                    <strong>Wybierz konkurencję: </strong></div>
+        <div class="col-md-3" style="float:left">
+            <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">
 
-        <div><h1>Rezultaty: {% if (konkurencja is defined and konkurencja) %} 
-                {{konkurencja}}{% endif %}</h1>  <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+                {% if (konkurencje is defined and konkurencje) %}  
+                 {#   <strong>Wybierz konkurencję: </strong>#}
+                 <select style="width:86%;" id="wybierzKonkurencje" >  
+                        <option value="0" selected>{% if (competitionName is defined and competitionName) %} 
+                {{competitionName}}{% endif %} </option>
+                        {% for konk in konkurencje %}
+
+                            <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
+
+                        {% endfor %} 
+                    </select>  
+                    <div id="visibleButton" style="visibility: hidden; float:right;">
+
+
+                        <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                        </button>  {% if (konkId is defined and konkId) %}  
+                    <a id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:black;"class="fa fa-file-excel-o" aria-hidden="true"></i> </a><br>
+
+                {% endif %} </div>
+
+                {% endif %} 
+
+                <input type="hidden" id="konkId" name="konkId"/>
+              
+
+            </form>  
+                
+                    <form style="padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
                     <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
@@ -14,9 +45,11 @@
                     <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
                 </form> 
 
-            </div><div style="float:right"> <a href="{{ path('takeOneKonk') }}">Nowy rezultat</a></div>
-
-            <div>
+            </div>  
+                    <div class="col-md-7" style="float:right"></div>
+ <a style="float:right" href="{{ path('newResults') }}">+Nowy rezultat</a>
+           
+                </div> <div>
 
                 <table class="sortable table table-striped">
                     <thead>
@@ -44,6 +77,7 @@
                         </tr>  </thead>
                         {% for rez in rezultaty %}
                         <tr>
+                            <td> {{ loop.index }}</td>
                             <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
                             <td id="tdsurname">{{ rez.nazwisko }}</td>
                             <td id="tdbyear">{{ rez.rokU }}</td>

@@ -39,7 +39,7 @@ class RezultatyController extends Controller {
 
         $viewTable4 = ['Karabin czarnoprochowy', 'Pistolet czarnoprochowy', 'Pistolet snajperski', 'Karabin samopowtarzalny'];
         $viewTable3 = ['Karabin + Pistolet Standard', 'Karabin + Pistolet OPEN'];
-        $viewTable2 = ['Pistolet zapłon centralny', 'Pistolet sportowy', 'Karabin dowolny', 'Karabin wojskowy 100/75m'];
+        $viewTable2 = ['Pistolet zapłon centralny', 'Pistolet sportowy 20 cz.', 'Karabin dowolny', 'Karabin wojskowy 100/75m'];
         $viewTable1 = ["Strzelba OPEN", "Strzelba Standard"];
         $viewTable = [$viewTable1, $viewTable2, $viewTable3, $viewTable4];
 
@@ -146,6 +146,8 @@ class RezultatyController extends Controller {
     public function raportsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $konkurencjaFullName = $this->getCompetitionNameAction();
+        
+        
         $queryFind = $em->createQuery(''
                 . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
 
@@ -288,7 +290,8 @@ class RezultatyController extends Controller {
                     'rezultaty' => $resul,
                     'konkurencja' => $konkurencjaFullName,
                     'actualResult' => $actualResult,
-                    'competitionId' => $competitionId
+                    'competitionId' => $competitionId,
+                    'ilosc'=>$howManyResults
         ));
     }
 

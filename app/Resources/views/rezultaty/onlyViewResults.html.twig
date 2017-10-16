@@ -8,7 +8,7 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 {% block body %}
-    <body onload="tdNr();takeView()">
+    <body onload="takeView()">
             <input type="hidden" id="whichView" value="{{whichView}}"/>
     <div>{% if (konkurencja is defined and konkurencja) %} 
         <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
@@ -43,6 +43,7 @@
                         </tr>  </thead>
                         {% for rez in rezultaty %}
                         <tr>
+                            <td> {{ loop.index }}</td>
                             <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
                             <td id="tdsurname">{{ rez.nazwisko }}</td>
                             <td id="tdbyear">{{ rez.rokU }}</td>

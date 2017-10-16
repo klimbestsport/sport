@@ -1,11 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Zawodnik - edycja</h1>
+    <div class="container" onclick="sendNrLic()" >
 
+        <div class="col-md-4" style="float:left"></div>
+
+        <div class="col-md-4" style="float:left; margin-top:40px">
+            <i class="fa fa-user-plus fa-5x" style="border-bottom: 2px solid red; margin-bottom: 25px" aria-hidden="true"></i> 
+            <center>
  {% form_theme edit_form 'form_table_layout.html.twig' %}
-              {{ form_start(edit_form) }}
+              {% form_theme edit_form 'form_table_layout.html.twig' %}
+                {{ form_start(edit_form) }}
              
+              
+              
+              
+              
+                      </center>
         {{ form_widget(edit_form) }}
         <input type="submit" value="Edytuj" />
     {{ form_end(edit_form) }}
@@ -15,5 +26,8 @@
             {{ form_end(delete_form) }}
        
             <a href="{{ path('zawodnik_index') }}">Powrót do listy</a>
-       
+
+            
+                </div>
+        <div class="col-md-4" style="float:left"></div>
 {% endblock %}
