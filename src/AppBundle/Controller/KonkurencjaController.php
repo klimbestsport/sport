@@ -241,6 +241,7 @@ class KonkurencjaController extends Controller {
         if ($request->get('konkId')) {
             $find = $request->get('konkId');
             $session->set('konkurencjaId', $find);
+            
         }else{
            $find = $konkurencjaFullName; 
             
@@ -269,7 +270,19 @@ class KonkurencjaController extends Controller {
                 $whichView = $i + 1;
             }
         }
+        
+        
+        if ($request->get('newCompetitionId')){
+            
+        $find=$request->get('newCompetitionId');
+            
+            $queryFind = $em->createQuery(''
+                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $find . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
 
+        $rezultaties = $queryFind->getResult();
+           
+       
+        }
 
         return $this->render('rezultaty/raports.html.twig', array(
                     'rezultaty' => $rezultaties,
