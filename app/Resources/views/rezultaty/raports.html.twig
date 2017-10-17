@@ -13,7 +13,7 @@
                 {% if (konkurencje is defined and konkurencje) %}  
                     {#   <strong>Wybierz konkurencję: </strong>#}
                     <select onchange=" autoLoaderOneCompetition();" style="width:80%; text-align:center" id="wybierzKonkurencje" >  
-                        <option value="0"selected> </option>
+                        <option value="0"selected>{% if (konkId is defined and konkId!=1)  %}{{konkId}}   {% endif %} </option>
                         {% for konk in konkurencje %}
 
                             <option style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
