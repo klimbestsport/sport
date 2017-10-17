@@ -1,17 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div><h1>Zawodnicy</h1><form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('zawodnik_findResult_indexChoosez')}}" method="post">
+    <div><a style="float:right;" href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus fa-3x" aria-hidden="true"></i></a>
+        
+        <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('zawodnik_findResult_indexChoosez')}}" method="post">
 
             <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj zawodnika"/>
-
+            
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
             </button>
-        </form></div><div style="float:right"> <a href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus" aria-hidden="true">Dodaj nowego zawodnika</i></a></div>
+              
+        </form> </div>
         {% if (ile is defined and ile) %}
         Iość:{{ile}}
     {% endif%}
-    <table class="table">
+      <table class="table table-hover table-striped table-condensed">
         <thead>
             <tr>
                 <th>Imię</th>
@@ -19,7 +22,7 @@
                 <th>Rok urodzenia</th>
                 <th>Nr licencji</th>
                 <th>Klub</th>
-                <th>Akcje</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +34,7 @@
                     <td>{{ zawodnik2.rokU }}</td>
                     <td>{{ zawodnik2.nrLic }}</td>
                     <td>{{ zawodnik2.klub }}</td>
-                    <td>
+                    <td style="text-align:center;background:#e9e4d64d; border-left:1px solid #8787c2;">
                         <form style=" padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyView')}}" method="post">
                             <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
                             <input type="hidden" name="luckyId" id="luckyId" value="{{ zawodnik2.klub }}" />
@@ -40,7 +43,7 @@
                             <input type="hidden" name="luckyRokU" id="luckyRokU" value="{{ zawodnik2.rokU }}" />
                             <input type="hidden" name="luckyNrLic" id="luckyNrLic" value="{{ zawodnik2.nrLic }}" />
                             <input type="hidden" name="luckyKlub" id="luckyKlub" value="{{ zawodnik2.klub }}" />
-                            <button  type="submit"><i class="fa fa-plus" aria-hidden="true"></i>
+                            <button  type="submit"><i style="color:#204120" class="fa fa-user-o fa-2x" aria-hidden="true" value="Dodaj"></i><i style="color:#329932;;" class="fa fa-check " aria-hidden="true"></i> 
                             </button>
                         </form>
 

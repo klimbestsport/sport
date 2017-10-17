@@ -125,9 +125,14 @@ class KonkurencjaController extends Controller {
     private function getCompetitionNameAction() {
         $em = $this->getDoctrine()->getManager();
         $session = new Session();
-        $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
-        $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
+        if($konkurencjaId = $session->get('konkurencjaId')){
+            $konkurencjaId=1;
+        }else{
+            $konkurencjaId = $session->get('konkurencjaId');
+        }
+    
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
+        $konkurencjaFullName = $konkurencjaQuery->getNazwaP(); 
 
         return $konkurencjaFullName;
     }
@@ -191,7 +196,10 @@ class KonkurencjaController extends Controller {
         $session->get('konkurencjaId');
         $em = $this->getDoctrine()->getManager();
         $konkurencjaId = $session->get('konkurencjaId');
-        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
+            if(!$konkurencjaQuery){
+                $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+            }
         $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
         $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
         $konkurencja['id'] = $konkurencjaQuery->getId();
@@ -212,22 +220,30 @@ class KonkurencjaController extends Controller {
             $results['nazwaP'] = $konkurencja->getNazwaP();
 
             $konkurencje[] = $results;
-        }
-        $em = $this->getDoctrine()->getManager();
+        }    
+        $konkId = $session->get('konkurencjaId');
+        if(!$session->get('konkurencjaId')){     
+        $session->set('konkurencjaId', $konkId);}
+        
         if ($request->get('konkId')) {
             $konkId = $request->get('konkId');
-            $session->set('konkurencjaId', $konkId);
+            $session->set('konkurencjaId', $konkId); 
         } else {
-            $konkId = "fdvza";
+            $konkId = 1;
+            $session->set('konkurencjaId', $konkId); 
         }
         if ($konkId !== null) {
             //$session->set('konkurencjaId', $konkId);
             $session->get('konkurencjaId');
         }
+       
         $konkurencjaFullName = $this->getCompetitionNameAction();
-
         if ($request->get('konkId')) {
             $find = $request->get('konkId');
+            $session->set('konkurencjaId', $find);
+        }else{
+           $find = $konkurencjaFullName; 
+            
         }
 
 

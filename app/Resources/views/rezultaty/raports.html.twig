@@ -2,191 +2,202 @@
 
 {% block body %}
     <body onload="takeView()" >
-           <div><input type="hidden" id="whichView" value="{{whichView}}"/>
+         <div class="col-md-12"><input type="hidden" id="whichView" value="{{whichView}}"/>
 
-        <div class="col-md-2" style="float:left"> 
-                    <strong>Wybierz konkurencję: </strong></div>
-        <div class="col-md-3" style="float:left">
-            <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">
+            <div class="col-md-2" style="float:left"> 
+                <strong>Wybierz konkurencję: </strong></div>
+            <div class="col-md-3" style="float:left">
+                <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">
 
-                {% if (konkurencje is defined and konkurencje) %}  
-                 {#   <strong>Wybierz konkurencję: </strong>#}
-                 <select style="width:80%;" id="wybierzKonkurencje" >  
-                        <option selected>{{konkId}} </option>
-                        {% for konk in konkurencje %}
+                    {% if (konkurencje is defined and konkurencje) %}  
+                        {#   <strong>Wybierz konkurencję: </strong>#}
+                        <select style="width:80%; text-align:center" id="wybierzKonkurencje" >  
+                            <option selected>{{konkId}} </option>
+                            {% for konk in konkurencje %}
 
-                            <option value="{{konk.id}}">{{konk['nazwaP']}}</option>
+                                <option style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
 
-                        {% endfor %} 
-                    </select>  
-                    <div id="visibleButton" style="visibility: hidden; float:right;">
+                            {% endfor %} 
+                        </select>  
+                        <div id="visibleButton" style="visibility: hidden; float:right;">
 
 
-                        <button  type="submit"><i class="fa fa-search " aria-hidden="true"></i>
-                        </button>  {% if (konkId is defined and konkId) %}  
-                    <a id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:black;"class="fa fa-file-excel-o " aria-hidden="true"></i> </a><br>
+                            <button  type="submit"><i class="fa fa-search " aria-hidden="true"></i>
+                            </button>  </div>
 
-                {% endif %} </div>
+                    {% endif %} 
 
-                {% endif %} 
+                    <input type="hidden" id="konkId" name="konkId"/>
 
-                <input type="hidden" id="konkId" name="konkId"/>
-              
 
-            </form>  
-                
-                    <form style="padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
+                </form>  
+
+                <form style="padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
                     <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
                     <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                     </button>  
-                    <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
+                    <a href="{{ path('zawodnik_index') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
                 </form> 
 
             </div>  
-                    <div class="col-md-7" style="float:right"></div>
- <a style="float:right" href="{{ path('newResults') }}">+Nowy rezultat</a>
-           
-                </div> <div>
+            <div class="col-md-7" style="float:right"></div>
+            <div style="float:right">
 
-                <table class="sortable table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nr</th>
-                            <th id="name">Imię</th>
-                            <th id="surname">Nazwisko</th>
-                            <th id="byear">Rok urodzenia</th>
-                            <th id="licNumber">Nr licencji</th>
-                            <th id="club">Klub</th>
+                <a style="float:right" href="{{ path('newResults') }}"><i class="fa fa-user-o fa-3x" aria-hidden="true" value="Dodaj"></i><i class="fa fa-crosshairs fa-2x" aria-hidden="true">
+                    </i>
+                </a>
+                {% if (konkId is defined and konkId) %}  
+                    <a style="margin-right:10px;" id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:#412826e6;"class="fa fa-file-excel-o fa-3x " aria-hidden="true"></i> </a>
 
-                            <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
-                            <th id="x1" style="border-right:2px solid white">X </th>
-                            <th id="rifle" style="border-right:2px solid white">Karabin </th>
-                            <th id="s2result" >Seria II <br> Rezultat</th>
-                            <th id="x2" style="border-right:2px solid white">X</th>
-                            <th id="gun" style="border-right:2px solid white">Pistolet </th>
-
-                            <th id="time">Czas</th>      
-                            <th id="resultsSum">Suma rez</th>     
-                            <th id="xSum">Suma X</th>
-                            <th id="factor">Factor</th>
-                            <th id="comments">Uwagi</th>
-                            <th>Akcje</th>
-                        </tr>  </thead>
-                        {% for rez in rezultaty %}
-                        <tr>
-                            <td> {{ loop.index }}</td>
-                            <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                            <td id="tdsurname">{{ rez.nazwisko }}</td>
-                            <td id="tdbyear">{{ rez.rokU }}</td>
-                            <td id="tdlicNumber">{{ rez.nrLic }}</td>
-                            <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
-
-                            <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                            <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                            <td id="tdrife">{{ rez.karabin }}</td>
-                            <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                            <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                            <td id="tdgun">{{ rez.pistolet }}</td>
-
-                            <td id="tdtime">{{ rez.czas }}</td>
-                            <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                            <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                            <td id="tdfactor">{{ rez.factor2 }}</td>
-                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
-                            <td>
-
-                                <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
-
-                                <i class="fa fa-trash" aria-hidden="true">
-
-                                </i>
-
-                            </td>
-                        </tr>
-                    {% endfor %}
-
-                </table>
-
+                {% endif %}               
             </div>
-            <script>
-                function takeView() {
-                    var takeViewNr = document.getElementById("whichView").value;
 
-                    if (takeViewNr == 1) {
+        </div> <div>
 
-                        $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
-                        $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+            <table class="sortable table table-hover table-striped table-condensed">
 
-                    }
-                    if (takeViewNr == 2) {
+                <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th id="name">Imię</th>
+                        <th id="surname">Nazwisko</th>
+                        <th id="byear">Rok urodzenia</th>
+                        <th id="licNumber">Nr licencji</th>
+                        <th id="club">Klub</th>
 
-                        $("th").remove("#rifle,#gun,#time,#factor");
-                        $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+                        <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
+                        <th id="x1" style="border-right:2px solid white">X </th>
+                        <th id="rifle" style="border-right:2px solid white">Karabin </th>
+                        <th id="s2result" >Seria II <br> Rezultat</th>
+                        <th id="x2" style="border-right:2px solid white">X</th>
+                        <th id="gun" style="border-right:2px solid white">Pistolet </th>
 
-                    }
+                        <th id="time">Czas</th>      
+                        <th id="resultsSum">Suma rez</th>     
+                        <th id="xSum">Suma X</th>
+                        <th id="factor">Factor</th>
+                            {#                            <th id="comments">Uwagi</th>#}
+                        <th></th>
+                    </tr>  </thead>
+                    {% for rez in rezultaty %}
+                    <tr>
+                        <td> {{ loop.index }}</td>
+                        <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                        <td id="tdsurname">{{ rez.nazwisko }}</td>
+                        <td id="tdbyear">{{ rez.rokU }}</td>
+                        <td id="tdlicNumber">{{ rez.nrLic }}</td>
+                        <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
 
-                    if (takeViewNr == 3) {
+                        <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
+                        <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
+                        <td id="tdrife">{{ rez.karabin }}</td>
+                        <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
+                        <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
+                        <td id="tdgun">{{ rez.pistolet }}</td>
 
-                        $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
-                        $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+                        <td id="tdtime">{{ rez.czas }}</td>
+                        <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                        <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                        <td id="tdfactor">{{ rez.factor2 }}</td>
+                        {#                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>#}
+                        <td style="text-align:center;background:#e9e4d64d; border-left:2px solid #8787c2;">
 
-                    }
 
-                    if (takeViewNr == 4) {
+                            <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i style="color:#622925e6" class="fa fa-pencil fa-fw fa-2x"></i></a>
 
-                        $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
-                        $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+                            <i class="fa fa-trash fa-2x" aria-hidden="true">
 
-                    }
+                            </i>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+        <script>
+
+
+
+            function takeView() {
+                var takeViewNr = document.getElementById("whichView").value;
+
+                if (takeViewNr == 1) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                    $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+
+                }
+                if (takeViewNr == 2) {
+
+                    $("th").remove("#rifle,#gun,#time,#factor");
+                    $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+
                 }
 
-                function tdNr() {
+                if (takeViewNr == 3) {
 
-                    var tables = document.getElementsByTagName('tbody');
-                    var table = tables[tables.length - 1];
-                    var rows = table.rows;
-
-                    for (var i = 0, td; i < rows.length; i++) {
-                        td = document.createElement('td');
-
-                        td.appendChild(document.createTextNode(i + 1));
-
-                        rows[i].insertBefore(td, rows[i].firstChild);
-                    }
+                    $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                    $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
 
                 }
 
-            </script>
-            <style>
-                table.sortable thead {
-                    color: #622925e6;
-                    font-weight: bold;
-                    cursor: default;
-                }
-                h1{
-                    font-size: 2.5rem;
-                    padding-bottom: 30px;
-                }
-                a{
-                    color: #622925e6;
+                if (takeViewNr == 4) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                    $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
 
                 }
-                a:hover{
-                    text-decoration:none;
-                }
-                thead{
-                    background:silver;
-                }
-                tbody{
+            }
 
-                    background:#f0eded;
-                }
-                td{
-                    border-bottom: 0.7px solid white;
+            function tdNr() {
+
+                var tables = document.getElementsByTagName('tbody');
+                var table = tables[tables.length - 1];
+                var rows = table.rows;
+
+                for (var i = 0, td; i < rows.length; i++) {
+                    td = document.createElement('td');
+
+                    td.appendChild(document.createTextNode(i + 1));
+
+                    rows[i].insertBefore(td, rows[i].firstChild);
                 }
 
-            </style>
-        </body>
-        {% endblock %}
+            }
+
+        </script>
+        <style>
+            table.sortable thead {
+                color: #622925e6;
+                font-weight: bold;
+                cursor: default;
+            }
+            h1{
+                font-size: 2.5rem;
+                padding-bottom: 30px;
+            }
+            a{
+                color: #622925e6;
+
+            }
+            a:hover{
+                text-decoration:none;
+            }
+            thead{
+                background:silver;
+            }
+            tbody{
+
+                background:#f0eded;
+            }
+            td{
+                border-bottom: 0.7px solid white;
+            }
+
+        </style>
+    </body>
+{% endblock %}

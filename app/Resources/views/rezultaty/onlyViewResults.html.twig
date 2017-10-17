@@ -39,7 +39,7 @@
                             <th id="xSum">Suma X</th>
                             <th id="factor">Factor</th>
                             <th id="comments">Uwagi</th>
-                            <th>Akcje</th>
+                        
                         </tr>  </thead>
                         {% for rez in rezultaty %}
                         <tr>
@@ -62,15 +62,7 @@
                             <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
                             <td id="tdfactor">{{ rez.factor2 }}</td>
                             <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
-                            <td>
-
-                                <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i class="fa fa-search" aria-hidden="true"></i></a>
-
-                                <i class="fa fa-trash" aria-hidden="true">
-
-                                </i>
-
-                            </td>
+                          
                         </tr>
                     {% endfor %}
 

@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
+{% block body %} 
+    <a href="{{ path('zawodnik_index') }}"><i class="fa fa-long-arrow-left fa-fw  fa-4x"></i> </a>
     <div class="container" onclick="sendNrLic()" >
 
         <div class="col-md-4" style="float:left"></div>
@@ -25,9 +26,9 @@
                 <input type="submit" value="Usuń">
             {{ form_end(delete_form) }}
        
-            <a href="{{ path('zawodnik_index') }}">Powrót do listy</a>
+           
 
             
                 </div>
-        <div class="col-md-4" style="float:left"></div>
+            <div class="col-md-4" style="float:left"></div></div>
 {% endblock %}

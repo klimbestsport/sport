@@ -47,6 +47,9 @@ class ZawodnikController extends Controller {
         $session = new Session();
         $konkurencjaId = $session->get('konkurencjaId');
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        if(!$konkurencjaQuery){
+            $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
+        }
         $konkurencja['nazwaS'] = $konkurencjaQuery->getNazwaS();
         $konkurencja['nazwaP'] = $konkurencjaQuery->getNazwaP();
         $konkurencja['id'] = $konkurencjaQuery->getId();
@@ -62,12 +65,12 @@ class ZawodnikController extends Controller {
 //                return $this->redirectToRoute('zawodnik_new', array('id' => $findById, 'rezultaties'=>$rezultaties));
 //            }
         $konkurencjaFullName =  $konkurencjaQuery->getNazwaP();
-        return $this->render('zawodnik/indexChoose.html.twig', array(
+        return $this->render(' <p>.html.twig', array(
                     'zawodnik' => $zawodnicy,
                     'form' => $form->createView(),
         ));
 
-        //return $this->render('zawodnik/indexChoose.html.twig', array('zawodnik' => $rezultaties));
+        //return $this->render(' <p>.html.twig', array('zawodnik' => $rezultaties));
     }
 
 // public function indexChooseZAction(Request $request) {
@@ -195,13 +198,13 @@ class ZawodnikController extends Controller {
 
                     $ile += 1;
                 }
-                return $this->render('zawodnik/indexChoose.html.twig', array(
+                return $this->render('zawodnik/index.html.twig', array(
                             'zawodnik' => $res,
                             'ile' => $ile,
                 ));
             } $res = array();
 
-            return $this->render('zawodnik/indexChoose.html.twig', array(
+            return $this->render('zawodnik/index.html.twig', array(
                         'zawodnik' => $res,
             ));
         } else {
@@ -246,19 +249,19 @@ class ZawodnikController extends Controller {
             }
             if (isset($res)) {
 
-                return $this->render('zawodnik/indexChoose.html.twig', array(
+                return $this->render(' <p>.html.twig', array(
                             'zawodnik' => $res,
                 ));
             } $res = array();
 
-            return $this->render('zawodnik/indexChoose.html.twig', array(
+            return $this->render(' <p>.html.twig', array(
                         'zawodnik' => $res,
             ));
         } else {
 
             $res = array();
 
-            return $this->render('zawodnik/indexChoose.html.twig', array(
+            return $this->render(' <p>.html.twig', array(
                         'zawodnik' => $res,
             ));
         }

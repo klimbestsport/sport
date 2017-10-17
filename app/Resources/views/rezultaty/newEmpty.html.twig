@@ -2,7 +2,7 @@
 
 {% block body %}
     <body onload="takeView()">
-<input type="text" id="whichView" value="{{whichView}}"/>
+<input type="hidden" id="whichView" value="{{whichView}}"/>
     <div onclick="sendNrLic()" id="container">
         <div class="col-md-2" style="float:left"></div>
         <div class="col-md-8" style="float:left">
@@ -28,8 +28,7 @@
                      </form> <a href="{{ path('rezultaty_index') }}">Wyświetl listę rezultatów</a>#}
                     {% if (luckyImie is defined and luckyImie) %}<br>
 
-                     <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}} </p>
-                        <p style="font-size: 16px;"> <strong>Klub: </strong>{{luckyKlub}}</p>
+                     <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}}  <strong>Klub: </strong>{{luckyKlub}}</p>
 
                         <input type="hidden" id="imieD" name="imieD" value="{{luckyImie}}"/>
                         <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{luckyNazwisko}}"/>
@@ -75,9 +74,15 @@
 
                     </table>
 
-                    <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
+                    <input class="submitRed" type="submit" style="float:right" value="Dodaj" />
                     <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
-                        {{ form_end(form) }}
+                        
+                      <div style="visibility:hidden">
+                       
+                        {{ form_widget(form.pistolet) }} 
+                        {{ form_widget(form.karabin) }} 
+                    </div>
+                    {{ form_end(form) }}
 
                 </div>   
 
@@ -164,7 +169,7 @@
         </script>
 
         <style>
-
+           
             table, th, td, tr{ 
                 text-align:center;}
             th{

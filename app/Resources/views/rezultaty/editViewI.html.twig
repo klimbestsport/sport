@@ -11,9 +11,8 @@
                     <div>
                         {% if (rezultaty is defined and rezultaty) %}<br>
 
-                            <p style="font-size: 25px;">{{rezultaty.imie}} {{rezultaty.nazwisko}} {{rezultaty.rokU}} nrLic:{{rezultaty.nrLic}}<br></p>
-                            <p style="font-size: 16px;"> <strong>Klub: </strong>{{rezultaty.klub}}</p>
-
+                            <p>{{rezultaty.imie}} {{rezultaty.nazwisko}} {{rezultaty.rokU}} nrLic:{{rezultaty.nrLic}}
+                           <strong>Klub: </strong>{{rezultaty.klub}}</p>
                             <input type="hidden" id="imieD" name="imieD" value="{{rezultaty.imie}}"/>
                             <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{rezultaty.nazwisko}}"/>
                             <input type="hidden" id="nrLicD" name="nrLicD" value="{{rezultaty.nrLic}}"/>
@@ -53,8 +52,8 @@
                        </form> #}
                     {% if (resById is defined and resById) %}<br>
 
-                        <p style="font-size: 25px;">{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}<br></p>
-                        <p style="font-size: 16px;"> <strong>Klub: </strong>{{resById.klub}}</p>
+                        <p>{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}
+                       <strong>Klub: </strong>{{resById.klub}}</p>
 
                         <input type="hidden" id="imieD" name="imieD" value="{{resById.imie}}"/>
                         <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{resById.nazwisko}}"/>

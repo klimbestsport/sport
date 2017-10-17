@@ -1,19 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div><h1>Zawodnicy</h1><form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('zawodnik_findResult')}}" method="post">
+    
+     <div class="col-md-12">
+    <div><a style="float:right; margin-left:10px" href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus fa-3x" aria-hidden="true"></i></a>
+        
+        
+        <form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('zawodnik_findResult')}}" method="post">
 
             <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj zawodnika"/>
 
             <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
             </button>
-                    <a href="{{ path('zawodnik_new') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
-        </form></div>     
+                    
+               
+               
+        </form>
+     
+    </div> 
+                 
             
  {% if (ile is defined and ile) %}
        Iość:{{ile}}
       {% endif%}
-        <table class="table">
+       <table class="table table-hover table-striped table-condensed">
+      
             <thead>
                 <tr>
                     <th>Imię</th>
@@ -21,7 +32,7 @@
                     <th>Rok urodzenia</th>
                     <th>Nr licencji</th>
                     <th>Klub</th>
-                    <th>Akcje</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -33,9 +44,23 @@
                         <td>{{ zawodnik2.rokU }}</td>
                         <td>{{ zawodnik2.nrLic }}</td>
                         <td>{{ zawodnik2.klub }}</td>
-                        <td>
-                            <a href="{{ path('zawodnik_edit', { 'id': zawodnik2.id }) }}">Edytuj</a>
+                      <td style="text-align:center;background:#e9e4d64d; border-left:1px solid #8787c2;">
+                               
+                       <form id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_newEmptyView')}}" method="post">
+                            <input type="hidden" id="findById" name="findById" value="{{ zawodnik2.id }}"/>
+                            <input type="hidden" name="luckyId" id="luckyId" value="{{ zawodnik2.klub }}" />
+                            <input type="hidden" name="luckyImie" id="luckyImie" value="{{ zawodnik2.imie }}" />
+                            <input type="hidden" name="luckyNazwisko" id="luckyNazwisko" value="{{ zawodnik2.nazwisko }}" />
+                            <input type="hidden" name="luckyRokU" id="luckyRokU" value="{{ zawodnik2.rokU }}" />
+                            <input type="hidden" name="luckyNrLic" id="luckyNrLic" value="{{ zawodnik2.nrLic }}" />
+                            <input type="hidden" name="luckyKlub" id="luckyKlub" value="{{ zawodnik2.klub }}" />
+                            <button type="submit"><i style="color:#204120" class="fa fa-user-o fa-2x" aria-hidden="true" value="Dodaj"></i><i style="color:#329932;;" class="fa fa-check " aria-hidden="true"></i> 
+                            </button>
+                        </form>
 
+                          
+                     <a href="{{ path('zawodnik_edit', { 'id': zawodnik2.id }) }}"><button  type="submit"><i style="color:#622925e6" class="fa fa-pencil fa-fw fa-2x"></i>      </button></a>
+                        
                         </td>
                     </tr>
                 {% endfor %}
@@ -44,7 +69,7 @@
 
 
 
-        <div>
+     </div>
             <style>
 
                 h1{
@@ -60,13 +85,16 @@
                 }
                 thead{
                     background:silver;
+                    text-align:center;
                 }
                 tbody{
 
                     background:#f0eded;
+                    text-align:center;
                 }
                 td{
                     border-bottom: 0.7px solid white;
+                    text-align:center;
                 }
             </style>
         {% endblock %}

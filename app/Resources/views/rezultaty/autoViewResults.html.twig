@@ -13,11 +13,11 @@
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
 
             <div style="float:right" >
-                {% if (actualResult>5 and (ilosc-1)>(actualResult+5))  %}  
+                {% if (actualResult and (ilosc-1)>=(actualResult+5))  %}  
                     {{actualResult+5 }} wyników z <strong>{{ilosc-1}}</strong>
-                {%elseif (actualResult>5) %}
+                {%elseif (actualResult<5) %}
                     {{ilosc-1}} wyników z <strong>{{ilosc-1}}</strong>
-             
+               
                 {%endif%}
                 <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                 <span class="sr-only">Loading...</span></div>
@@ -101,7 +101,7 @@
         background:silver;
     }
     table{
-        font-size:small;
+        font-size:middle;
     }
     tbody{
 

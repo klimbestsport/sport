@@ -26,13 +26,11 @@
                     <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </form> 
-                <a href="{{ path('rezultaty_raports') }}"><i class="fa" aria-hidden="true">Wyświetl rezultaty</i></a>  {% if (konkurencja is defined and konkurencja) %} 
-           <br/><a href="{{ path('rez_konkurencja_excel', {'id':konkurencja.id }) }}"><i class="fa" aria-hidden="true"> Export listy do Excela </i></a><br>{% endif %} 
+
                 {% if (resById is defined and resById) %}<br>
 
-                    <p style="font-size: 25px;">{{resById.imie}} {{resById.nazwisko}} {{resById.rokU}} nrLic:{{resById.nrLic}}</p>
-                    <p style="font-size: 16px;"> <strong>Klub: </strong>{{resById.klub}}</p>
- 
+                    <p style="font-size: 20px;">{{rezultaty.imie}} {{rezultaty.nazwisko}} {{rezultaty.rokU}} nrLic:{{rezultaty.nrLic}}
+                           <strong>Klub: </strong>{{rezultaty.klub}}</p>
                     <input type="hidden" id="imieD" name="imieD" value="{{resById.imie}}"/>
                     <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{resById.nazwisko}}"/>
                     <input type="hidden" id="nrLicD" name="nrLicD" value="{{resById.nrLic}}"/>
@@ -67,7 +65,7 @@
                     </div>
              
             {% else%}
-             <a href="{{ path('zawodnik_index_chooseZ') }}"><i class="fa fa-user-plus" aria-hidden="true"> Dodaj zawodnika do konkurencji </i></a>
+        
              {% endif%}
              
              
