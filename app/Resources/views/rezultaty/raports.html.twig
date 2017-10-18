@@ -5,15 +5,15 @@
         <div id="raports">
             <input type="hidden" id="whichView" value="{{whichView}}"/>
 
-            <div class="col-md-2" style="float:left"> 
+            <div class="col-md-3" style="float:left"> 
                 <strong>Wybierz konkurencję: </strong></div>
-            <div class="col-md-3" style="float:left">
+            <div class="col-md-5" style="float:left;">
                 {#                <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">#}
 
                 {% if (konkurencje is defined and konkurencje) %}  
                     {#   <strong>Wybierz konkurencję: </strong>#}
-                    <select onchange=" autoLoaderOneCompetition();" style="width:80%; text-align:center" id="wybierzKonkurencje" >  
-                        <option value="0"selected>{% if (konkId is defined and konkId!=1)  %}{{konkId}}   {% endif %} </option>
+                    <select onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
+                        <option value="0"selected>{% if (konkId is defined and konkId!=1)  %} {{konkId}}   {% elseif  (firstCompetition is defined and firstCompetition)%} {{firstCompetition}} {% endif %} </option>
                         {% for konk in konkurencje %}
 
                             <option style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
@@ -23,7 +23,7 @@
                     <div id="visibleButton" style="visibility: hidden; float:right;">
 
 
-                        <button  type="submit"><i class="fa fa-search " aria-hidden="true"></i>
+                        <button  style="float:left"type="submit"><i class="fa fa-search " aria-hidden="true"></i>
                         </button>  </div>
 
                 {% endif %} 
@@ -35,27 +35,24 @@
 
                 <form style="padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
 
-                    <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
+                    <input style="width:65%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
 
-                    <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
+                    <button style="margin: 0px 5px 0px;"type="submit"><i class="fa fa-search" aria-hidden="true"></i>
                     </button>  
-                    <a href="{{ path('zawodnik_index') }}"><i class="fa fa-user-plus" aria-hidden="true"></i></a>
+
+                    <a style="margin: 0px 0px 0px;" href="{{ path('zawodnik_index') }}"><i class="fa fa-user-o fa-2x" aria-hidden="true" value="Dodaj"><i class="fa fa-crosshairs fa-1x" aria-hidden="true"></i>
+                        </i>
+                    </a>
                 </form> 
 
             </div>  
-            <div class="col-md-7" style="float:right"></div>
-            <div style="float:right">
-
-                <a style="float:right" href="{{ path('newResults') }}"><i class="fa fa-user-o fa-3x" aria-hidden="true" value="Dodaj"></i><i class="fa fa-crosshairs fa-2x" aria-hidden="true">
-                    </i>
-                </a>
-                {% if (konkId is defined and konkId) %}  
+            <div class="col-md-2" style="float:right"> {% if (konkId is defined and konkId) %}  
                     <a style="margin-right:10px;" id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:#412826e6;"class="fa fa-file-excel-o fa-3x " aria-hidden="true"></i> </a>
 
-                {% endif %}               
-            </div>
+                {% endif %}   </div>
+            <div style="clear:both"><div>
 
-         
+
 
             <table class="sortable table table-hover table-striped table-condensed">
 
@@ -108,9 +105,17 @@
 
                             <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i style="color:#622925e6" class="fa fa-pencil fa-fw fa-2x"></i></a>
 
-                            <i class="fa fa-trash fa-2x" aria-hidden="true">
+                            {%  if(konkId is defined and konkId!=1) %}
+                                <form name="form" method="post" action="/crud/rezultaty/{{rez.id}}/delete"><input type="hidden" name="_method" value="DELETE" />
+                                    <button type="submit"><i class="fa fa-trash fa-2x" aria-hidden="true"></i> </button>
+                                    <input type="hidden" id="form__token" name="form[_token]" value="_YXYDrmIOd6suLfHQNxeaA_g5Hp4qz21ykgN6OAF8GE" />
+                                </form>
 
-                            </i>
+                            {% endif %}
+
+                           
+
+
 
                         </td>
                     </tr>
@@ -124,68 +129,68 @@
 
 
             function takeView() {
-            var takeViewNr = document.getElementById("whichView").value;
-            if (takeViewNr == 1) {
+                var takeViewNr = document.getElementById("whichView").value;
+                if (takeViewNr == 1) {
 
-            $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
-            $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
-            }
-            if (takeViewNr == 2) {
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                    $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+                }
+                if (takeViewNr == 2) {
 
-            $("th").remove("#rifle,#gun,#time,#factor");
-            $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
-            }
+                    $("th").remove("#rifle,#gun,#time,#factor");
+                    $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+                }
 
-            if (takeViewNr == 3) {
+                if (takeViewNr == 3) {
 
-            $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
-            $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
-            }
+                    $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                    $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+                }
 
-            if (takeViewNr == 4) {
+                if (takeViewNr == 4) {
 
-            $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
-            $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
-            }
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                    $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+                }
             }
 
             function tdNr() {
 
-            var tables = document.getElementsByTagName('tbody');
-            var table = tables[tables.length - 1];
-            var rows = table.rows;
-            for (var i = 0, td; i < rows.length; i++) {
-            td = document.createElement('td');
-            td.appendChild(document.createTextNode(i + 1));
-            rows[i].insertBefore(td, rows[i].firstChild);
-            }
+                var tables = document.getElementsByTagName('tbody');
+                var table = tables[tables.length - 1];
+                var rows = table.rows;
+                for (var i = 0, td; i < rows.length; i++) {
+                    td = document.createElement('td');
+                    td.appendChild(document.createTextNode(i + 1));
+                    rows[i].insertBefore(td, rows[i].firstChild);
+                }
 
             }
 
             function autoLoaderOneCompetition() {
-            var t=0;
-            t = $("#wybierzKonkurencje :selected").text();
-            
-            if (t == 0) {
+                var t = 0;
+                t = $("#wybierzKonkurencje :selected").text();
 
-            } else {
-            document.getElementById('konkId').value = t;
-            document.getElementById("link").getAttribute("href").value = t;
-            }
-            $.post('{{path('takeOneKonk')}}',
-            {konkId:t},
-                   function (json) {
+                if (t == 0) {
 
-{#                    alert('ok');#}
-         $('#menu').empty()
-                    $('#raports').empty()
-                    $("<span>" + json + "</span>")
-                             .appendTo('#raports')
-                             .append("<hr>")
-                 }
-         );
-     }
-            
+                } else {
+                    document.getElementById('konkId').value = t;
+                    document.getElementById("link").getAttribute("href").value = t;
+                }
+                $.post('{{path('takeOneKonk')}}',
+                        {konkId: t},
+                        function (json) {
+
+            {#                    alert('ok');#}
+                                $('#menu').remove()
+                                $('#raports').empty()
+                                $("<span>" + json + "</span>")
+                                        .appendTo('#raports')
+                                        .append("<hr>")
+                            }
+                    );
+                }
+
 
 
 

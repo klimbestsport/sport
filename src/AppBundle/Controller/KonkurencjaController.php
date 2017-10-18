@@ -19,6 +19,17 @@ class KonkurencjaController extends Controller {
      * Lists all konkurencja entities.
      *
      */
+    
+     private function getFirstCompetitionNameAction() {
+     $em = $this->getDoctrine()->getManager();
+     $firstCompetition = $em->getRepository('AppBundle:Konkurencja')->findOneById(1);
+     $firstCompetitionName=$firstCompetition->getNazwaP();
+     
+     return $firstCompetitionName;
+    
+ }
+ 
+ 
     public function indexAction(Request $request) {
 
 
@@ -221,6 +232,8 @@ class KonkurencjaController extends Controller {
 
             $konkurencje[] = $results;
         }    
+        
+        $firstCompetition = $this->getFirstCompetitionNameAction();
         $konkId = $session->get('konkurencjaId');
         if(!$session->get('konkurencjaId')){     
         $session->set('konkurencjaId', $konkId);}
@@ -288,6 +301,7 @@ class KonkurencjaController extends Controller {
                     'rezultaty' => $rezultaties,
                     'whichView' => $whichView,
                     'competitionName' => $find,
+                    'firstCompetition'=>$firstCompetition,
                     'konkId' => $konkId,
                     'konkurencje' => $konkurencje,
         ));

@@ -5,7 +5,7 @@
 <input type="hidden" id="whichView" value="{{whichView}}"/>
     <div onclick="sendNrLic()" id="container">
         <div class="col-md-2" style="float:left"></div>
-        <div class="col-md-8" style="float:left">
+        <div class="col-12" style="float:left">
 
             {% if (konkurencja is defined and konkurencja) %} 
                 <h1> {{konkurencja.nazwaP}} </h1>{% endif %} 
@@ -50,14 +50,14 @@
                         <tr>
                             <td>SERIA I<br>karabin</td>
                             <td onchange="sumaRez()"> {{ form_widget(form.rezultatS1) }}</td>
-                            <td onchange="sumaX()">{{ form_widget(form.xS1) }}</td> 
+                            <td onclick="sumaX()" onchange="sumaX()">{{ form_widget(form.xS1) }}</td> 
                             <td onchange="factor()">{{ form_widget(form.czas) }}</td>
                             <td>{{ form_widget(form.uwagiS1) }}</td>
                         </tr>
                         <tr>
                             <td>SERIA II<br>pistolet</td>   
                             <td onchange="sumaRez()"> {{ form_widget(form.rezultatS2) }}</td>
-                            <td onchange="sumaX()">{{ form_widget(form.xS2) }}</td> 
+                            <td onclick="sumaX()" onchange="sumaX()">{{ form_widget(form.xS2) }}</td> 
                             <td></td>
                             <td>{{ form_widget(form.uwagiS2) }}</td>  
                         </tr>
