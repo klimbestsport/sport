@@ -9,143 +9,145 @@
 </head>
 {% block body %}
     <body onload="takeView()">
-            <input type="hidden" id="whichView" value="{{whichView}}"/>
-    <div>{% if (konkurencja is defined and konkurencja) %} 
-        <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
+        <input type="hidden" id="whichView" value="{{whichView}}"/>
+        <div>{% if (konkurencja is defined and konkurencja) %} 
+            <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
 
 
-    </div>
-    <div>
+        </div>
+        <div>
 
-          <table class="sortable table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nr</th>
-                            <th id="name">Imię</th>
-                            <th id="surname">Nazwisko</th>
-                            <th id="byear">Rok urodzenia</th>
-                            <th id="licNumber">Nr licencji</th>
-                            <th id="club">Klub</th>
+            <table class="sortable table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th id="name">Imię</th>
+                        <th id="surname">Nazwisko</th>
+                        <th id="byear">Rok urodzenia</th>
+                        <th id="licNumber">Nr licencji</th>
+                        <th id="club">Klub</th>
 
-                            <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
-                            <th id="x1" style="border-right:2px solid white">X </th>
-                            <th id="rifle" style="border-right:2px solid white">Karabin </th>
-                            <th id="s2result" >Seria II <br> Rezultat</th>
-                            <th id="x2" style="border-right:2px solid white">X</th>
-                            <th id="gun" style="border-right:2px solid white">Pistolet </th>
+                        <th style="border-left:0.5px solid #71251f" id="s1result" >Seria I <br>Rezultat</th>
+                        <th id="rifle" >Karabin </th>  <th id="x1" style="border-right:2px solid #71251f">X </th>
 
-                            <th id="time">Czas</th>      
-                            <th id="resultsSum">Suma rez</th>     
-                            <th id="xSum">Suma X</th>
-                            <th id="factor">Factor</th>
-                            <th id="comments">Uwagi</th>
-                        
-                        </tr>  </thead>
-                        {% for rez in rezultaty %}
-                        <tr>
-                            <td> {{ loop.index }}</td>
-                            <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                            <td id="tdsurname">{{ rez.nazwisko }}</td>
-                            <td id="tdbyear">{{ rez.rokU }}</td>
-                            <td id="tdlicNumber">{{ rez.nrLic }}</td>
-                            <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
+                        <th id="s2result" >Seria II <br> Rezultat</th>
+                        <th id="gun" >Pistolet </th><th id="x2" style="border-right:2px solid #71251f">X</th>
 
-                            <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                            <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                            <td id="tdrife">{{ rez.karabin }}</td>
-                            <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                            <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                            <td id="tdgun">{{ rez.pistolet }}</td>
 
-                            <td id="tdtime">{{ rez.czas }}</td>
-                            <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                            <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                            <td id="tdfactor">{{ rez.factor2 }}</td>
-                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
-                          
-                        </tr>
-                    {% endfor %}
+                        <th id="time">Czas</th> 
+                        <th id="factor">Factor</th>
+                        <th id="resultsSum">Suma rez</th>     
+                        <th id="xSum">Suma X</th>
 
-                </table>
+                        <th id="comments">Uwagi</th>
 
-    </div>
-    <style>
-        table.sortable thead {
-            color: #622925e6;
-            font-weight: bold;
-            cursor: default;
-        }
-        h1{
-            font-size: 2.5rem;
-            padding-bottom: 30px;
-        }
-        a{
-            color: #622925e6;
+                    </tr>  </thead>
+                    {% for rez in rezultaty %}
+                    <tr>
+                        <td> {{ loop.index }}</td>
+                        <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                        <td id="tdsurname">{{ rez.nazwisko }}</td>
+                        <td id="tdbyear">{{ rez.rokU }}</td>
+                        <td id="tdlicNumber">{{ rez.nrLic }}</td>
+                        <td id="tdclub" style="border-right:0.5px solid #71251f;">{{ rez.klub }}</td>
 
-        }
-        a:hover{
-            text-decoration:none;
-        }
-        thead{
-            background:silver;
-        }
-        tbody{
+                        <td id="tds1result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS1 }}</td>
+                        <td id="tdrife" style="border-right:0.5px solid #71251f">{{ rez.karabin }}</td><td id="tdx1" style="border-right:2px solid #71251f">{{ rez.xS1 }}</td>
 
-            background:#f0eded;
-        }
-        td{
-            border-bottom: 0.7px solid white;
-        }
-    </style>
-    
-    <script>
-        
-         function takeView() {
-                    var takeViewNr = document.getElementById("whichView").value;
+                        <td id="tds2result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS2 }}</td>
+                        <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
 
-                    if (takeViewNr == 1) {
-                        
-                        $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
-                        $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
 
-                    }
-                    if (takeViewNr == 2) {
+                        <td id="tdtime">{{ rez.czas }}</td>
+                        <td id="tdfactor">{{ rez.factor2 }}</td>
+                        <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                        <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
 
-                        $("th").remove("#rifle,#gun,#time,#factor");
-                        $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
-                        
-                    }
+                        <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
 
-                    if (takeViewNr == 3) {
-                        
-                        $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
-                        $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
-                  
-                    }
+                    </tr>
+                {% endfor %}
 
-                    if (takeViewNr == 4) {
+            </table>
 
-                        $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
-                        $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
-                 
-                    }
+        </div>
+        <style>
+            table.sortable thead {
+                color: #622925;
+                font-weight: bold;
+                cursor: default;
+            }
+            h1{
+                font-size: 2.5rem;
+                padding-bottom: 30px;
+            }
+            a{
+                color: #622925;
+
+            }
+            a:hover{
+                text-decoration:none;
+            }
+            thead{
+                background:silver;
+            }
+            tbody{
+
+                background:#f0eded;
+            }
+            td{
+                border-bottom: 0.7px solid white;
+            }
+        </style>
+
+        <script>
+
+            function takeView() {
+                var takeViewNr = document.getElementById("whichView").value;
+
+                if (takeViewNr == 1) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                    $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+
                 }
-                
-        function tdNr(){
-      
-    var tables = document.getElementsByTagName('tbody');
-    var table = tables[tables.length -1];
-    var rows = table.rows;
-        
-    for(var i = 0, td; i < rows.length; i++){
-         td = document.createElement('td');
-       
-                     td.appendChild(document.createTextNode(i+1 ));
-                 
-        rows[i].insertBefore(td, rows[i].firstChild);
-                        }
-                        
-    } 
+                if (takeViewNr == 2) {
+
+                    $("th").remove("#rifle,#gun,#time,#factor");
+                    $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+
+                }
+
+                if (takeViewNr == 3) {
+
+                    $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                    $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+
+                }
+
+                if (takeViewNr == 4) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                    $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+
+                }
+            }
+
+            function tdNr() {
+
+                var tables = document.getElementsByTagName('tbody');
+                var table = tables[tables.length - 1];
+                var rows = table.rows;
+
+                for (var i = 0, td; i < rows.length; i++) {
+                    td = document.createElement('td');
+
+                    td.appendChild(document.createTextNode(i + 1));
+
+                    rows[i].insertBefore(td, rows[i].firstChild);
+                }
+
+            }
         </script>
     </body>
 {% endblock %}

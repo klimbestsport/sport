@@ -14,141 +14,156 @@
 
             <div style="float:right" >
                 {% if (actualResult and (ilosc-1)>=(actualResult+5))  %}  
-                    Wyniki: {{actualResult+5 }}/<strong>{{ilosc-1}}</strong>
+                    <span> Rezultat: {{(actualResult+5)/5 }} -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+
                 {%elseif (actualResult<5) %}
-                    Wyniki: {{ilosc-1}}/<strong>{{ilosc-1}}</strong>
-               {% elseif (actualResult and (ilosc-1)>=(actualResult+5))  %}  
+                    <span> Rezultat: 1 -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+
+
+                {% elseif (actualResult and (ilosc-1)>=(actualResult+5))  %}  
                 {%endif%}
-                <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">Loading...</span></div>
 
 
-            <h1 style="border-bottom: 0.4px solid red; padding-bottom:20px;"> {{konkurencja}}</h1>{% endif %}
-            <div class="table-responsive">
-                <table class="table table-striped" id='tabliczka'>
-                    <thead>
-                        <tr>
+            <h1 style="margin-bottom:5px;"> {{konkurencja}}
+            </h1>   <strong style="font-size:20px;"><br>Nieoficjane zestawienie rezultatów </strong>
 
-                            <th style="width:3%">Nr</th>
-                                {#<th id="thnr">Nr</th>#}
-                            <th style="width:10%">Imię</th>
-                            <th style="width:10%">Nazwisko</th>
-
-                            <th style="width:7%">Nr licencji</th>
-                            <th style="width:10%">Klub</th>
-
-                            <th style="border-left:2px solid white">Seria I <br>Rezultat</th>
-                            <th style="border-right:2px solid white">X </th>
-                            <th>Seria II <br> Rezultat</th>
-                            <th style="border-right:2px solid white">X</th>
-                            <th>Czas</th>
-                            <th>Factor</th>
-                            <th>Suma rez</th>     
-                            <th>Suma X</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>  {# {% if (actualResult-5>=5)  %}  #}
-
-
-                        {#
-                        {{actualResult+5 }} 
-                            wyników z <strong>{{ilosc}}</strong>{% else %}{{actualResult==0}}% endif %}  {#}
-                        {% for rez in rezultaty %}
+            {% endif %}
+                <div class="table-responsive">
+                    <table class="table table-striped" id='tabliczka'>
+                        <thead>
                             <tr>
-                                <td> {{ loop.index+actualResult }}</td>
-                                <td><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
-                                <td>{{ rez.nazwisko }}</td>
 
-                                <td>{{ rez.nrLic }}</td>
-                                <td style="border-right:2px solid white">{{ rez.klub }}</td>
+                                <th style="width:3%">Nr</th>
+                                    {#<th id="thnr">Nr</th>#}
+                                <th style="width:10%">Imię</th>
+                                <th style="width:10%">Nazwisko</th>
+
+                                <th style="width:7%">Nr licencji</th>
+                                <th style="width:10%">Klub</th>
+
+                                <th style="border-left:0.5px solid #71251f" id="s1result" >Seria I <br>Rezultat</th>
+                                <th id="rifle" >Karabin </th>  <th id="x1" style="border-right:2px solid #71251f">X </th>
+
+                                <th id="s2result" >Seria II <br> Rezultat</th>
+                                <th id="gun" >Pistolet </th><th id="x2" style="border-right:2px solid #71251f">X</th>
 
 
-                                <td style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                                <td style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                                <td style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                                <td style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                                <td>{{ rez.czas }}</td>
-                                <td>{{ rez.factor2 }}</td>
-                                <td style="background:#c3a5a5">{{ rez.sumaRez }}</td>
-                                <td style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                                <th id="time">Czas</th>    
+                                 <th id="factor">Factor</th>
+                                <th id="resultsSum">Suma rez</th>     
+                                <th id="xSum">Suma X</th>
+                               
+                                <th id="comments">Uwagi</th>
+
+                            </tr>  </thead>
+                            {% for rez in rezultaty %}
+                            <tr>
+                                  <td> {{ loop.index+actualResult }}</td>
+                                <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                                <td id="tdsurname">{{ rez.nazwisko }}</td>
+
+                                <td id="tdlicNumber">{{ rez.nrLic }}</td>
+                                <td id="tdclub" style="border-right:0.5px solid #71251f;">{{ rez.klub }}</td>
+
+                                <td id="tds1result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS1 }}</td>
+                                <td id="tdrife" style="border-right:0.5px solid #71251f">{{ rez.karabin }}</td><td id="tdx1" style="border-right:2px solid #71251f">{{ rez.xS1 }}</td>
+
+                                <td id="tds2result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS2 }}</td>
+                                <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
+
+
+                                <td id="tdtime">{{ rez.czas }}</td>
+                                              <td id="tdfactor">{{ rez.factor2 }}</td>
+                                <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
+                                <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
+                  
+                                <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
 
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <input type="hidden" value="data21" id="data1" name="data1"/>
+                <input type="hidden" value="competitionId" id="competitionId" name="competitionId"/>
+
             </div>
-            <input type="hidden" value="data21" id="data1" name="data1"/>
-            <input type="hidden" value="competitionId" id="competitionId" name="competitionId"/>
-
         </div>
-    </div>
-</body>
-<style>
+    </body>
+    <style>
 
-    h1{
-        font-size: 2.5rem;
-        padding-bottom: 30px;
-    }
-    a{
-        color: #622925e6;
+        strong{
+            font-size:15px;
+            color:#AA3333;
+        }
+        span{
+            font-size:25px;
 
-    }
-    a:hover{
-        text-decoration:none;
-    }
-    thead{
-        background:silver;
-    }
-    table{
-        font-size:middle;
-    }
-    tbody{
+        }    h1{
+            font-size: 2.5rem;
+            padding-bottom: 30px;
+        }
+        a{
+            color: #622925;
 
-        background:#f0eded;
-    }
-    td{
-        border-bottom: 0.7px solid white;
-    }
-    th{
-    }
-</style>
-<script>
+        }
+        a:hover{
+            text-decoration:none;
+        }
+        thead{
+            background:silver;
+        }
+        table{
+            font-size:middle;
+        }
+        tbody{
 
-    {# function tdNr() {
+            background:#f0eded;
+        }
+        td{
+            border-bottom: 0.7px solid white;
+        }
+        th{
+        }
+    </style>
+    <script>
 
-         var tables = document.getElementsByTagName('tbody');
-         var table = tables[tables.length - 1];
-        var rows = table.rows;
-         for (var i = 0, td; i < rows.length; i++) {
-            td = document.createElement('td');
+        {# function tdNr() {
 
-             td.appendChild(document.createTextNode(i + 1));
+             var tables = document.getElementsByTagName('tbody');
+             var table = tables[tables.length - 1];
+            var rows = table.rows;
+             for (var i = 0, td; i < rows.length; i++) {
+                td = document.createElement('td');
 
-             rows[i].insertBefore(td, rows[i].firstChild);
+                 td.appendChild(document.createTextNode(i + 1));
+
+                 rows[i].insertBefore(td, rows[i].firstChild);
+             }
+     #}
+
+         function autoLoaderCompetition() {
+             var timeSec = 1000;
+
+             $.post('{{path('auto_view_results')}}',
+                     {data1:{{actualResult}}, competitionId:{{competitionId}}},
+                     function (json) {
+
+                         $('#wykaz').empty()
+                         setTimeout("autoLoaderCompetition()", timeSec);
+        {#   $("td").remove("#tdnr")      
+           $("th").remove("#nr") #}  
+                         $("<span>" + json + "</span>")
+                                 .appendTo('#wykaz')
+                                 .append("<hr>")
+                     }
+             );
          }
- #}
-
-     function autoLoaderCompetition() {
-         var timeSec = 1000;
-
-         $.post('{{path('auto_view_results')}}',
-                 {data1:{{actualResult}}, competitionId:{{competitionId}}},
-                 function (json) {
-
-                     $('#wykaz').empty()
-                     setTimeout("autoLoaderCompetition()", timeSec);
-    {#   $("td").remove("#tdnr")      
-       $("th").remove("#nr") #}  
-                     $("<span>" + json + "</span>")
-                             .appendTo('#wykaz')
-                             .append("<hr>")
-                 }
-         );
-     }
 
 
 
 
 
-</script>
+    </script>

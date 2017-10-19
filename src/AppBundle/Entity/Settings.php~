@@ -1,0 +1,142 @@
+<?php
+
+namespace AppBundle\Entity;
+
+/**
+ * Settings
+ */
+class Settings
+{
+    /**
+     * @var string
+     */
+    private $parameter;
+
+    /**
+     * @var integer
+     */
+    private $value;
+
+    /**
+     * @var string
+     */
+    private $txt;
+
+    /**
+     * @var string
+     */
+    private $description;
+
+    /**
+     * @var integer
+     */
+    private $id;
+
+
+    /**
+     * Set parameter
+     *
+     * @param string $parameter
+     *
+     * @return Settings
+     */
+    public function setParameter($parameter)
+    {
+        $this->parameter = $parameter;
+
+        return $this;
+    }
+
+    /**
+     * Get parameter
+     *
+     * @return string
+     */
+    public function getParameter()
+    {
+        return $this->parameter;
+    }
+
+    /**
+     * Set value
+     *
+     * @param integer $value
+     *
+     * @return Settings
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return integer
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Set txt
+     *
+     * @param string $txt
+     *
+     * @return Settings
+     */
+    public function setTxt($txt)
+    {
+        $this->txt = $txt;
+
+        return $this;
+    }
+
+    /**
+     * Get txt
+     *
+     * @return string
+     */
+    public function getTxt()
+    {
+        return $this->txt;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Settings
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}
+

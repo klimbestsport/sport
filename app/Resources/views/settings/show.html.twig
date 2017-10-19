@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Setting</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Parameter</th>
+                <td>{{ setting.parameter }}</td>
+            </tr>
+            <tr>
+                <th>Value</th>
+                <td>{{ setting.value }}</td>
+            </tr>
+            <tr>
+                <th>Txt</th>
+                <td>{{ setting.txt }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ setting.description }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ setting.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('settings_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('settings_edit', { 'id': setting.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

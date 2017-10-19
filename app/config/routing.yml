@@ -13,6 +13,10 @@ crud_zawodnik:
 rezultaty:
     resource: '@AppBundle/Resources/config/routing/rezultaty.yml'
     prefix: crud/rezultaty
+    
+settings:
+    resource: '@AppBundle/Resources/config/routing/settings.yml'
+    prefix: crud/settings
 
 kluby:
     resource: '@AppBundle/Resources/config/routing/kluby.yml'

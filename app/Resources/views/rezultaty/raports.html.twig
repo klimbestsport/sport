@@ -46,14 +46,28 @@
                 </form> 
 
             </div>  
-            <div class="col-md-2" style="float:right"> {% if (konkId is defined and konkId) %}  
-                    <a style="margin-right:10px;" id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}"><i style="color:#412826e6;"class="fa fa-file-excel-o fa-3x " aria-hidden="true"></i> </a>
+            <div class="col-md-3" style="float:right"> 
+                {% if (konkId is defined and konkId) %}  
+                    <a style="margin-right:10px;" id="link" href="{{ path('rez_konkurencja_excel', {'id': konkId }) }}">
+                        <i style="margin-bottom: 10px; color:#412826;"class="fa fa-file-excel-o fa-3x " aria-hidden="true"></i> 
+                    </a>
+                {% endif %}   
+                <br> 
+                {% if  (rezultaty|length)>0 %}
+                    <span style="padding:5px;border-bottom: 2px solid #71251f;">Startów w konkurencji:
+                        {{ rezultaty|length}}</span>
+                    {% else %} 
+                    <span style="color:#c20000;">Brak startów!</span>
+                {% endif %} 
+            </div>
+            <div style="clear:both"></div>
 
-                {% endif %}   </div>
-            <div style="clear:both"><div>
 
-
-
+            {#<h1>Top Ten Members</h1>
+            <ul>{% for rez in rezultaty|slice(0, 2) %}
+                    <li>{{ rez.imie|e }}</li>
+                {% endfor %}
+            </ul>#}
             <table class="sortable table table-hover table-striped table-condensed">
 
                 <thead>
@@ -65,18 +79,19 @@
                         <th id="licNumber">Nr licencji</th>
                         <th id="club">Klub</th>
 
-                        <th style="border-left:2px solid white" id="s1result" >Seria I <br>Rezultat</th>
-                        <th id="x1" style="border-right:2px solid white">X </th>
-                        <th id="rifle" style="border-right:2px solid white">Karabin </th>
-                        <th id="s2result" >Seria II <br> Rezultat</th>
-                        <th id="x2" style="border-right:2px solid white">X</th>
-                        <th id="gun" style="border-right:2px solid white">Pistolet </th>
+                        <th style="border-left:0.5px solid #71251f" id="s1result" >Seria I <br>Rezultat</th>
+                        <th id="rifle" >Karabin </th>  <th id="x1" style="border-right:2px solid #71251f">X </th>
 
-                        <th id="time">Czas</th>      
+                        <th id="s2result" >Seria II <br> Rezultat</th>
+                        <th id="gun" >Pistolet </th><th id="x2" style="border-right:2px solid #71251f">X</th>
+
+
+                        <th id="time">Czas</th>    
+                        <th id="factor">Factor</th>
                         <th id="resultsSum">Suma rez</th>     
                         <th id="xSum">Suma X</th>
-                        <th id="factor">Factor</th>
-                            {#                            <th id="comments">Uwagi</th>#}
+
+                        {#                            <th id="comments">Uwagi</th>#}
                         <th></th>
                     </tr>  </thead>
                     {% for rez in rezultaty %}
@@ -86,19 +101,20 @@
                         <td id="tdsurname">{{ rez.nazwisko }}</td>
                         <td id="tdbyear">{{ rez.rokU }}</td>
                         <td id="tdlicNumber">{{ rez.nrLic }}</td>
-                        <td id="tdclub" style="border-right:2px solid white">{{ rez.klub }}</td>
+                        <td id="tdclub" style="border-right:0.5px solid #71251f;">{{ rez.klub }}</td>
 
-                        <td id="tds1result" style="border-right:1px solid white">{{ rez.rezultatS1 }}</td>
-                        <td id="tdx1" style="border-right:2px solid white">{{ rez.xS1 }}</td>
-                        <td id="tdrife">{{ rez.karabin }}</td>
-                        <td id="tds2result" style="border-right:1px solid white">{{ rez.rezultatS2 }}</td>
-                        <td id="tdx2" style="border-right:2px solid white">{{ rez.xS2 }}</td>
-                        <td id="tdgun">{{ rez.pistolet }}</td>
+                        <td id="tds1result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS1 }}</td>
+                        <td id="tdrife" style="border-right:0.5px solid #71251f">{{ rez.karabin }}</td><td id="tdx1" style="border-right:2px solid #71251f">{{ rez.xS1 }}</td>
+
+                        <td id="tds2result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS2 }}</td>
+                        <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
+
 
                         <td id="tdtime">{{ rez.czas }}</td>
+                        <td id="tdfactor">{{ rez.factor2 }}</td>
                         <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
                         <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                        <td id="tdfactor">{{ rez.factor2 }}</td>
+
                         {#                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>#}
                         <td style="text-align:center;background:#e9e4d64d; border-left:2px solid #8787c2;">
 
@@ -113,7 +129,7 @@
 
                             {% endif %}
 
-                           
+
 
 
 
@@ -197,7 +213,7 @@
         </script>
         <style>
             table.sortable thead {
-                color: #622925e6;
+                color: #622925;
                 font-weight: bold;
                 cursor: default;
             }
@@ -206,7 +222,7 @@
                 padding-bottom: 30px;
             }
             a{
-                color: #622925e6;
+                color: #622925;
 
             }
             a:hover{
