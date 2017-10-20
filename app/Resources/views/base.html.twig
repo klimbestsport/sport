@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        
+
         <title>{% block title %}Zawody strzeleckie{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="{{ asset('bundles/css/font-awesome/css/font-awesome.min.css') }}" >
     <link rel="stylesheet" href="{{ asset('bundles/css/css.css') }}" >
     <script src="{{ asset('bundles/js/js.js') }}" type="text/javascript" /></script>
-    <script src="{{ asset('bundles/js/sorttable.js') }}" type="text/javascript" /></script>
+<script src="{{ asset('bundles/js/sorttable.js') }}" type="text/javascript" /></script>
 <script src="{{ asset('bundles/js/sorttable.js') }}" type="text/javascript" /></script>
 <link rel="stylesheet" href="{{ asset('bundles/jquery/jquery.min.js') }}" >
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src='https://www.google.com/recaptcha/api.js'></script>
-    
+
 <div id="menu" > 
     {% if (konkurencjaBase is defined and konkurencjaBase) %} 
         <h1> {{konkurencjaBase}} </h1>{% endif %} 
-        
-         <ol>
+
+        <ol>
             <li>Zawodnicy
                 <ul>
                     <li>  <a href="{{ path('zawodnik_new') }}">Dodaj </a></li>
@@ -54,15 +54,19 @@
                 </ul>
             </li>
 
-            <li>Raporty
-                <ul>
-                    <li> <a href="{{ path('only_view_results') }}">Wyświetl listę </a></li>
+            {#   <li>Raporty
+                   <ul>
+                       <li> <a href="{{ path('only_view_results') }}">Wyświetl listę </a></li>
+                       <li> <a href="{{ path('auto_view_results') }}">Automatyczna lista </a></li>
+                   </ul>
+               </li>#}
+            <li style="float:right"><i class="fa fa-cog" aria-hidden="true"></i>
+                <ul>     
                     <li> <a href="{{ path('auto_view_results') }}">Automatyczna lista </a></li>
+                    <li> <a href="{{ path('only_view_results') }}">Wyświetl listę </a></li>
+                    <li><a href="{{ path('settings_index') }}">Ustawienia</a></li>
                 </ul>
-            </li>
-             <li style="float:right">
-                <a href="{{ path('settings_index') }}"><i class="fa fa-cog fa-2x" aria-hidden="true"></i>
- </a>
+
             </li>
         </ol>
     </div>
@@ -71,7 +75,7 @@
 </head>
 
 {% block body %}
- 
+
 {% endblock %}
 {% block javascripts %}{% endblock %}
 

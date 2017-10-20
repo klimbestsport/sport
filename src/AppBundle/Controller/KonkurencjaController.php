@@ -296,13 +296,13 @@ class KonkurencjaController extends Controller {
            
        
         }
-
+$ileWynikow=$rezultaties;
         return $this->render('rezultaty/raports.html.twig', array(
                     'rezultaty' => $rezultaties,
                     'whichView' => $whichView,
                     'competitionName' => $find,
                     'firstCompetition'=>$firstCompetition,
-                    'konkId' => $konkId,
+                    'konkId' => $konkId,    'ileWynikow'=>$ileWynikow,
                     'konkurencje' => $konkurencje,
         ));
     }

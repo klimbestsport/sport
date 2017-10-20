@@ -167,7 +167,7 @@ class RezultatyController extends Controller {
         $firstCompetition = $this->getFirstCompetitionNameAction();
         $viewTable = $this->getViewTable();
         $view = $this->getView();
-
+$ileWynikow = $rezultaties;
         for ($j = 0; $j < 4; $j++) {
             $lenghtviewTable[$j] = count($viewTable[$j]);
             for ($i = 0; $i < $lenghtviewTable[$j]; $i++) {
@@ -189,6 +189,7 @@ class RezultatyController extends Controller {
         return $this->render('rezultaty/raports.html.twig', array(
                     'rezultaty' => $rezultaties,
                     'whichView' => $whichView,
+            'ileWynikow'=>$ileWynikow,
                     'competitionName' => $konkurencjaFullName,
                     'firstCompetition' => $firstCompetition,
                     'konkurencja' => $konkurencjaFullName, 'delete_form' => $deleteForm->createView(), 
@@ -239,12 +240,12 @@ class RezultatyController extends Controller {
         $session = $this->getSession();
         $actualResult = 0;
         $competitionId = 1;
-        $howManyResults = 1;
-        if ($request->get('data1')) {
-            $actualResult = (int) $request->get('data1');
-        }
+        $howManyResults = 0;
+      
         if ($request->get('competitionId')) {
-            $competitionId = (int) $request->get('competitionId');
+            $competitionId = (int) $request->get('competitionId');  if ($request->get('data1')) {
+           $actualResult = (int) $request->get('data1');
+        }
         }
 
         $howManyCompetitions = 10;
@@ -264,16 +265,19 @@ class RezultatyController extends Controller {
             $howManyResults += 1;
         }
 
-     
+      //$actualResult += 5;
         $queryFind2 = $em->createQuery(''
                         . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
                 ->setFirstResult($actualResult)
                 ->setMaxResults(5);
 
         $resul = $queryFind2->getResult();
-
-   if($queryFind2){
-   $actualResult += 5;}
+ //$actualResult += 5;
+ 
+ 
+ 
+//   if($queryFind2){
+//   $actualResult += 5;}
    
         if ($actualResult >= $howManyResults) {
 
@@ -289,6 +293,8 @@ class RezultatyController extends Controller {
                 $competitionId = 1;
                 $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
             }
+            
+            
             $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
 
             $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
@@ -296,10 +302,10 @@ class RezultatyController extends Controller {
                             . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
                     ->setFirstResult($actualResult)
                     ->setMaxResults(5);
-            // $actualResult += 2;
+//            // $actualResult += 2;
             $resul = $queryFind3->getResult();
 
-            $howManyResults = 1;
+            $howManyResults = 0;
             foreach ($resul as $r) {
                 $howManyResults += 1;
             }
@@ -311,6 +317,12 @@ class RezultatyController extends Controller {
             ;
             $resul = $queryFind4->getResult();
         }
+if($howManyResults>0){
+ foreach($resul as $r){
+        $actualCompetition = $r->getNazwaP();}
+}else{
+    $actualCompetition=$konkurencjaFullName;
+}
 
 
         return $this->render('rezultaty/autoViewResults.html.twig', array(
@@ -318,6 +330,7 @@ class RezultatyController extends Controller {
                     'konkurencja' => $konkurencjaFullName,
                     'actualResult' => $actualResult,
                     'competitionId' => $competitionId,
+            'actualCompetition'=>$actualCompetition,
                     'ilosc' => $howManyResults
         ));
     }

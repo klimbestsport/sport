@@ -13,20 +13,29 @@
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
 
             <div style="float:right" >
-                {% if (actualResult and (ilosc-1)>=(actualResult+5))  %}  
-                    <span> Rezultat: {{(actualResult+5)/5 }} -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+                
+            
+                {% if ((actualResult>=0) and ilosc>0)  %}  
 
-                {%elseif (actualResult<5) %}
-                    <span> Rezultat: 1 -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+                    Rezultat: {{actualResult+1}} -  {{ (rezultaty|length)+actualResult}} / <strong>startów {{ilosc}}</strong>
+                {%else %}
+                    Rezultat: 0 -  {{ (rezultaty|length)+actualResult}} / <strong>startów {{ilosc}}</strong>
 
-
-                {% elseif (actualResult and (ilosc-1)>=(actualResult+5))  %}  
                 {%endif%}
+                {#  {% if (actualResult and (ilosc-1)>=(actualResult+5))  %}  
+                      <span> Rezultat: {{(actualResult+5)/5 }} -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+  
+                  {%elseif (actualResult<5) %}
+                      <span> Rezultat: 1 -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
+  
+  
+                  {% elseif (actualResult and (ilosc-1)>=(actualResult+5))  %}  
+                  {%endif%}#}
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">Loading...</span></div>
 
 
-            <h1 style="margin-bottom:5px;"> {{konkurencja}}
+            <h1 style="margin-bottom:5px;"> {{ actualCompetition }} 
             </h1>   <strong style="font-size:20px;"><br>Nieoficjane zestawienie rezultatów </strong>
 
             {% endif %}
@@ -51,16 +60,20 @@
 
 
                                 <th id="time">Czas</th>    
-                                 <th id="factor">Factor</th>
+                                <th id="factor">Factor</th>
                                 <th id="resultsSum">Suma rez</th>     
                                 <th id="xSum">Suma X</th>
-                               
+
                                 <th id="comments">Uwagi</th>
 
                             </tr>  </thead>
                             {% for rez in rezultaty %}
                             <tr>
-                                  <td> {{ loop.index+actualResult }}</td>
+                                {% if (actualResult>5) %}
+                                    <td> {{ loop.index+actualResult }}</td> 
+                                {% else %}
+                                    <td>{{  loop.index + rez|length-1 }}</td>
+                                {% endif%}
                                 <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
                                 <td id="tdsurname">{{ rez.nazwisko }}</td>
 
@@ -75,16 +88,20 @@
 
 
                                 <td id="tdtime">{{ rez.czas }}</td>
-                                              <td id="tdfactor">{{ rez.factor2 }}</td>
+                                <td id="tdfactor">{{ rez.factor2 }}</td>
                                 <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
                                 <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-                  
+
                                 <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
 
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+
+                    <div id="footer"> 
+                        <strong style="color:#AA3333;text-shadow: 1px 1px whitesmoke;" >Nieoficjalna lista startów z dnia: {{ "now"|date("Y-m-d H:i") }}</strong>
+                    </div>
                 </div>
                 <input type="hidden" value="data21" id="data1" name="data1"/>
                 <input type="hidden" value="competitionId" id="competitionId" name="competitionId"/>
@@ -125,7 +142,15 @@
         td{
             border-bottom: 0.7px solid white;
         }
-        th{
+
+        #footer{ 
+            width: 100%;
+            height: 40px;
+            position: fixed;
+            padding:10px;
+            background:whitesmoke;
+            text-align: center;
+            bottom: 0;
         }
     </style>
     <script>
@@ -148,7 +173,7 @@
              var timeSec = 1000;
 
              $.post('{{path('auto_view_results')}}',
-                     {data1:{{actualResult}}, competitionId:{{competitionId}}},
+                     {data1:{{actualResult+5}}, competitionId:{{competitionId}}},
                      function (json) {
 
                          $('#wykaz').empty()
