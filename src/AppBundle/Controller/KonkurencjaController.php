@@ -244,16 +244,15 @@ class KonkurencjaController extends Controller {
         } else {
             
              $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findAll();
-            
+            $konkId=1;
             return $this->render('rezultaty/raports.html.twig', array(
                   
                      'rezultaty' => $rezultaties,
-                    'whichView' => 1,
+                    'whichView' => 2,
                     'firstCompetition'=>$firstCompetition,
                     'konkId' => $konkId, 
                     'konkurencje' => $konkurencje,
                 
-                    'konkurencje' => $konkurencje,
         ));
         }
         if ($konkId !== null) { 

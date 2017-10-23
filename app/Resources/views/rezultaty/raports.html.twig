@@ -11,22 +11,21 @@
                 {#                <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">#}
 
                 {% if (konkurencje is defined and konkurencje) %}  
-                    {#   <strong>Wybierz konkurencję: </strong>#}
-                    <select onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
-                        <option value="0"selected>{#{% if (konkId is defined and konkId!=1)  %} {{konkId}}   {% elseif  (firstCompetition is defined and firstCompetition)%} {{firstCompetition}} {% endif %} #}</option>
+                 {#   <select onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
+                      <option value="0"selected>{% if (konkId is defined and konkId!=1)  %} {{konkId}}  
+                        {% endif %} </option>
                         {% for konk in konkurencje %}
-
                             <option style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
-
                         {% endfor %} 
                     </select>  
-                    <div id="visibleButton" style="visibility: hidden; float:right;">
-
-
-                        <button  style="float:left"type="submit"><i class="fa fa-search " aria-hidden="true"></i>
-                        </button>  </div>
-
-                {% endif %} 
+                {% endif %} #}
+                  <select konkId="{{konkId}}" onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
+                        {% for konk in konkurencje %}
+                            <option {% if (konkId is defined and konk['nazwaP']==konkId)  %} selected {% endif %}
+				style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
+                        {% endfor %} 
+                    </select>  
+                {% endif %}
 
                 <input type="hidden" id="konkId" name="konkId"/>
 
@@ -68,6 +67,7 @@
                     <li>{{ rez.imie|e }}</li>
                 {% endfor %}
             </ul>#}
+            
             <table class="sortable table table-hover table-striped table-condensed">
 
                 <thead>
@@ -190,7 +190,6 @@
             function autoLoaderOneCompetition() {
                 var t = 0;
                 t = $("#wybierzKonkurencje :selected").text();
-
                 if (t == 0) {
 
                 } else {
@@ -209,6 +208,7 @@
                                         .append("<hr>")
                             }
                     );
+       
                 }
 
 

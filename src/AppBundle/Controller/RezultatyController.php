@@ -754,7 +754,7 @@ if($howManyResults>0){
         }
         $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
         $em = $this->getDoctrine()->getManager();
-        $konkurencjaFullName = $this->getCompetitionNameAction();
+       // $konkurencjaFullName = $this->getCompetitionNameAction();
 
         $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
 
