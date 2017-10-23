@@ -242,11 +242,22 @@ class KonkurencjaController extends Controller {
             $konkId = $request->get('konkId');
             $session->set('konkurencjaId', $konkId); 
         } else {
-            $konkId = 1;
-            $session->set('konkurencjaId', $konkId); 
+            
+             $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findAll();
+            
+            return $this->render('rezultaty/raports.html.twig', array(
+                  
+                     'rezultaty' => $rezultaties,
+                    'whichView' => 1,
+                    'firstCompetition'=>$firstCompetition,
+                    'konkId' => $konkId, 
+                    'konkurencje' => $konkurencje,
+                
+                    'konkurencje' => $konkurencje,
+        ));
         }
-        if ($konkId !== null) {
-            //$session->set('konkurencjaId', $konkId);
+        if ($konkId !== null) { 
+           //$session->set('konkurencjaId', $konkId);
             $session->get('konkurencjaId');
         }
        

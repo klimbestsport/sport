@@ -92,7 +92,8 @@
                     </table>
 
                     <input class="submitRed" type="submit" style="float:right" value="Zapisz" /> 
-                    <a style="float:right" href="{{ path('takeOneKonk') }}"><input type="submit" value="Anuluj"></a>
+                 <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk') }}">
+                       Anuluj </a>
                     <div style="visibility:hidden">
                         {{ form_widget(edit_form.uwagiS2) }} 
                         {{ form_widget(edit_form.rezultatS2) }}    

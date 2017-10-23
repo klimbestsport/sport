@@ -45,21 +45,9 @@
 
             <li>Rezultaty
                 <ul>
-                    {# {% if (konkurencja is defined and konkurencja) %}  <li> <a href="{{path('takeOneKonk')}}">Dodaj</a></li>
-                     
-                 {% endif %} #}   <li> <a href="{{ path('takeOneKonk') }}">Wprowadź</a></li>
-                    <li> <a href="{{path('takeOneKonk')}}">Dodaj</a></li>
-
-
+                    <li> <a href="{{ path('takeOneKonk') }}">Wprowadź</a></li>
                 </ul>
             </li>
-
-            {#   <li>Raporty
-                   <ul>
-                       <li> <a href="{{ path('only_view_results') }}">Wyświetl listę </a></li>
-                       <li> <a href="{{ path('auto_view_results') }}">Automatyczna lista </a></li>
-                   </ul>
-               </li>#}
             <li style="float:right"><i class="fa fa-cog" aria-hidden="true"></i>
                 <ul>     
                     <li> <a href="{{ path('auto_view_results') }}">Automatyczna lista </a></li>
