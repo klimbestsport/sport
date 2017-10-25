@@ -21,7 +21,7 @@ class KonkurencjaController extends Controller {
      */
     private function getFirstCompetitionNameAction() {
         $em = $this->getDoctrine()->getManager();
-        $firstCompetition = $em->getRepository('AppBundle:Konkurencja')->findOneById(1);
+        $firstCompetition = $em->getRepository('AppBundle:Konkurencja')->findOneById(3);
         $firstCompetitionName = $firstCompetition->getNazwaP();
 
         return $firstCompetitionName;
