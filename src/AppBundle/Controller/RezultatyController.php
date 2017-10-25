@@ -55,7 +55,8 @@ class RezultatyController extends Controller {
         $viewTable3 = ['Karabin + Pistolet Standard', 'Karabin + Pistolet OPEN'];
         $viewTable2 = ['Pistolet zapłon centralny', 'Pistolet sportowy 20', 'Karabin dowolny', 'Karabin wojskowy 100/75m'];
         $viewTable1 = ["Strzelba OPEN", "Strzelba Standard"];
-        $viewTable = [$viewTable1, $viewTable2, $viewTable3, $viewTable4];
+        $viewTable5 = ["TRAP 25"];
+        $viewTable = [$viewTable1, $viewTable2, $viewTable3, $viewTable4, $viewTable5];
 
         return $viewTable;
     }
@@ -66,7 +67,8 @@ class RezultatyController extends Controller {
         $view2 = 'puste';
         $view3 = 'puste';
         $view4 = 'puste';
-        $view = [$view1, $view2, $view3, $view4];
+        $view5= 'puste';
+        $view = [$view1, $view2, $view3, $view4, $view5];
 
         return $view;
     }
@@ -111,6 +113,33 @@ class RezultatyController extends Controller {
         ));
     }
 
+    public function deleteThisAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
+        foreach ($results as $konkurencja) {
+            $results['id'] = $konkurencja->getId();
+            $results['nazwaP'] = $konkurencja->getNazwaP();
+            $konkurencje[] = $results;
+        }
+        $guest = $em->getRepository('AppBundle:Rezultaty')->find($id);
+
+        if (!$guest) {
+            throw $this->createNotFoundException('No guest found for id ' . $id);
+        }
+
+        $em->remove($guest);
+        $em->flush();
+
+        $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findAll();
+
+        return $this->render('rezultaty/raports.html.twig', array(
+                    'whichView' => 2,
+                    'rezultaty' => $rezultaties,
+                    'konkId' => 1,
+                    'konkurencje' => $konkurencje
+        ));
+    }
+
     public function indexChooseAction() {
         $em = $this->getDoctrine()->getManager();
         $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findAll();
@@ -119,43 +148,70 @@ class RezultatyController extends Controller {
         ));
     }
 
-    public function onlyViewResultsAction() {
+    public function onlyViewResultsAction(Request $request) {
+
+        $session = new Session();
         $em = $this->getDoctrine()->getManager();
-        $konkurencjaFullName = $this->getCompetitionNameAction();
-        $queryFind = $em->createQuery(''
-                . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
-        $rezultaties = $queryFind->getResult();
-        $ile = 0;
+        $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
+        foreach ($results as $konkurencja) {
+            $results['id'] = $konkurencja->getId();
+            $results['nazwaP'] = $konkurencja->getNazwaP();
 
-        foreach ($rezultaties as $r) {
-            $ile += 1;
+            $konkurencje[] = $results;
         }
 
-        $viewTable = $this->getViewTable();
-        $view = $this->getView();
-
-        for ($j = 0; $j < 4; $j++) {
-            $lenghtviewTable[$j] = count($viewTable[$j]);
-            for ($i = 0; $i < $lenghtviewTable[$j]; $i++) {
-                if (strstr($konkurencjaFullName, $viewTable[$j][$i]) != False) {
-                    $view[$j] = $viewTable[$j][$i];
-                }
-            }
+        $firstCompetition = $this->getFirstCompetitionNameAction();
+        $konkId = $session->get('konkurencjaId');
+        if (!$session->get('konkurencjaId')) {
+            $session->set('konkurencjaId', $konkId);
         }
-        $whichView = 1;
-        for ($i = 0; $i < 4; $i++) {
-            if (strstr($konkurencjaFullName, $view[$i]) !== False) {
-                $whichView = $i + 1;
-            }
-        }
+        if ($request->get('konkId')) {
 
+            $konkId = $request->get('konkId');
+
+            $queryFind = $em->createQuery(''
+                    . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkId . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC");
+
+            $rezultaties = $queryFind->getResult();
+        } else {
+            $rezultaties = $em->getRepository('AppBundle:Rezultaty')->findAll();
+            $konkId = 1;
+        }
         return $this->render('rezultaty/onlyViewResults.html.twig', array(
                     'rezultaty' => $rezultaties,
-                    'konkurencja' => $konkurencjaFullName,
-                    'whichView' => $whichView,
-                    'ile' => $ile,
+                    'whichView' => 2,
+                    'firstCompetition' => $firstCompetition,
+                    'konkId' => $konkId,
+                    'konkurencje' => $konkurencje,
         ));
     }
+    
+function charset_utf_fix($string) {
+ 
+	$utf = array(
+	 "%u0104" => "Ą",
+	 "%u0106" => "Ć",
+	 "%u0118" => "Ę",
+	 "%u0141" => "Ł",
+	 "%u0143" => "Ń",
+	 "%u00D3" => "Ó",
+	 "%u015A" => "Ś",
+	 "%u0179" => "Ź",
+	 "%u017B" => "Ż",
+	 "%u0105" => "ą",
+	 "%u0107" => "ć",
+	 "%u0119" => "ę",
+	 "%u0142" => "ł",
+	 "%u0144" => "ń",
+	 "%u00F3" => "ó",
+	 "%u015B" => "ś",
+	 "%u017A" => "ź",
+	 "%u017C" => "ż"
+	);
+	
+	return str_replace(array_keys($utf), array_values($utf), $string);
+	
+}
 
     public function raportsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
@@ -167,7 +223,7 @@ class RezultatyController extends Controller {
         $firstCompetition = $this->getFirstCompetitionNameAction();
         $viewTable = $this->getViewTable();
         $view = $this->getView();
-$ileWynikow = $rezultaties;
+        $ileWynikow = $rezultaties;
         for ($j = 0; $j < 4; $j++) {
             $lenghtviewTable[$j] = count($viewTable[$j]);
             for ($i = 0; $i < $lenghtviewTable[$j]; $i++) {
@@ -182,17 +238,19 @@ $ileWynikow = $rezultaties;
                 $whichView = $i + 1;
             }
         }
-        
-        $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
-        $deleteForm = $this->createDeleteForm($rezultaty);
 
+        $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
+
+        charset_utf_fix($rezultaties);
+        
+        
         return $this->render('rezultaty/raports.html.twig', array(
                     'rezultaty' => $rezultaties,
                     'whichView' => $whichView,
-            'ileWynikow'=>$ileWynikow,
+                    'ileWynikow' => $ileWynikow,
                     'competitionName' => $konkurencjaFullName,
                     'firstCompetition' => $firstCompetition,
-                    'konkurencja' => $konkurencjaFullName, 'delete_form' => $deleteForm->createView(), 
+                    'konkurencja' => $konkurencjaFullName,
         ));
     }
 
@@ -241,11 +299,12 @@ $ileWynikow = $rezultaties;
         $actualResult = 0;
         $competitionId = 1;
         $howManyResults = 0;
-      
+
         if ($request->get('competitionId')) {
-            $competitionId = (int) $request->get('competitionId');  if ($request->get('data1')) {
-           $actualResult = (int) $request->get('data1');
-        }
+            $competitionId = (int) $request->get('competitionId');
+            if ($request->get('data1')) {
+                $actualResult = (int) $request->get('data1');
+            }
         }
 
         $howManyCompetitions = 10;
@@ -265,20 +324,17 @@ $ileWynikow = $rezultaties;
             $howManyResults += 1;
         }
 
-      //$actualResult += 5;
+        //$actualResult += 5;
         $queryFind2 = $em->createQuery(''
                         . " SELECT f FROM AppBundle\Entity\Rezultaty f WHERE f.nazwaP='" . $konkurencjaFullName . "' ORDER BY f.sumaRez DESC, f.sumaX DESC, f.rezultatS1 DESC, f.xS1 DESC, f.rezultatS2 DESC, f.xS2 DESC")
                 ->setFirstResult($actualResult)
                 ->setMaxResults(5);
 
         $resul = $queryFind2->getResult();
- //$actualResult += 5;
- 
- 
- 
+        //$actualResult += 5;
 //   if($queryFind2){
 //   $actualResult += 5;}
-   
+
         if ($actualResult >= $howManyResults) {
 
             $actualResult = 0;
@@ -293,8 +349,8 @@ $ileWynikow = $rezultaties;
                 $competitionId = 1;
                 $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
             }
-            
-            
+
+
             $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
 
             $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
@@ -317,12 +373,13 @@ $ileWynikow = $rezultaties;
             ;
             $resul = $queryFind4->getResult();
         }
-if($howManyResults>0){
- foreach($resul as $r){
-        $actualCompetition = $r->getNazwaP();}
-}else{
-    $actualCompetition=$konkurencjaFullName;
-}
+        if ($howManyResults > 0) {
+            foreach ($resul as $r) {
+                $actualCompetition = $r->getNazwaP();
+            }
+        } else {
+            $actualCompetition = $konkurencjaFullName;
+        }
 
 
         return $this->render('rezultaty/autoViewResults.html.twig', array(
@@ -330,7 +387,7 @@ if($howManyResults>0){
                     'konkurencja' => $konkurencjaFullName,
                     'actualResult' => $actualResult,
                     'competitionId' => $competitionId,
-            'actualCompetition'=>$actualCompetition,
+                    'actualCompetition' => $actualCompetition,
                     'ilosc' => $howManyResults
         ));
     }
@@ -431,12 +488,23 @@ if($howManyResults>0){
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
+            foreach ($results as $konkurencja) {
+                $results['id'] = $konkurencja->getId();
+                $results['nazwaP'] = $konkurencja->getNazwaP();
+
+                $konkurencje[] = $results;
+            }
+
             $em->persist($rezultaty);
             $em->flush();
 
-            return $this->render('rezultaty/new.html.twig', array(
+            $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
+
+            return $this->render('rezultaty/raports.html.twig', array(
                         'rezultaty' => $rezultaty,
-                        'konkurencja' => $konkurencja,
+                        'whichView' => 2,
+                        'konkurencje' => $konkurencje,
             ));
         } else {
 
@@ -452,7 +520,7 @@ if($howManyResults>0){
                 }
             }
             $whichView = 1;
-            for ($i = 0; $i < 4; $i++) {
+            for ($i = 1; $i < 4; $i++) {
                 if (strstr($konkurencjaFullName, $view[$i]) !== False) {
                     $whichView = $i + 1;
                 }
@@ -491,7 +559,13 @@ if($howManyResults>0){
             if (strstr($konkurencjaFullName, $view[2]) !== False) {
                 // return $this->render('rezultaty/newEmpty.html.twig', $array);
                 return $this->render('rezultaty/newEmptyViewIII.html.twig', $array);
-            } else {
+            }
+            
+            if (strstr($konkurencjaFullName, $view[4]) !== False) {
+                return $this->render('rezultaty/newEmptyViewIV.html.twig', $array);
+            } 
+            
+            else {
                 return $this->render('rezultaty/newEmpty.html.twig', $array);
             }
         }
@@ -517,7 +591,6 @@ if($howManyResults>0){
     public function editAction(Request $request, Rezultaty $rezultaty) {
         $session = new Session();
         $em = $this->getDoctrine()->getManager();
-        $deleteForm = $this->createDeleteForm($rezultaty);
         $editForm = $this->createForm('AppBundle\Form\RezultatyType', $rezultaty);
         $editForm->handleRequest($request);
 
@@ -533,11 +606,22 @@ if($howManyResults>0){
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
+            foreach ($results as $konkurencja) {
+                $results['id'] = $konkurencja->getId();
+                $results['nazwaP'] = $konkurencja->getNazwaP();
 
+                $konkurencje[] = $results;
+            }
 
-            return $this->render('rezultaty/new.html.twig', array(
+            //return $this->redirectToRoute('rezultaty_raports');
+
+            $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
+
+            return $this->render('rezultaty/raports.html.twig', array(
                         'rezultaty' => $rezultaty,
-                        'konkurencja' => $konkurencja,
+                        'whichView' => 2,
+                        'konkurencje' => $konkurencje,
             ));
         }
 
@@ -576,12 +660,15 @@ if($howManyResults>0){
 
         if (strstr($konkurencjaFullName, $view[2]) !== False) {
             return $this->render('rezultaty/editViewIII.html.twig', $array);
+        }
+        if (strstr($konkurencjaFullName, $view[4]) !== False) {
+            // return $this->render('rezultaty/newEmpty.html.twig', $array);
+            return $this->render('rezultaty/editViewIV.html.twig', $array);
         } else {
             return $this->render('rezultaty/edit.html.twig', array(
                         'rezultaty' => $rezultaty,
                         'edit_form' => $editForm->createView(),
                         'konkurencja' => $konkurencja,
-                        'delete_form' => $deleteForm->createView(),
             ));
         }
     }
@@ -610,14 +697,6 @@ if($howManyResults>0){
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(Rezultaty $rezultaty) {
-        return $this->createFormBuilder()
-                        ->setAction($this->generateUrl('rezultaty_delete', array('id' => $rezultaty->getId())))
-                        ->setMethod('DELETE')
-                        ->getForm()
-        ;
-    }
-
     public function findUserAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();
@@ -754,7 +833,7 @@ if($howManyResults>0){
         }
         $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
         $em = $this->getDoctrine()->getManager();
-       // $konkurencjaFullName = $this->getCompetitionNameAction();
+        // $konkurencjaFullName = $this->getCompetitionNameAction();
 
         $results = $em->getRepository('AppBundle:Konkurencja')->findAll();
 

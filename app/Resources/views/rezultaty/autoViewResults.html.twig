@@ -11,106 +11,77 @@
     <div id="container">
 
         <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
-
             <div style="float:right" >
-                
-            
-                {% if ((actualResult>=0) and ilosc>0)  %}  
 
+                {% if ((actualResult>=0) and ilosc>0)  %}  
                     Rezultat: {{actualResult+1}} -  {{ (rezultaty|length)+actualResult}} / <strong>startów {{ilosc}}</strong>
                 {%else %}
                     Rezultat: 0 -  {{ (rezultaty|length)+actualResult}} / <strong>startów {{ilosc}}</strong>
-
-                {%endif%}
-                {#  {% if (actualResult and (ilosc-1)>=(actualResult+5))  %}  
-                      <span> Rezultat: {{(actualResult+5)/5 }} -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
-  
-                  {%elseif (actualResult<5) %}
-                      <span> Rezultat: 1 -  {{ ((ilosc-1)/5)|round(0, 'ceil') }}/<strong>startów {{ilosc-1}}</strong></span>
-  
-  
-                  {% elseif (actualResult and (ilosc-1)>=(actualResult+5))  %}  
-                  {%endif%}#}
+              {%endif%}
+              
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                <span class="sr-only">Loading...</span></div>
-
-
-            <h1 style="margin-bottom:5px;"> {{ actualCompetition }} 
-            </h1>   <strong style="font-size:20px;"><br>Nieoficjane zestawienie rezultatów </strong>
-
+                <span class="sr-only">Loading...</span>
+            </div>
+              
+            <h1 style="margin-bottom:5px;"> {{ actualCompetition }} </h1>   
+            <strong style="font-size:20px;"><br>Nieoficjane zestawienie rezultatów </strong>
             {% endif %}
                 <div class="table-responsive">
                     <table class="table table-striped" id='tabliczka'>
                         <thead>
                             <tr>
-
                                 <th style="width:3%">Nr</th>
-                                    {#<th id="thnr">Nr</th>#}
                                 <th style="width:10%">Imię</th>
                                 <th style="width:10%">Nazwisko</th>
-
                                 <th style="width:7%">Nr licencji</th>
                                 <th style="width:10%">Klub</th>
-
                                 <th style="border-left:0.5px solid #71251f" id="s1result" >Seria I <br>Rezultat</th>
                                 <th id="rifle" >Karabin </th>  <th id="x1" style="border-right:2px solid #71251f">X </th>
-
                                 <th id="s2result" >Seria II <br> Rezultat</th>
                                 <th id="gun" >Pistolet </th><th id="x2" style="border-right:2px solid #71251f">X</th>
-
-
                                 <th id="time">Czas</th>    
                                 <th id="factor">Factor</th>
                                 <th id="resultsSum">Suma rez</th>     
                                 <th id="xSum">Suma X</th>
-
                                 <th id="comments">Uwagi</th>
-
-                            </tr>  </thead>
+                            </tr>  
+                        </thead>
                             {% for rez in rezultaty %}
                             <tr>
-                                {% if (actualResult>5) %}
+                                {% if (actualResult>=5) %}
                                     <td> {{ loop.index+actualResult }}</td> 
                                 {% else %}
                                     <td>{{  loop.index + rez|length-1 }}</td>
                                 {% endif%}
                                 <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
                                 <td id="tdsurname">{{ rez.nazwisko }}</td>
-
                                 <td id="tdlicNumber">{{ rez.nrLic }}</td>
                                 <td id="tdclub" style="border-right:0.5px solid #71251f;">{{ rez.klub }}</td>
-
                                 <td id="tds1result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS1 }}</td>
-                                <td id="tdrife" style="border-right:0.5px solid #71251f">{{ rez.karabin }}</td><td id="tdx1" style="border-right:2px solid #71251f">{{ rez.xS1 }}</td>
-
+                                <td id="tdrife" style="border-right:0.5px solid #71251f">{{ rez.karabin }}</td>
+                                <td id="tdx1" style="border-right:2px solid #71251f">{{ rez.xS1 }}</td>
                                 <td id="tds2result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS2 }}</td>
-                                <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
-
-
+                                <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> 
+                                <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
                                 <td id="tdtime">{{ rez.czas }}</td>
                                 <td id="tdfactor">{{ rez.factor2 }}</td>
                                 <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
                                 <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-
                                 <td id="tdcomments"> {{ rez.uwagiS1 }}</td>
-
                             </tr>
                         {% endfor %}
                         </tbody>
                     </table>
-
                     <div id="footer"> 
                         <strong style="color:#AA3333;text-shadow: 1px 1px whitesmoke;" >Nieoficjalna lista startów z dnia: {{ "now"|date("Y-m-d H:i") }}</strong>
                     </div>
                 </div>
                 <input type="hidden" value="data21" id="data1" name="data1"/>
                 <input type="hidden" value="competitionId" id="competitionId" name="competitionId"/>
-
             </div>
         </div>
     </body>
     <style>
-
         strong{
             font-size:15px;
             color:#AA3333;

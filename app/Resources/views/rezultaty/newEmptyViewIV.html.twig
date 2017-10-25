@@ -13,31 +13,20 @@
                     <input type="hidden" id="konkurencjaNazwaS" name="konkurencjaNazwaS" value="{{konkurencja.nazwaS}}"/> 
                     <input type="hidden" id="konkurencjaId" name="konkurencjaId" value="{{konkurencja.id}}"/> 
                 {% endif %} 
-
                 <div name="resByIdDiv" id="resByIdDiv" style="border-bottom: 0.4px solid red;">
-
-                                           
-
                     {% if (luckyImie is defined and luckyImie) %}<br>
                    <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}} 
                       <strong >Klub: </strong>{{luckyKlub}} </p>
-
                         <input type="hidden" id="imieD" name="imieD" value="{{luckyImie}}"/>
                         <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{luckyNazwisko}}"/>
                         <input type="hidden" id="nrLicD" name="nrLicD" value="{{luckyNrLic}}"/>
                         <input type="hidden" id="rokUD" name="rokUD" value="{{luckyRokU}}"/>
                         <input type="hidden" id="klubD" name="klubD" value="{{luckyKlub}}"/>
-
                     {% endif%}
-
                 </div>
-
                 {% if (form is defined and form) %}
-
                     {% form_theme form 'form_table_layout.html.twig' %}
-
                     {{ form_start(form) }}
-
                     <table  style="text-align:center;" class="table">
                         <tr>
                             <th></th><th>Rezultat</th> <th>Czas</th> <th>Uwagi</th> </tr>
@@ -72,10 +61,10 @@
                         {{ form_widget(form.sumaX) }} 
                         {{ form_widget(form.pistolet) }} 
                         {{ form_widget(form.karabin) }} 
+                        {{ form_widget(form.czas) }} 
                     </div>
                     {{ form_end(form) }}
-                 <a style="float:right" href="{{ path('takeOneKonk') }}">
-                        <input type="submit" value="Anuluj"></a>
+             
                 </div>   
 
             </div>
