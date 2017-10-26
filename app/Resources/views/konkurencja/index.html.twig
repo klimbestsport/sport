@@ -1,15 +1,13 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
-    <div><h1>Konkurencje</h1><form style="border-bottom: 0.4px solid red; padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('konkurencja_findResult')}}" method="post">
-
-            <input style="width:50%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj konkurencję"/>
-
-            <button  type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-            </button>
-        </form> </div><div style="float:right"> <a href="{{ path('konkurencja_new') }}">Dodaj nową konkurencję</a></div>
+{% block head %}
+     <script src="{{ asset('bundles/DataTables/js/jquery.dataTables.js') }}" type="text/javascript" /></script>
+  <script src="{{ asset('bundles/DataTables/Plugins/i18n/Polish.lang') }}" type="text/javascript" /></script>
+ <link rel="stylesheet" href="{{ asset('bundles/DataTables/css/jquery.dataTables.css') }}" >
+    {% endblock %}
+{% block body %}  
+    <div><h1>Konkurencje</h1></div><div style="float:right"> <a href="{{ path('konkurencja_new') }}">Dodaj nową konkurencję</a></div>
     <div>
-     <table class="table">
+       <table id="table_id" class="display table table-hover table-striped table-condensed">
         <thead>
             <tr>
                 <th>Nazwa pełna</th>
@@ -18,7 +16,7 @@
                 <th>Akcje</th>
             </tr>
         </thead>
-        <tbody>
+      
         {% for konk in konkurencje %}
             <tr>
                 <td><a href="{{ path('konkurencja_show', { 'id': konk.id }) }}">{{ konk.nazwaP }}</a></td>
@@ -31,10 +29,38 @@
                 </td>
             </tr>
         {% endfor %}
-        </tbody>
+       
     </table>
 </div>
+        <script>
+
+       $('#table_id').DataTable({
+    "language": {
+       "processing":     "Przetwarzanie...",
+    "search":         "Szukaj:",
+    "lengthMenu":     "Pokaż _MENU_ pozycji",
+    "info":           "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+    "infoEmpty":      "Pozycji 0 z 0 dostępnych",
+    "infoFiltered":   "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+    "infoPostFix":    "",
+    "loadingRecords": "Wczytywanie...",
+    "zeroRecords":    "Nie znaleziono pasujących pozycji",
+    "emptyTable":     "Brak danych",
+    "paginate": {
+        "first":      "Pierwsza",
+        "previous":   "Poprzednia",
+        "next":       "Następna",
+        "last":       "Ostatnia"
+    },
+      "oAria": {
+        "sSortAscending": ": aktywuj, by posortować kolumnę rosnąco",
+        "sSortDescending": ": aktywuj, by posortować kolumnę malejąco",
        
+    }
+    }
+});     
+            
+        </script>
      <style>
          
          h1{

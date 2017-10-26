@@ -1,12 +1,10 @@
 {% extends 'base.html.twig' %}
-
-{% block body %}
-    
-  <script src="{{ asset('bundles/DataTables/js/jquery.dataTables.js') }}" type="text/javascript" /></script>
+{% block head %}
+     <script src="{{ asset('bundles/DataTables/js/jquery.dataTables.js') }}" type="text/javascript" /></script>
   <script src="{{ asset('bundles/DataTables/Plugins/i18n/Polish.lang') }}" type="text/javascript" /></script>
  <link rel="stylesheet" href="{{ asset('bundles/DataTables/css/jquery.dataTables.css') }}" >
-{#<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/1.10.16/i18n/Polish.json"></script>#}
-
+    {% endblock %}
+{% block body %}
     <body onload="takeView()" >
         <div id="raports">
             <input type="hidden" id="whichView" value="{{whichView}}"/>
@@ -14,42 +12,19 @@
             <div class="col-md-3" style="float:left"> 
                 <strong>Wybierz konkurencję: </strong></div>
             <div class="col-md-5" style="float:left;">
-                {#                <form  id="konkPopUp" onclick="wybierzKonk()" enctype="multipart/form-data" action="{{path('takeOneKonk')}}" method="post">#}
-
                 {% if (konkurencje is defined and konkurencje) %}  
-                 {#   <select onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
-                      <option value="0"selected>{% if (konkId is defined and konkId!=1)  %} {{konkId}}  
-                        {% endif %} </option>
-                        {% for konk in konkurencje %}
-                            <option style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
-                        {% endfor %} 
-                    </select>  
-                {% endif %} #}
-                  <select konkId="{{konkId}}" onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
-                        {% for konk in konkurencje %}
+                  <select onchange=" autoLoaderOneCompetition();" style="margin-bottom:20px;width:80%; text-align:center" id="wybierzKonkurencje" >  
+                      <option value="0"></option> {% for konk in konkurencje %}
                             <option {% if (konkId is defined and konk['nazwaP']==konkId)  %} selected {% endif %}
 				style="text-align:center" value="{{konk.id}}">{{konk['nazwaP']}}</option>
                         {% endfor %} 
                     </select>  
                 {% endif %}
-
                 <input type="hidden" id="konkId" name="konkId"/>
-
-
-                {# </form>  #}
-
-                <form style="padding-bottom:20px;" id="findUser" enctype="multipart/form-data" action="{{path('rezultaty_findResult')}}" method="post">
-
-                    <input style="width:65%; text-align:center" type="text" id="find" name="find" placeholder="Wyszukaj"/>
-
-                    <button style="margin: 0px 5px 0px;"type="submit"><i class="fa fa-search" aria-hidden="true"></i>
-                    </button>  
 
                     <a style="margin: 0px 0px 0px;" href="{{ path('zawodnik_index') }}"><i class="fa fa-user-o fa-2x" aria-hidden="true" value="Dodaj"><i class="fa fa-crosshairs fa-1x" aria-hidden="true"></i>
                         </i>
                     </a>
-                </form> 
-
             </div>  
             <div class="col-md-3" style="float:right"> 
                 {% if (konkId is defined and konkId) %}  
@@ -65,15 +40,13 @@
                     <span style="color:#c20000;">Brak startów!</span>
                 {% endif %} 
             </div>
-            <div style="clear:both"></div>
-
-
+                  <div style="clear:both; margin-bottom: 30px"></div>
             {#<h1>Top Ten Members</h1>
             <ul>{% for rez in rezultaty|slice(0, 2) %}
                     <li>{{ rez.imie|e }}</li>
                 {% endfor %}
             </ul>#}
-            
+             {%  if(konkId is defined and konkId!=1) %}
             <table id="table_id" class="display sortable table table-hover table-striped table-condensed">
 
                 <thead>
@@ -96,14 +69,12 @@
                         <th id="factor">Factor</th>
                         <th id="resultsSum">Suma rez</th>     
                         <th id="xSum">Suma X</th>
-
-                        {#                            <th id="comments">Uwagi</th>#}
                         <th></th>
-                    </tr>  </thead>
+                    </tr>  </thead><tbody>
                     {% for rez in rezultaty %}
                     <tr>
                         <td> {{ loop.index }}</td>
-                        <td id="tdname"><a href="{{ path('rezultaty_show', { 'id': rez.id }) }}">{{ rez.imie }}</a></td>
+                        <td id="tdname">{{ rez.imie }}</td>
                         <td id="tdsurname">{{ rez.nazwisko }}</td>
                         <td id="tdbyear">{{ rez.rokU }}</td>
                         <td id="tdlicNumber">{{ rez.nrLic }}</td>
@@ -115,48 +86,24 @@
                         <td id="tds2result" style="border-right:0.5px solid #71251f">{{ rez.rezultatS2 }}</td>
                         <td id="tdgun" style="border-right:0.5px solid #71251f">{{ rez.pistolet }}</td> <td id="tdx2" style="border-right:2px solid #71251f">{{ rez.xS2 }}</td>
 
-
                         <td id="tdtime">{{ rez.czas }}</td>
                         <td id="tdfactor">{{ rez.factor2 }}</td>
                         <td id="tdresultsSum" style="background:#c3a5a5">{{ rez.sumaRez }}</td>
                         <td id="tdxSum" style="background:#bcbfb6">{{ rez.sumaX }}</td>
-
-                        {#                            <td id="tdcomments"> {{ rez.uwagiS1 }}</td>#}
                         <td style="text-align:center;background:#e9e4d64d; border-left:2px solid #8787c2;">
 
-
                             <a href="{{ path('rezultaty_edit', { 'id': rez.id }) }}"><i style="color:#622925e6" class="fa fa-pencil fa-fw fa-2x"></i></a>
-{# <a href="{{ url('rezultaty_delete', { 'id': rez.id }) }}">gsdf</a>#}
-
-                            
-                            {%  if(konkId is defined and konkId!=1) %}
-                                <form name="form" method="post" action="/crud/rezultaty/{{rez.id}}/delete"><input type="hidden" name="_method" value="DELETE" />
-                                    <button type="submit"><i class="fa fa-trash fa-2x" aria-hidden="true"></i> </button>
-                                    <input type="hidden" id="form__token" name="form[_token]" value="_YXYDrmIOd6suLfHQNxeaA_g5Hp4qz21ykgN6OAF8GE" />
-                                </form>
-
-                            {% endif %}
-
-
-
-
-
+                            <a href="{{ path('deleteThis', { 'id': rez.id }) }}"><i style="color:#622925e6" class="fa fa-trash fa-fw fa-2x"></i></a>
+                          
                         </td>
                     </tr>
-                {% endfor %}
-
+                    {% endfor %}</tbody>
             </table>
-
+    {% endif %}
         </div> <div id="footer"> 
             <strong style="color:#AA3333;text-shadow: 1px 1px whitesmoke;" >Nieoficjalna lista startów z dnia: {{ "now"|date("Y-m-d H:i") }}</strong>
         </div>
         <script>
-
-{#$(document).ready( function () {
-    $('#table_id').DataTable();
-    
-    
-} );#}
 $('#table_id').DataTable({
     "language": {
        "processing":     "Przetwarzanie...",
@@ -175,9 +122,10 @@ $('#table_id').DataTable({
         "next":       "Następna",
         "last":       "Ostatnia"
     },
-       "aria": {
-        "sortAscending": ": aktywuj, by posortować kolumnę rosnąco",
-        "sortDescending": ": aktywuj, by posortować kolumnę malejąco"
+      "oAria": {
+        "sSortAscending": ": aktywuj, by posortować kolumnę rosnąco",
+        "sSortDescending": ": aktywuj, by posortować kolumnę malejąco",
+       
     }
     }
 });
@@ -222,11 +170,18 @@ $('#table_id').DataTable({
 
             function autoLoaderOneCompetition() {
                 var t = 0;
-                t = $("#wybierzKonkurencje :selected").text();
+                
+                kid = document.getElementById('konkId').value;
+                  var takeViewNr = document.getElementById("whichView").value;
+                if(kid>0){
+                    t=kid;
+                    
+                }else{
+                t = $("#wybierzKonkurencje :selected").text();}
                 if (t == 0) {
 
                 } else {
-                    document.getElementById('konkId').value = t;
+                 {#   document.getElementById('konkId').value = t;#}
                     document.getElementById("link").getAttribute("href").value = t;
                 }
                 $.post('{{path('takeOneKonk')}}',
@@ -234,11 +189,34 @@ $('#table_id').DataTable({
                         function (json) {
 
             {#                    alert('ok');#}
+                    
                                 $('#menu').remove()
                                 $('#raports').empty()
                                 $("<span>" + json + "</span>")
                                         .appendTo('#raports')
                                         .append("<hr>")
+                                    if (takeViewNr == 1) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#resultsSum,#rifle,#gun");
+                    $("td").remove("#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum,#tdrife,#tdgun");
+                }
+                if (takeViewNr == 2) {
+
+                    $("th").remove("#rifle,#gun,#time,#factor");
+                    $("td").remove("#tdrife,#tdgun,#tdtime,#tdfactor");
+                }
+
+                if (takeViewNr == 3) {
+
+                    $("th").remove("#s1result,#x1,#s2result,#x2,#xSum");
+                    $("td").remove("#tds1result,#tdx1,#tds2result,#tdx2,#tdxSum");
+                }
+
+                if (takeViewNr == 4) {
+
+                    $("th").remove("#x1,#s2result,#x2,#xSum,#rifle,#gun,#factor,#resultsSum");
+                    $("td").remove("#tdrife,#tdgun,#tdfactor,#tdx1,#tds2result,#tdx2,#tdxSum,#tdresultsSum");
+                }
                             }
                     );
        

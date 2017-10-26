@@ -10,7 +10,15 @@
 <body onLoad="autoLoaderCompetition()">
     <div id="container">
 
-        <div id="wykaz"> {% if (konkurencja is defined and konkurencja) %}   
+        <div id="wykaz">        {% if (reklama is defined and reklama>=1 and reklama<=3) %}   
+       <div class="col-md-4" style="float:left"></div>
+        <div class="col-md-8" style="float:left">
+      
+            <img src="/bundles/images/moto{{ reklama }}.jpg"/>
+            
+        </div><div class="col-md-2" style="float:left">
+            {%endif%}
+            {% if (konkurencja is defined and konkurencja  and reklama>=3) %} 
             <div style="float:right" >
 
                 {% if ((actualResult>=0) and ilosc>0)  %}  
@@ -22,11 +30,11 @@
                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                 <span class="sr-only">Loading...</span>
             </div>
-              
+   
             <h1 style="margin-bottom:5px;"> {{ actualCompetition }} </h1>   
-            <strong style="font-size:20px;"><br>Nieoficjane zestawienie rezultatów </strong>
+            <strong style="font-size:20px;"><br>Nieoficjalne zestawienie rezultatów </strong>
             {% endif %}
-                <div class="table-responsive">
+                <div class="table-responsive">       {% if (rezultaty is defined and rezultaty and reklama>=3) %} 
                     <table class="table table-striped" id='tabliczka'>
                         <thead>
                             <tr>
@@ -71,7 +79,7 @@
                             </tr>
                         {% endfor %}
                         </tbody>
-                    </table>
+                    </table>{%endif%}
                     <div id="footer"> 
                         <strong style="color:#AA3333;text-shadow: 1px 1px whitesmoke;" >Nieoficjalna lista startów z dnia: {{ "now"|date("Y-m-d H:i") }}</strong>
                     </div>
@@ -141,14 +149,14 @@
      #}
 
          function autoLoaderCompetition() {
-             var timeSec = 1000;
+             //var timeSec = 1000;
 
              $.post('{{path('auto_view_results')}}',
-                     {data1:{{actualResult+5}}, competitionId:{{competitionId}}},
+                     {data1:{{actualResult+5}}, competitionId:{{competitionId}}, reklama:{{reklama}}, timeSec:{{timeSec}}},
                      function (json) {
 
                          $('#wykaz').empty()
-                         setTimeout("autoLoaderCompetition()", timeSec);
+                         setTimeout("autoLoaderCompetition()",{{timeSec}} );
         {#   $("td").remove("#tdnr")      
            $("th").remove("#nr") #}  
                          $("<span>" + json + "</span>")

@@ -86,7 +86,7 @@
                     </table>
 
                     <input class="submitRed" type="submit" style="float:right" value="Dodaj" />
-                  <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk') }}">
+                  <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk', { 'konkId': konkurencja.nazwaP }) }}">
                        Anuluj </a>
                     <div style="visibility:hidden">
                         {{ form_widget(edit_form.xS1) }} 

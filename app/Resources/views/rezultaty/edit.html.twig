@@ -71,7 +71,7 @@
 
                 {{ form_start(edit_form) }}
 
-                <table onchange="sumaRez(); sumaRez(); factor() " style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Czas</th> <th>Uwagi</th> 
+                <table onchange="sumaX(); sumaRez(); factor() " style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Czas</th> <th>Uwagi</th> 
                     <tr>
                         <td>SERIA I<br>karabin</td>
                         <td onchange="sumaRez()"> {{ form_widget(edit_form.rezultatS1) }}</td>
@@ -99,8 +99,8 @@
 
                 </table>
 
-                <input class="submitRed" type="submit" style="float:right" value="Zapisz" />
-        <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk') }}">
+                <input class="submitRed" onclick="sumaX()" type="submit" style="float:right" value="Zapisz" />
+        <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk', { 'id': rez.id }) }}">
                        Anuluj </a>
                  <div style="visibility:hidden">
                        

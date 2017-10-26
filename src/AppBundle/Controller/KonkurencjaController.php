@@ -135,11 +135,18 @@ class KonkurencjaController extends Controller {
         $session = new Session();
         if ($konkurencjaId = $session->get('konkurencjaId')) {
             $konkurencjaId = 1;
+            
+            
         } else {
             $konkurencjaId = $session->get('konkurencjaId');
         }
 
+        
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
+        while(!$konkurencjaQuery){
+               $konkurencjaId += 1;
+               $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
+        }
         $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
 
         return $konkurencjaFullName;
@@ -229,7 +236,25 @@ class KonkurencjaController extends Controller {
 
             $konkurencje[] = $results;
         }
+              $konkurencjaFullName = $this->getCompetitionNameAction();
+             $viewTable = $this->getViewTable();
+        $view = $this->getView();
+  for ($j = 0; $j < 4; $j++) {
+            $lenghtviewTable[$j] = count($viewTable[$j]);
+            for ($i = 0; $i < $lenghtviewTable[$j]; $i++) {
+                if (strstr($konkurencjaFullName, $viewTable[$j][$i]) != False) {
+                    $view[$j] = $viewTable[$j][$i];
+                }
+            }
+        }
+        $whichView = 1;
+        for ($i = 0; $i < 4; $i++) {
+            if (strstr($konkurencjaFullName, $view[$i]) !== False) {
+                $whichView = $i + 1;
+            }
+        }
 
+        
         $firstCompetition = $this->getFirstCompetitionNameAction();
         $konkId = $session->get('konkurencjaId');
         if (!$session->get('konkurencjaId')) {
@@ -245,7 +270,7 @@ class KonkurencjaController extends Controller {
             $konkId = 1;
             return $this->render('rezultaty/raports.html.twig', array(
                         'rezultaty' => $rezultaties,
-                        'whichView' => 2,
+                        'whichView' => $whichView,
                         'firstCompetition' => $firstCompetition,
                         'konkId' => $konkId,
                         'konkurencje' => $konkurencje,

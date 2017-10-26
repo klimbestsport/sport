@@ -67,8 +67,7 @@
 
                 {{ form_start(edit_form) }}
 
-                <table onchange="sumaRez();
-                        sumaX()" style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Uwagi</th> 
+                <table onclick="sumaX()"onchange="sumaRez();sumaX()" style="text-align:center;" class="table"><th></th><th>Rezultat</th> <th>X</th> <th>Uwagi</th> 
                     <tr>
                         <td>SERIA I
                         <td> {{ form_widget(edit_form.rezultatS1) }}</td>
@@ -78,15 +77,15 @@
                     <tr>
                         <td>SERIA II  
                         <td> {{ form_widget(edit_form.rezultatS2) }}</td>
-                        <td onclick="sumaX()" >{{ form_widget(edit_form.xS2) }}</td> 
+                        <td onchange="sumaX()" onclick="sumaX()" >{{ form_widget(edit_form.xS2) }}</td> 
                         <td></td>
                     </tr>
                     <tr>
                         <th style="background-color:#e9e4d64d"></th><th style="background-color: silver">Suma punktów</th> <th style="background-color: silver">Suma</th><th style="background-color:#e9e4d64d"></th> 
                     <tr>
                         <td></td> 
-                        <td onchange="factor()" onchange="sumaChangeRez()">{{ form_widget(edit_form.sumaRez) }}</td>
-                        <td onchange="sumaChangeX()"> {{ form_widget(edit_form.sumaX) }}</td>
+                        <td onchange="factor();sumaX()" onchange="sumaChangeRez()">{{ form_widget(edit_form.sumaRez) }}</td>
+                        <td onchange="sumaX()"onchange="sumaChangeX()"> {{ form_widget(edit_form.sumaX) }}</td>
                         <td></td>
                     </tr>
                 </table>

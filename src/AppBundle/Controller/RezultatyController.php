@@ -41,6 +41,10 @@ class RezultatyController extends Controller {
             $konkurencjaId = 1;
         }
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        while (!$konkurencjaQuery) {
+            $konkurencjaId += 1;
+            $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneByNazwaP($konkurencjaId);
+        }
         if (!$konkurencjaQuery) {
             $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($konkurencjaId);
         }
@@ -67,7 +71,7 @@ class RezultatyController extends Controller {
         $view2 = 'puste';
         $view3 = 'puste';
         $view4 = 'puste';
-        $view5= 'puste';
+        $view5 = 'puste';
         $view = [$view1, $view2, $view3, $view4, $view5];
 
         return $view;
@@ -185,33 +189,32 @@ class RezultatyController extends Controller {
                     'konkurencje' => $konkurencje,
         ));
     }
-    
-function charset_utf_fix($string) {
- 
-	$utf = array(
-	 "%u0104" => "Ą",
-	 "%u0106" => "Ć",
-	 "%u0118" => "Ę",
-	 "%u0141" => "Ł",
-	 "%u0143" => "Ń",
-	 "%u00D3" => "Ó",
-	 "%u015A" => "Ś",
-	 "%u0179" => "Ź",
-	 "%u017B" => "Ż",
-	 "%u0105" => "ą",
-	 "%u0107" => "ć",
-	 "%u0119" => "ę",
-	 "%u0142" => "ł",
-	 "%u0144" => "ń",
-	 "%u00F3" => "ó",
-	 "%u015B" => "ś",
-	 "%u017A" => "ź",
-	 "%u017C" => "ż"
-	);
-	
-	return str_replace(array_keys($utf), array_values($utf), $string);
-	
-}
+
+    function charset_utf_fix($string) {
+
+        $utf = array(
+            "%u0104" => "Ą",
+            "%u0106" => "Ć",
+            "%u0118" => "Ę",
+            "%u0141" => "Ł",
+            "%u0143" => "Ń",
+            "%u00D3" => "Ó",
+            "%u015A" => "Ś",
+            "%u0179" => "Ź",
+            "%u017B" => "Ż",
+            "%u0105" => "ą",
+            "%u0107" => "ć",
+            "%u0119" => "ę",
+            "%u0142" => "ł",
+            "%u0144" => "ń",
+            "%u00F3" => "ó",
+            "%u015B" => "ś",
+            "%u017A" => "ź",
+            "%u017C" => "ż"
+        );
+
+        return str_replace(array_keys($utf), array_values($utf), $string);
+    }
 
     public function raportsAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
@@ -235,15 +238,15 @@ function charset_utf_fix($string) {
         $whichView = 1;
         for ($i = 0; $i < 4; $i++) {
             if (strstr($konkurencjaFullName, $view[$i]) !== False) {
-                $whichView = $i + 1;
+                $whichView = $i + 2;
             }
         }
 
         $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
 
         charset_utf_fix($rezultaties);
-        
-        
+
+
         return $this->render('rezultaty/raports.html.twig', array(
                     'rezultaty' => $rezultaties,
                     'whichView' => $whichView,
@@ -299,6 +302,31 @@ function charset_utf_fix($string) {
         $actualResult = 0;
         $competitionId = 1;
         $howManyResults = 0;
+        $reklama=1;
+        $timeSecQuery = $em->getRepository('AppBundle:Settings')->findOneByParameter('CzasAV');
+        $timeSec=($timeSecQuery->getValue())*1000;
+         if ($request->get('reklama')) {
+            $reklama = (int) $request->get('reklama');
+       
+        }
+        
+        while($reklama<4){
+             if ($request->get('reklama')) {
+       
+             $reklama+=1;}
+             return $this->render('rezultaty/autoViewResults.html.twig', array(
+                    'actualResult' => $actualResult,
+                    'competitionId' => $competitionId,
+                    'ilosc' => $howManyResults,
+                    'reklama'=>$reklama,
+                    'timeSec'=>$timeSec,
+        ));
+            
+            
+        }
+        
+        
+        
 
         if ($request->get('competitionId')) {
             $competitionId = (int) $request->get('competitionId');
@@ -307,7 +335,7 @@ function charset_utf_fix($string) {
             }
         }
 
-        $howManyCompetitions = 10;
+        $howManyCompetitions = $this->getHowManyCompetitions();
 
         $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
         $konkurencjaFullName = $konkurencjaQuery->getNazwaP();
@@ -347,6 +375,7 @@ function charset_utf_fix($string) {
                 }
             } else {
                 $competitionId = 1;
+                $reklama=1;
                 $konkurencjaQuery = $em->getRepository('AppBundle:Konkurencja')->findOneById($competitionId);
             }
 
@@ -388,7 +417,9 @@ function charset_utf_fix($string) {
                     'actualResult' => $actualResult,
                     'competitionId' => $competitionId,
                     'actualCompetition' => $actualCompetition,
-                    'ilosc' => $howManyResults
+                    'ilosc' => $howManyResults,
+                    'reklama'=>$reklama,
+                    'timeSec'=>$timeSec,
         ));
     }
 
@@ -501,11 +532,12 @@ function charset_utf_fix($string) {
 
             $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
 
-            return $this->render('rezultaty/raports.html.twig', array(
-                        'rezultaty' => $rezultaty,
-                        'whichView' => 2,
-                        'konkurencje' => $konkurencje,
-            ));
+            return $this->redirectToRoute('takeOneKonk');
+//            return $this->render('rezultaty/raports.html.twig', array(
+//                        'rezultaty' => $rezultaty,
+//                        'whichView' => 2,
+//                        'konkurencje' => $konkurencje,
+//            ));
         } else {
 
             $viewTable = $this->getViewTable();
@@ -560,12 +592,10 @@ function charset_utf_fix($string) {
                 // return $this->render('rezultaty/newEmpty.html.twig', $array);
                 return $this->render('rezultaty/newEmptyViewIII.html.twig', $array);
             }
-            
+
             if (strstr($konkurencjaFullName, $view[4]) !== False) {
                 return $this->render('rezultaty/newEmptyViewIV.html.twig', $array);
-            } 
-            
-            else {
+            } else {
                 return $this->render('rezultaty/newEmpty.html.twig', $array);
             }
         }
@@ -617,12 +647,12 @@ function charset_utf_fix($string) {
             //return $this->redirectToRoute('rezultaty_raports');
 
             $rezultaty = $em->getRepository('AppBundle:Rezultaty')->findAll();
-
-            return $this->render('rezultaty/raports.html.twig', array(
-                        'rezultaty' => $rezultaty,
-                        'whichView' => 2,
-                        'konkurencje' => $konkurencje,
-            ));
+            return $this->redirectToRoute('takeOneKonk');
+//            return $this->render('rezultaty/raports.html.twig', array(
+//                        'rezultaty' => $rezultaty,
+//                        'whichView' => 2,
+//                        'konkurencje' => $konkurencje,
+//            ));
         }
 
         $viewTable = $this->getViewTable();
