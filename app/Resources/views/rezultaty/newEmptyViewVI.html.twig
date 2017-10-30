@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div onclick="sendNrLic()" id="container">
+        <div class="col-md-2" style="float:left"></div>
+        <div class="col-m-12" style="float:left">
+
+            {% if (konkurencja is defined and konkurencja) %} 
+                <h1> {{konkurencja.nazwaP}} </h1>{% endif %} 
+                {% if (konkurencja is defined and konkurencja) %} 
+                    <input type="hidden" id="konkurencjaNazwaP" name="konkurencjaNazwaP" value="{{konkurencja.nazwaP}}"/> 
+                    <input type="hidden" id="konkurencjaNazwaS" name="konkurencjaNazwaS" value="{{konkurencja.nazwaS}}"/> 
+                    <input type="hidden" id="konkurencjaId" name="konkurencjaId" value="{{konkurencja.id}}"/> 
+                {% endif %} 
+                <div name="resByIdDiv" id="resByIdDiv" style="border-bottom: 0.4px solid red;">
+                    {% if (luckyImie is defined and luckyImie) %}<br>
+                   <p style="font-size: 25 px;">{{luckyImie}}    {{luckyNazwisko}}    {{luckyRokU}}     nrLic:{{luckyNrLic}} 
+                      <strong >Klub: </strong>{{luckyKlub}} </p>
+                        <input type="hidden" id="imieD" name="imieD" value="{{luckyImie}}"/>
+                        <input type="hidden" id="nazwiskoD" name="nazwiskoD" value="{{luckyNazwisko}}"/>
+                        <input type="hidden" id="nrLicD" name="nrLicD" value="{{luckyNrLic}}"/>
+                        <input type="hidden" id="rokUD" name="rokUD" value="{{luckyRokU}}"/>
+                        <input type="hidden" id="klubD" name="klubD" value="{{luckyKlub}}"/>
+                    {% endif%}
+                </div>
+                {% if (form is defined and form) %}
+                    {% form_theme form 'form_table_layout.html.twig' %}
+                    {{ form_start(form) }}
+                    <table  style="text-align:center;" class="table">
+                        <tr>
+                            <th></th><th>Rezultat</th> <th>Czas</th> <th>Uwagi</th> </tr>
+                        <tr>
+                            <td>SERIA I</td>
+                            <td onchange="factor2rt()"> {{ form_widget(form.rezultatS1) }}</td> 
+                            <td onchange="factor2rt()">{{ form_widget(form.czas) }}</td>
+                            <td>{{ form_widget(form.uwagiS1) }}</td>
+                        </tr>
+
+                        <tr>
+                            <th style="background-color:#e9e4d64d"></th><th style="background-color:#e9e4d64d"></th> <th style="background-color: silver;">Factor</th> <th style="background-color:#e9e4d64d"></th> <th style="background-color:#e9e4d64d"></th> 
+                        </tr>
+                        <tr>
+                            <td></td> 
+                            <td></td>
+                            <td onchange="factor2rt()">{{ form_widget(form.factor2) }}  </td>
+                            <td></td>
+                        </tr>  
+
+                    </table>
+
+                    <input class="submitRed" type="submit" style="float:right" value="Dodaj" />
+                  <a style="float:left; border: 1px solid grey; padding:5px; color:#333;" href="{{ path('takeOneKonk') }}">
+                       Anuluj </a>
+                    <div style="visibility:hidden">
+                        {{ form_widget(form.xS1) }} 
+                        {{ form_widget(form.rezultatS2) }} 
+                        {{ form_widget(form.xS2) }} 
+                        {{ form_widget(form.uwagiS2) }} 
+                        {{ form_widget(form.sumaRez) }} 
+                        {{ form_widget(form.sumaX) }} 
+                        {{ form_widget(form.pistolet) }} 
+                        {{ form_widget(form.karabin) }} 
+                        {{ form_widget(form.czas) }} 
+                    </div>
+                    {{ form_end(form) }}
+             
+                </div>   
+
+            </div>
+            <div class="col-md-2" style="float:left"></div>
+        {% endif%}
+
+        <style>
+
+            table, th, td, tr{ 
+                text-align:center;}
+            th{
+                background-color: silver;
+            }
+
+        </style>
+
+        {% endblock %}
